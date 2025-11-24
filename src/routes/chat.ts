@@ -11,12 +11,9 @@ router.post("/", async (req, res) => {
     const { question, history = [], userId } = req.body;
 
     if (!userId) return res.status(400).json({ error: "userId is required" });
+    if (!question) return res.status(400).json({ error: "question required" });
 
-    if (!question) {
-      return res.status(400).json({ error: "question required" });
-    }
-
-    // 1) User question embedding
+    // 1) Question embedding
     const qEmbedding = await embedText(question);
 
     // 2) RAG document retrieval
@@ -25,7 +22,7 @@ router.post("/", async (req, res) => {
        FROM chunks
        ORDER BY distance
        LIMIT 5`,
-      [`[${qEmbedding.join(",")}]`]
+      [JSON.stringify(qEmbedding)]
     );
     const ragContext = result.rows
       .map((r: any) => r.content)
@@ -33,9 +30,11 @@ router.post("/", async (req, res) => {
 
     // 3) Retrieve memory
     const memoryResults = await retrieveMemory(userId, qEmbedding, 3);
+    console.log("Memory retrieved:", memoryResults);
+
     const memoryContext = memoryResults.join("\n");
 
-    // 4) Final combined context
+    // 4) Combine context for LLM
     const finalContext = `
       MEMORY:
       ${memoryContext}
@@ -43,15 +42,16 @@ router.post("/", async (req, res) => {
       DOCUMENT CONTEXT:
       ${ragContext}
     `;
+    console.log("Final context sent to LLM:", finalContext);
 
     // 5) Generate answer
     const answer = await callLLM(question, finalContext, history);
 
-    // 6) Save memory — user first, then assistant
+    // 6) Save memory only if not duplicate
     await saveMemory(userId, "user", question);
     await saveMemory(userId, "assistant", answer);
 
-    // 7) Build history response
+    // 7) Update history
     const newHistory = [
       ...history,
       { role: "user", content: question },
