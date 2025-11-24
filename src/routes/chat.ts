@@ -8,7 +8,9 @@ const router = Router();
 
 router.post("/", async (req, res) => {
   try {
-    const { question, history = [], userId = "demo-user" } = req.body;
+    const { question, history = [], userId } = req.body;
+
+    if (!userId) return res.status(400).json({ error: "userId is required" });
 
     if (!question) {
       return res.status(400).json({ error: "question required" });
