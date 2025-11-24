@@ -1,8 +1,7 @@
 import { Router } from "express";
 import { pool } from "../utils/db";
 import { embedText } from "../service/embedding";
-import { callLLM } from "../service/mastraAgent"; // your agent file
-import { client } from "../service/openAIClient.ts";
+import { callLLM } from "../service/mastraAgent";
 
 const router = Router();
 
@@ -10,12 +9,16 @@ router.post("/", async (req, res) => {
   try {
     const { question, history = [] } = req.body;
 
-    if (!question) return res.status(400).json({ error: "question required" });
+    if (!question) {
+      return res.status(400).json({ error: "question required" });
+    }
 
-    // embed and retrieve context
+    // --- 1) Get embedding of the input question ---
     const qEmbedding = await embedText(question);
+
+    // --- 2) Retrieve similar vectors from Postgres using pgvector ---
     const result = await pool.query(
-      `SELECT content, embedding <-> $1::vector as distance
+      `SELECT content, embedding <-> $1::vector AS distance
        FROM chunks
        ORDER BY distance
        LIMIT 5`,
@@ -24,41 +27,25 @@ router.post("/", async (req, res) => {
 
     const context = result.rows.map((r: any) => r.content).join("\n\n---\n\n");
 
-    const systemPrompt = `
-Answer only using the given context. 
-If unavailable say "I don't know from the document".
-`;
+    // --- 3) Call Mastra LLM Agent ---
+    const answer = await callLLM(question, context, history);
 
-    const messagesForLLM = [
-      { role: "system", content: systemPrompt },
-      ...history,
-      {
-        role: "user",
-        content: `CONTEXT:\n${context}\n\nQUESTION: ${question}`,
-      },
-    ];
-
-    const completion = await client.chat.completions.create({
-      model: "gpt-4o-mini",
-      messages: messagesForLLM,
-    });
-
-    const answer = completion.choices?.[0]?.message?.content ?? "No response";
-
+    // --- 4) Update chat history with the latest exchange ---
     const newHistory = [
       ...history,
       { role: "user", content: question },
       { role: "assistant", content: answer },
     ];
 
-    res.json({
+    // --- 5) Return formatted response ---
+    return res.json({
       answer,
       history: newHistory,
       contextUsed: result.rows,
     });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "chat failed" });
+    console.error("Chat error:", err);
+    return res.status(500).json({ error: "chat failed" });
   }
 });
 

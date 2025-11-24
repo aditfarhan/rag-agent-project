@@ -14,6 +14,10 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@ai-sdk/openai": "^2.0.71",
+    "@mastra/core": "^0.24.5",
+    "esbuild": "^0.27.0",
+    "ai": "^5.0.101",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "markdown-it": "^14.1.0",
