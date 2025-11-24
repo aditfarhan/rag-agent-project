@@ -2,21 +2,22 @@ import { Router } from "express";
 import { pool } from "../utils/db";
 import { embedText } from "../service/embedding";
 import { callLLM } from "../service/mastraAgent";
+import { saveMemory, retrieveMemory } from "../service/memory";
 
 const router = Router();
 
 router.post("/", async (req, res) => {
   try {
-    const { question, history = [] } = req.body;
+    const { question, history = [], userId = "demo-user" } = req.body;
 
     if (!question) {
       return res.status(400).json({ error: "question required" });
     }
 
-    // --- 1) Get embedding of the input question ---
+    // 1) User question embedding
     const qEmbedding = await embedText(question);
 
-    // --- 2) Retrieve similar vectors from Postgres using pgvector ---
+    // 2) RAG document retrieval
     const result = await pool.query(
       `SELECT content, embedding <-> $1::vector AS distance
        FROM chunks
@@ -24,24 +25,43 @@ router.post("/", async (req, res) => {
        LIMIT 5`,
       [`[${qEmbedding.join(",")}]`]
     );
+    const ragContext = result.rows
+      .map((r: any) => r.content)
+      .join("\n\n---\n\n");
 
-    const context = result.rows.map((r: any) => r.content).join("\n\n---\n\n");
+    // 3) Retrieve memory
+    const memoryResults = await retrieveMemory(userId, qEmbedding, 3);
+    const memoryContext = memoryResults.join("\n");
 
-    // --- 3) Call Mastra LLM Agent ---
-    const answer = await callLLM(question, context, history);
+    // 4) Final combined context
+    const finalContext = `
+      MEMORY:
+      ${memoryContext}
 
-    // --- 4) Update chat history with the latest exchange ---
+      DOCUMENT CONTEXT:
+      ${ragContext}
+    `;
+
+    // 5) Generate answer
+    const answer = await callLLM(question, finalContext, history);
+
+    // 6) Save memory — user first, then assistant
+    await saveMemory(userId, "user", question);
+    await saveMemory(userId, "assistant", answer);
+
+    // 7) Build history response
     const newHistory = [
       ...history,
       { role: "user", content: question },
       { role: "assistant", content: answer },
     ];
 
-    // --- 5) Return formatted response ---
     return res.json({
       answer,
       history: newHistory,
       contextUsed: result.rows,
+      memoryUsed: memoryContext !== "",
+      memory: memoryResults,
     });
   } catch (err) {
     console.error("Chat error:", err);

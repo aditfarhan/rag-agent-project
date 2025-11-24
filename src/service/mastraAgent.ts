@@ -11,14 +11,19 @@ export const mastra = new Agent({
 export async function callLLM(
   question: string,
   context: string,
-  history: any[] = []
+  history: any[] = [],
+  memoryText: string = ""
 ): Promise<string> {
   const messages = [
-    ...history,
     {
       role: "system",
-      content: `Use the context below to answer \n\n${context}`,
+      content: `
+Answer ONLY using the document context and memory context.
+If unknown say "I don't know from the document."`,
     },
+    { role: "system", content: `MEMORY:\n${memoryText}` },
+    { role: "system", content: `DOCUMENT CONTEXT:\n${context}` },
+    ...history,
     { role: "user", content: question },
   ];
 
