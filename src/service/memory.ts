@@ -61,16 +61,20 @@ export async function saveMemory(
 export async function retrieveMemory(
   userId: string,
   queryEmbedding: number[],
-  limit = 5
+  limit = 5,
+  role: "user" | "assistant" | "any" = "user"
 ) {
+  const roleClause = role === "any" ? "" : `AND role = '${role}'`;
+
   const result = await pool.query(
     `
-    SELECT content, memory_type
+    SELECT content, memory_key
     FROM user_memories
     WHERE user_id = $1
+      ${roleClause}
     ORDER BY 
       CASE 
-        WHEN memory_type = 'fact' THEN 0 
+        WHEN memory_key IS NOT NULL THEN 0 
         ELSE 1 
       END,
       embedding <-> $2::vector
