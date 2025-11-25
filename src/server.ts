@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import ingestRouter from "./routes/ingest";
 import chatRoute from "./routes/chat";
 import searchRoute from "./routes/search";
+import ragRoutes from "./routes/rag";
 
 dotenv.config();
 
@@ -12,6 +13,7 @@ app.use(express.json());
 app.use("/api/ingest", ingestRouter);
 app.use("/api/chat", chatRoute);
 app.use("/api/search", searchRoute);
+app.use("/api/rag", ragRoutes);
 
 // health check
 

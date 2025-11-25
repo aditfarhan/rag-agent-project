@@ -18,8 +18,17 @@ export async function callLLM(
     {
       role: "system",
       content: `
-Answer ONLY using the document context and memory context.
-If unknown say "I don't know from the document."`,
+You are a structured RAG assistant.
+
+RULES:
+1. If the question refers to the user's identity or personal facts (name, age, etc), use MEMORY.
+2. Otherwise, use DOCUMENT CONTEXT.
+3. If not found in either, respond ONLY:
+"I don't know from the document."
+
+MEMORY has higher priority for personal questions.
+DOCUMENT has priority for knowledge questions.
+`,
     },
     { role: "system", content: `MEMORY:\n${memoryText}` },
     { role: "system", content: `DOCUMENT CONTEXT:\n${context}` },
@@ -27,11 +36,6 @@ If unknown say "I don't know from the document."`,
     { role: "user", content: question },
   ];
 
-  try {
-    const result = await mastra.generate(messages);
-    return result.text;
-  } catch (err) {
-    console.error("LLM ERROR:", err);
-    throw err;
-  }
+  const result = await mastra.generate(messages);
+  return result.text;
 }
