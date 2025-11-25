@@ -5,6 +5,8 @@ import { embedText } from "../service/embedding";
 import { callLLM } from "../service/mastraAgent";
 import { saveMemory, retrieveMemory } from "../service/memory";
 import { config } from "../config";
+import { logEvent } from "../utils/logger";
+import crypto from "crypto";
 
 const router = Router();
 
@@ -46,6 +48,15 @@ router.post("/", async (req, res) => {
     if (!userId) return res.status(400).json({ error: "userId is required" });
     if (!question) return res.status(400).json({ error: "question required" });
 
+    const requestId = crypto.randomUUID();
+    const startTime = Date.now();
+
+    logEvent("CHAT_REQUEST", {
+      requestId,
+      userId,
+      question,
+    });
+
     const keyFact = await extractDynamicKeyFact(question);
 
     if (keyFact?.key && keyFact?.value) {
@@ -78,6 +89,13 @@ router.post("/", async (req, res) => {
     const finalChunks =
       filteredChunks.length > 0 ? filteredChunks : ragResult.rows;
 
+    logEvent("RAG_RESULT", {
+      requestId,
+      topK,
+      distanceThreshold,
+      chunksReturned: finalChunks.length,
+    });
+
     const ragContext = finalChunks.map((r: any) => r.content).join("\n---\n");
 
     // ✅ Get stored fact memories
@@ -109,6 +127,12 @@ router.post("/", async (req, res) => {
       similarTopK
     );
 
+    logEvent("MEMORY_CONTEXT", {
+      requestId,
+      factCount: keyMemoryResult.rows.length,
+      similarRetrieved: otherMemoryResults.length,
+    });
+
     const memoryText = [keyMemoryContext, ...otherMemoryResults]
       .filter(Boolean)
       .join("\n");
@@ -117,6 +141,15 @@ router.post("/", async (req, res) => {
     if (keyFact?.value && !history.length && keyMemoryContext) {
       const greeting = `Hello, ${keyFact.value}! How can I assist you today?`;
       await saveMemory(userId, "assistant", greeting);
+
+      const duration = Date.now() - startTime;
+
+      logEvent("CHAT_RESPONSE", {
+        requestId,
+        userId,
+        answerLength: greeting.length,
+        durationMs: duration,
+      });
 
       return res.json({
         answer: greeting,
@@ -145,6 +178,15 @@ router.post("/", async (req, res) => {
       { role: "assistant", content: answer },
     ];
 
+    const duration = Date.now() - startTime;
+
+    logEvent("CHAT_RESPONSE", {
+      requestId,
+      userId,
+      answerLength: answer.length,
+      durationMs: duration,
+    });
+
     return res.json({
       answer,
       history: newHistory,
@@ -162,9 +204,10 @@ router.post("/", async (req, res) => {
         },
       },
     });
-  } catch (err) {
-    console.error("Chat error:", err);
-    return res.status(500).json({ error: "chat failed" });
+  } catch (err: any) {
+    err.statusCode = 500;
+    err.message = "Chat processing failed";
+    throw err; // Pass to global middleware
   }
 });
 

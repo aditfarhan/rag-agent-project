@@ -53,6 +53,14 @@ export async function callLLM(
     { role: "user", content: question },
   ];
 
-  const result = await mastra.generate(messages);
-  return result.text;
+  try {
+    const result = await mastra.generate(messages);
+    return result.text;
+  } catch (error: any) {
+    console.error("LLM Error:", error);
+
+    const err = new Error("LLM request failed. Check API key or model.");
+    (err as any).statusCode = 502;
+    throw err;
+  }
 }
