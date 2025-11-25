@@ -116,16 +116,7 @@ router.post("/", async (req, res) => {
     /**
      * 🎯 Stronger system prompt to prioritize memory facts
      */
-    const systemPrompt = `
-You are an AI assistant that personalizes responses using user memory facts.
-If memory contains NAME, always greet the user personally.
-Use memory before document context. 
-Never answer "I don't know from the document" if memory is available.
-`;
-
-    const formattedPrompt = `${systemPrompt}\n\nMEMORY:\n${memoryText}\n\nDOCUMENTS:\n${ragContext}\n\nQUESTION: ${question}`;
-
-    const answer = await callLLM(formattedPrompt, "", history);
+    const answer = await callLLM(question, ragContext, history, memoryText);
 
     await saveMemory(userId, "assistant", answer);
 

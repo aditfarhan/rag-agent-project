@@ -2,69 +2,81 @@ import { pool } from "../utils/db";
 import { embedText } from "./embedding";
 
 /**
- * Save a memory row for a user message or assistant response.
- * If memoryKey is provided, update existing memory; otherwise insert new row.
+ * Save memory for a user.
+ * - FACT: unique per memory_key (UPSERT)
+ * - CHAT: always appended
  */
 export async function saveMemory(
   userId: string,
   role: string,
   content: string,
-  memoryKey?: string
+  memoryKey?: string,
+  memoryType: "fact" | "chat" = "chat"
 ) {
-  console.log("Saving memory to DB...");
+  console.log("Saving memory:", { userId, role, memoryKey, memoryType });
 
   const embedding = await embedText(content);
-  console.log("Embedding length:", embedding.length);
 
-  // If memoryKey provided => UPSERT to maintain single fact per key
-  if (memoryKey) {
+  // ✅ FACT MEMORY (single value per key)
+  if (memoryType === "fact" && memoryKey) {
     const result = await pool.query(
-      `INSERT INTO user_memories (user_id, role, content, embedding, memory_key)
-       VALUES ($1, $2, $3, $4, $5)
-       ON CONFLICT (user_id, memory_key)
-       DO UPDATE SET
-          role = EXCLUDED.role,
-          content = EXCLUDED.content,
-          embedding = EXCLUDED.embedding
-       RETURNING id, content, memory_key`,
+      `
+      INSERT INTO user_memories 
+        (user_id, role, content, embedding, memory_key, memory_type)
+      VALUES ($1, $2, $3, $4, $5, 'fact')
+      ON CONFLICT (user_id, memory_key)
+      DO UPDATE SET
+        content = EXCLUDED.content,
+        embedding = EXCLUDED.embedding,
+        updated_at = NOW()
+      RETURNING id, content, memory_key;
+      `,
       [userId, role, content, JSON.stringify(embedding), memoryKey]
     );
 
-    console.log("UPSERT memory (fact) saved:", result.rows[0]);
+    console.log("FACT UPSERT:", result.rows[0]);
     return result.rows[0];
   }
 
-  // Otherwise → normal INSERT chat log (no key)
+  // ✅ CHAT MEMORY (always append)
   const result = await pool.query(
-    `INSERT INTO user_memories (user_id, role, content, embedding, memory_key)
-     VALUES ($1, $2, $3, $4, NULL)
-     RETURNING id`,
+    `
+    INSERT INTO user_memories 
+      (user_id, role, content, embedding, memory_key, memory_type)
+    VALUES ($1, $2, $3, $4, NULL, 'chat')
+    RETURNING id;
+    `,
     [userId, role, content, JSON.stringify(embedding)]
   );
 
-  console.log("Inserted regular chat memory:", result.rows[0]);
+  console.log("CHAT MEMORY INSERTED:", result.rows[0]);
   return result.rows[0];
 }
 
 /**
- * Retrieve most relevant memories for a user (by embedding similarity).
+ * Retrieve memories with priority:
+ * 1. Fact memory
+ * 2. Most recent chat memory
  */
 export async function retrieveMemory(
   userId: string,
   queryEmbedding: number[],
-  limit = 3,
-  roleFilter: "user" | "assistant" | "any" = "user"
+  limit = 5
 ) {
-  const roleClause = roleFilter === "any" ? "" : `AND role = '${roleFilter}'`;
-
   const result = await pool.query(
-    `SELECT content, embedding <-> $1::vector AS similarity
-       FROM user_memories
-       WHERE user_id = $2
-       ${roleClause}
-       ORDER BY similarity
-       LIMIT $3`,
-    [JSON.stringify(queryEmbedding), userId, limit]
+    `
+    SELECT content, memory_type
+    FROM user_memories
+    WHERE user_id = $1
+    ORDER BY 
+      CASE 
+        WHEN memory_type = 'fact' THEN 0 
+        ELSE 1 
+      END,
+      embedding <-> $2::vector
+    LIMIT $3;
+    `,
+    [userId, JSON.stringify(queryEmbedding), limit]
   );
 
   return result.rows.map((r: any) => r.content);
