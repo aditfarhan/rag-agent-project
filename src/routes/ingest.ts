@@ -43,6 +43,8 @@ function chunkText(text: string, maxLen = 800) {
 }
 
 router.post("/", async (req, res) => {
+  const client = await pool.connect();
+
   try {
     const { filepath, title = "Uploaded Doc" } = req.body;
 
@@ -50,65 +52,78 @@ router.post("/", async (req, res) => {
     if (!fs.existsSync(filepath))
       return res.status(404).json({ error: "file not found" });
 
+    const fileStats = fs.statSync(filepath);
+    if (fileStats.size > 5 * 1024 * 1024) {
+      return res.status(400).json({ error: "File too large (max 5MB)" });
+    }
+
     const raw = fs.readFileSync(filepath, "utf-8");
 
-    // parse Markdown to plain-ish text
-    const html = md.render(raw);
     const textOnly = raw
-      .replace(/(`{1,3}[\s\S]*?`{1,3})/g, "") // remove inline/fenced code blocks
-      .replace(/!\[.*?\]\(.*?\)/g, "") // remove images
-      .replace(/\[([^\]]+)\]\((?:[^)]+)\)/g, "$1") // convert links to text
-      .replace(/[#>*_\-`]/g, "") // basic cleanup
+      .replace(/(`{1,3}[\s\S]*?`{1,3})/g, "")
+      .replace(/!\[.*?\]\(.*?\)/g, "")
+      .replace(/\[([^\]]+)\]\((?:[^)]+)\)/g, "$1")
+      .replace(/[#>*_\-`]/g, "")
       .replace(/\n{2,}/g, "\n\n")
       .trim();
 
-    // create documents row
-    const doc = await pool.query(
-      "INSERT INTO documents (title, filepath) VALUES ($1, $2) RETURNING id",
-      [title, filepath]
-    );
-    const documentId = doc.rows[0].id;
-
-    // chunk the text
     const chunks = chunkText(textOnly, 800);
+
+    await client.query("BEGIN");
+
+    // prevent duplicate documents
+    const existingDoc = await client.query(
+      "SELECT id FROM documents WHERE filepath = $1",
+      [filepath]
+    );
+
+    let documentId: number;
+
+    if (existingDoc.rows.length > 0) {
+      documentId = existingDoc.rows[0].id;
+    } else {
+      const doc = await client.query(
+        "INSERT INTO documents (title, filepath) VALUES ($1, $2) RETURNING id",
+        [title, filepath]
+      );
+      documentId = doc.rows[0].id;
+    }
+
     let inserted = 0;
 
     for (let i = 0; i < chunks.length; i++) {
       const c = chunks[i];
-      if (!c || typeof c !== "string" || c.trim().length === 0) continue;
+      if (!c || !c.trim()) continue;
 
-      // create embedding
       const embedding = await embedText(c);
+      if (!Array.isArray(embedding) || embedding.length === 0) continue;
 
-      // optional sanity check: ensure embedding dims match expected (1536)
-      if (!Array.isArray(embedding) || embedding.length === 0) {
-        console.warn(`Skipping chunk ${i}: embedding empty`);
-        continue;
-      }
+      const vectorLiteral = `[${embedding.join(",")}]`;
 
-      // Insert chunk with JSON stringified embedding (Postgres pgvector expects a literal like '[1,2,3]'
-      // but using JSON.stringify is compatible if db param is passed correctly — keep consistent with your retrieval)
-      await pool.query(
-        `INSERT INTO chunks 
-           (document_id, chunk_index, content, embedding) 
-         VALUES ($1, $2, $3, $4)`,
-        [documentId, i, c, JSON.stringify(embedding)]
+      await client.query(
+        `INSERT INTO chunks (document_id, chunk_index, content, embedding) 
+         VALUES ($1, $2, $3, $4)
+         ON CONFLICT DO NOTHING`,
+        [documentId, i, c, vectorLiteral]
       );
 
       inserted++;
     }
 
-    return res.json({
+    await client.query("COMMIT");
+
+    res.json({
       status: "ok",
       documentId,
       totalChunks: chunks.length,
       inserted,
     });
   } catch (err) {
+    await pool.query("ROLLBACK");
     console.error("Ingest error:", err);
-    return res
-      .status(500)
-      .json({ error: "ingest failed", detail: String(err) });
+    res.status(500).json({ error: "ingest failed", detail: String(err) });
+  } finally {
+    client.release();
   }
 });
 
