@@ -1,6 +1,7 @@
 // src/service/mastraAgent.ts
 import { Agent } from "@mastra/core/agent";
 import { openai } from "@ai-sdk/openai";
+import { config } from "../config";
 
 export const mastra = new Agent({
   name: "document-agent",
@@ -33,7 +34,7 @@ STRICT RULES:
    - Never invent user details that are not present in MEMORY.
    - Be concise and clear.
 `,
-  model: openai("gpt-4o-mini"),
+  model: openai(config.model),
 });
 
 export async function callLLM(

@@ -5,24 +5,23 @@ import ingestRouter from "./routes/ingest";
 import chatRoute from "./routes/chat";
 import searchRoute from "./routes/search";
 import ragRoutes from "./routes/rag";
+import healthRouter from "./routes/health";
+
+import { validateOpenAIKey } from "./utils/validateOpenAI";
+import { config } from "./config";
 
 dotenv.config();
+validateOpenAIKey(); // ✅ now validated on startup
 
 const app = express();
 app.use(express.json());
+
 app.use("/api/ingest", ingestRouter);
 app.use("/api/chat", chatRoute);
 app.use("/api/search", searchRoute);
 app.use("/api/rag", ragRoutes);
+app.use("/api/health", healthRouter);
 
-// health check
-
-app.get("/health", (req, res) => {
-  res.json({ status: "OK" });
-});
-
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+app.listen(config.port, () => {
+  console.log(`🚀 Server running on http://localhost:${config.port}`);
 });
