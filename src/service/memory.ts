@@ -9,40 +9,40 @@ export async function saveMemory(
   userId: string,
   role: string,
   content: string,
-  memoryKey?: string // optional key to overwrite
+  memoryKey?: string
 ) {
   console.log("Saving memory to DB...");
+
   const embedding = await embedText(content);
   console.log("Embedding length:", embedding.length);
 
+  // If memoryKey provided => UPSERT to maintain single fact per key
   if (memoryKey) {
-    // Check if memory with this key already exists for user
-    const existing = await pool.query(
-      `SELECT id FROM user_memories WHERE user_id = $1 AND memory_key = $2`,
-      [userId, memoryKey]
+    const result = await pool.query(
+      `INSERT INTO user_memories (user_id, role, content, embedding, memory_key)
+       VALUES ($1, $2, $3, $4, $5)
+       ON CONFLICT (user_id, memory_key)
+       DO UPDATE SET
+          role = EXCLUDED.role,
+          content = EXCLUDED.content,
+          embedding = EXCLUDED.embedding
+       RETURNING id, content, memory_key`,
+      [userId, role, content, JSON.stringify(embedding), memoryKey]
     );
 
-    if (existing.rows.length > 0) {
-      // Update existing memory
-      const result = await pool.query(
-        `UPDATE user_memories
-           SET role=$1, content=$2, embedding=$3
-           WHERE user_id=$4 AND memory_key=$5
-           RETURNING id`,
-        [role, content, JSON.stringify(embedding), userId, memoryKey]
-      );
-      console.log("Memory updated:", result.rows[0]);
-      return result.rows[0];
-    }
+    console.log("UPSERT memory (fact) saved:", result.rows[0]);
+    return result.rows[0];
   }
 
-  // Insert new memory
+  // Otherwise → normal INSERT chat log (no key)
   const result = await pool.query(
     `INSERT INTO user_memories (user_id, role, content, embedding, memory_key)
-       VALUES ($1, $2, $3, $4, $5) RETURNING id`,
-    [userId, role, content, JSON.stringify(embedding), memoryKey || null]
+     VALUES ($1, $2, $3, $4, NULL)
+     RETURNING id`,
+    [userId, role, content, JSON.stringify(embedding)]
   );
-  console.log("Memory saved:", result.rows[0]);
+
+  console.log("Inserted regular chat memory:", result.rows[0]);
   return result.rows[0];
 }
 

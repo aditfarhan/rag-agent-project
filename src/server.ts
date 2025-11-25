@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 
 import ingestRouter from "./routes/ingest";
 import chatRoute from "./routes/chat";
+import searchRoute from "./routes/search";
 
 dotenv.config();
 
@@ -10,6 +11,7 @@ const app = express();
 app.use(express.json());
 app.use("/api/ingest", ingestRouter);
 app.use("/api/chat", chatRoute);
+app.use("/api/search", searchRoute);
 
 // health check
 

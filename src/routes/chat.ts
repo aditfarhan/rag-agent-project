@@ -43,9 +43,8 @@ router.post("/", async (req, res) => {
     if (!userId) return res.status(400).json({ error: "userId is required" });
     if (!question) return res.status(400).json({ error: "question required" });
 
-    // Extract key fact
+    // Extract and save fact
     const keyFact = await extractDynamicKeyFact(question);
-
     let memoryKey: string | undefined;
     let keyFactValue: string | undefined;
 
@@ -53,10 +52,11 @@ router.post("/", async (req, res) => {
       memoryKey = keyFact.key;
       keyFactValue = keyFact.value;
 
+      // UPSERT per key
       await saveMemory(userId, "user", keyFactValue, memoryKey);
     }
 
-    // Embedding for retrieval
+    // Embed message
     const qEmbedding = await embedText(question);
 
     // RAG docs
@@ -65,20 +65,19 @@ router.post("/", async (req, res) => {
        FROM chunks ORDER BY distance LIMIT 5`,
       [JSON.stringify(qEmbedding)]
     );
-
     const ragContext = ragResult.rows
       .map((r: any) => r.content)
       .join("\n---\n");
 
-    // Latest memory for every key
+    // Latest stored facts
     const keyMemoryResult = await pool.query(
       `SELECT content, memory_key
        FROM user_memories u
        WHERE user_id=$1 AND memory_key IS NOT NULL AND role='user'
          AND id = (
-            SELECT MAX(id)
-            FROM user_memories
-            WHERE user_id=$1 AND memory_key = u.memory_key
+           SELECT MAX(id)
+           FROM user_memories
+           WHERE user_id=$1 AND memory_key = u.memory_key
          )`,
       [userId]
     );
@@ -87,24 +86,21 @@ router.post("/", async (req, res) => {
       .map((m) => `(${m.memory_key.toUpperCase()}): ${m.content}`)
       .join("\n");
 
-    // Similar memory via embeddings
+    // Similar memories
     const otherMemoryResults = await retrieveMemory(userId, qEmbedding, 5);
     const otherMemoryContext = otherMemoryResults
       .filter((m) => typeof m === "string")
       .join("\n");
 
-    const memoryText = `${keyMemoryContext}\n${otherMemoryContext}`.trim();
+    const memoryText = [keyMemoryContext, otherMemoryContext]
+      .filter(Boolean)
+      .join("\n");
 
-    // 🧠 FIRST MESSAGE FALLBACK LOGIC
-    if (
-      memoryKey &&
-      keyFactValue &&
-      !ragContext &&
-      !otherMemoryContext &&
-      !keyMemoryContext
-    ) {
+    /**
+     * 🚀 FIX FIRST OUTPUT USING MEMORY BEFORE RAG
+     */
+    if (keyFactValue && memoryText && !history.length) {
       const answer = `Hello, ${keyFactValue}! How can I assist you today?`;
-
       await saveMemory(userId, "assistant", answer);
 
       return res.json({
@@ -117,8 +113,19 @@ router.post("/", async (req, res) => {
       });
     }
 
-    // Final combined context
-    const answer = await callLLM(question, ragContext, history, memoryText);
+    /**
+     * 🎯 Stronger system prompt to prioritize memory facts
+     */
+    const systemPrompt = `
+You are an AI assistant that personalizes responses using user memory facts.
+If memory contains NAME, always greet the user personally.
+Use memory before document context. 
+Never answer "I don't know from the document" if memory is available.
+`;
+
+    const formattedPrompt = `${systemPrompt}\n\nMEMORY:\n${memoryText}\n\nDOCUMENTS:\n${ragContext}\n\nQUESTION: ${question}`;
+
+    const answer = await callLLM(formattedPrompt, "", history);
 
     await saveMemory(userId, "assistant", answer);
 
