@@ -4,12 +4,12 @@ import { pool } from "../utils/db";
 import { embedText } from "../service/embedding";
 import { callLLM } from "../service/mastraAgent";
 import { saveMemory, retrieveMemory } from "../service/memory";
+import { config } from "../config";
 
 const router = Router();
 
 /**
  * Extract dynamic fact from user message via LLM
- * Example output: { key: "name", value: "Aditia Falah" }
  */
 async function extractDynamicKeyFact(userMessage: string) {
   const prompt = `
@@ -21,20 +21,12 @@ If no fact can be extracted, respond with null.
 User message: "${userMessage}"
 `;
 
-  const response = await callLLM(
-    prompt,
-    "", // no document context
-    [] // no history
-  );
-
-  console.log("RAW FACT RESPONSE:", response);
-
+  const response = await callLLM(prompt, "", []);
   try {
     const first = response.indexOf("{");
     const jsonText = first >= 0 ? response.slice(first) : response;
     const fact = JSON.parse(jsonText);
 
-    console.log("PARSED FACT:", fact);
     if (fact?.key && fact?.value) {
       return {
         key: String(fact.key).toLowerCase(),
@@ -54,26 +46,18 @@ router.post("/", async (req, res) => {
     if (!userId) return res.status(400).json({ error: "userId is required" });
     if (!question) return res.status(400).json({ error: "question required" });
 
-    // 1️⃣ Extract & upsert key fact (user memory)
     const keyFact = await extractDynamicKeyFact(question);
-    let memoryKey: string | undefined;
-    let keyFactValue: string | undefined;
 
     if (keyFact?.key && keyFact?.value) {
-      memoryKey = keyFact.key;
-      keyFactValue = keyFact.value;
-
-      // UPSERT one row per (user_id, memory_key)
-      await saveMemory(userId, "user", keyFactValue, memoryKey);
+      await saveMemory(userId, "user", keyFact.value, keyFact.key);
     }
 
-    // 2️⃣ Embed user question
+    // ✅ Embedding
     const qEmbedding = await embedText(question);
     const qVectorLiteral = `[${qEmbedding.join(",")}]`;
 
-    // 3️⃣ RAG: retrieve relevant document chunks
-    const topK = 5;
-    const distanceThreshold = 1.2; // fairly loose; we’ll filter but rarely drop all
+    // ✅ CONFIG-DRIVEN RAG
+    const { topK, distanceThreshold } = config.rag;
 
     const ragResult = await pool.query(
       `
@@ -87,84 +71,72 @@ router.post("/", async (req, res) => {
       [qVectorLiteral, topK]
     );
 
-    // optionally filter by distance if you want
     const filteredChunks = ragResult.rows.filter(
       (r: any) => r.distance <= distanceThreshold
     );
 
-    const ragContext = (
-      filteredChunks.length > 0 ? filteredChunks : ragResult.rows
-    ) // fallback: use whatever we got
-      .map((r: any) => r.content)
-      .join("\n---\n");
+    const finalChunks =
+      filteredChunks.length > 0 ? filteredChunks : ragResult.rows;
 
-    // 4️⃣ Load latest "fact" memories (one per key)
+    const ragContext = finalChunks.map((r: any) => r.content).join("\n---\n");
+
+    // ✅ Get stored fact memories
     const keyMemoryResult = await pool.query(
       `
       SELECT content, memory_key
       FROM user_memories u
-      WHERE user_id = $1
+      WHERE user_id=$1
         AND memory_key IS NOT NULL
-        AND role = 'user'
+        AND role='user'
         AND id = (
           SELECT MAX(id)
           FROM user_memories
-          WHERE user_id = $1
-            AND memory_key = u.memory_key
+          WHERE user_id=$1 AND memory_key = u.memory_key
         );
       `,
       [userId]
     );
 
     const keyMemoryContext = keyMemoryResult.rows
-      .map((m) =>
-        m.memory_key
-          ? `(${m.memory_key.toUpperCase()}): ${m.content}`
-          : m.content
-      )
+      .map((m) => `(${m.memory_key.toUpperCase()}): ${m.content}`)
       .join("\n");
 
-    // 5️⃣ Similar memories by embedding (user-side memories only)
-    const similarTopK = 5;
+    // ✅ Similar memory via vectors
+    const similarTopK = config.memory.similarTopK;
     const otherMemoryResults = await retrieveMemory(
       userId,
       qEmbedding,
-      similarTopK,
-      "user"
+      similarTopK
     );
-    const otherMemoryContext = otherMemoryResults
-      .filter((m) => typeof m === "string")
-      .join("\n");
 
-    const memoryText = [keyMemoryContext, otherMemoryContext]
+    const memoryText = [keyMemoryContext, ...otherMemoryResults]
       .filter(Boolean)
       .join("\n");
 
-    // 6️⃣ Special case: first interaction with a new NAME fact
-    if (keyFactValue && !history.length && keyMemoryContext) {
-      const answer = `Hello, ${keyFactValue}! How can I assist you today?`;
-      await saveMemory(userId, "assistant", answer);
+    // ✅ First-time greeting logic
+    if (keyFact?.value && !history.length && keyMemoryContext) {
+      const greeting = `Hello, ${keyFact.value}! How can I assist you today?`;
+      await saveMemory(userId, "assistant", greeting);
 
       return res.json({
-        answer,
+        answer: greeting,
         history: [
           { role: "user", content: question },
-          { role: "assistant", content: answer },
+          { role: "assistant", content: greeting },
         ],
-        contextUsed: [],
-        memoryUsed: true,
-        memory: [keyFactValue],
         meta: {
           rag: { topK, distanceThreshold, chunksReturned: 0 },
-          memory: { similarTopK, factsCount: keyMemoryResult.rows.length },
+          memory: { factsCount: keyMemoryResult.rows.length },
         },
       });
     }
 
-    // 7️⃣ Normal flow: call Mastra agent with MEMORY + RAG context
-    const answer = await callLLM(question, ragContext, history, memoryText);
+    // ✅ Decide LLM path
+    const answer =
+      finalChunks.length > 0 || memoryText
+        ? await callLLM(question, ragContext, history, memoryText)
+        : "I don't know from the document.";
 
-    // store assistant message as memory (no memory_key => treated as chat log)
     await saveMemory(userId, "assistant", answer);
 
     const newHistory = [
@@ -176,17 +148,13 @@ router.post("/", async (req, res) => {
     return res.json({
       answer,
       history: newHistory,
-      contextUsed: filteredChunks,
-      memoryUsed: memoryText !== "",
-      memory: [
-        ...keyMemoryResult.rows.map((r) => r.content),
-        ...otherMemoryResults,
-      ],
+      contextUsed: finalChunks,
+      memoryUsed: !!memoryText,
       meta: {
         rag: {
           topK,
           distanceThreshold,
-          chunksReturned: filteredChunks.length || ragResult.rows.length,
+          chunksReturned: finalChunks.length,
         },
         memory: {
           similarTopK,

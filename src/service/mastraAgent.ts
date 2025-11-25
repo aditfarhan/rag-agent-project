@@ -34,7 +34,7 @@ STRICT RULES:
    - Never invent user details that are not present in MEMORY.
    - Be concise and clear.
 `,
-  model: openai(config.model),
+  model: openai(config.openai.model),
 });
 
 export async function callLLM(
