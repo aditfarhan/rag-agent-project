@@ -1,62 +1,50 @@
 import { Router } from "express";
-import { pool } from "../utils/db";
 import { embedText } from "../service/embedding";
 import { callLLM } from "../service/mastraAgent";
+import { semanticSearch } from "../services/ragService";
+import { getRecentUserMemories, saveMemory } from "../services/memoryService";
 
 const router = Router();
 
+/**
+ * RAG route: query ingested documents with optional user-specific memory context.
+ *
+ * Behavior:
+ * - Preserves the existing HTTP API:
+ *   POST /api/rag { query, userId } -> { status, query, userId, answer, memory, sources }
+ * - Uses the unified retrieval engine (services/ragService) for document chunks.
+ * - Uses the centralized memory service for user memories and assistant answers.
+ */
 router.post("/", async (req, res) => {
   try {
     const { query, userId } = req.body;
 
-    if (!query) return res.status(400).json({ error: "query is required" });
-    if (!userId) return res.status(400).json({ error: "userId is required" });
+    if (!query) {
+      return res.status(400).json({ error: "query is required" });
+    }
+    if (!userId) {
+      return res.status(400).json({ error: "userId is required" });
+    }
 
-    // 1️⃣ Embed query
+    // 1️⃣ Embed query once
     const queryEmbedding = await embedText(query);
 
-    // Convert embedding to valid pgvector format
-    const embeddingVector = `[${queryEmbedding.join(",")}]`;
-
-    // 2️⃣ Retrieve document chunks via vector similarity
-    const docs = await pool.query(
-      `
-      SELECT
-        id,
-        document_id,
-        chunk_index,
-        content,
-        1 - (embedding <=> $1) AS similarity
-      FROM chunks
-      ORDER BY similarity DESC
-      LIMIT 5;
-      `,
-      [embeddingVector]
-    );
+    // 2️⃣ Retrieve document chunks via unified semantic search
+    const docs = await semanticSearch(queryEmbedding, 5);
 
     // 3️⃣ Retrieve latest user memory (user-specific context)
-    const mem = await pool.query(
-      `
-      SELECT memory_key, content
-      FROM user_memories
-      WHERE user_id = $1
-        AND role = 'user'
-      ORDER BY updated_at DESC
-      LIMIT 5;
-      `,
-      [userId]
-    );
+    const mem = await getRecentUserMemories(userId, 5);
 
     const memoryContext =
-      mem.rows.length > 0
-        ? mem.rows
+      mem.length > 0
+        ? mem
             .map((m) =>
               m.memory_key ? `${m.memory_key}: ${m.content}` : m.content
             )
             .join("\n")
         : "";
 
-    const documentContext = docs.rows.map((r) => r.content).join("\n---\n");
+    const documentContext = docs.map((r) => r.content).join("\n---\n");
 
     // 4️⃣ Call Mastra AI (LLM)
     const answer = await callLLM(query, documentContext, [], memoryContext);
@@ -67,17 +55,8 @@ router.post("/", async (req, res) => {
         ? answer
         : "I don't know from the document.";
 
-    // 5️⃣ Save assistant memory (UPSERT strategy)
-    await pool.query(
-      `
-      INSERT INTO user_memories (user_id, role, content, memory_key)
-      VALUES ($1, 'assistant', $2, 'last_answer')
-      ON CONFLICT (user_id, memory_key)
-      DO UPDATE SET content = EXCLUDED.content,
-                   updated_at = NOW();
-      `,
-      [userId, finalAnswer]
-    );
+    // 5️⃣ Save assistant memory (UPSERT strategy) using memory service
+    await saveMemory(userId, "assistant", finalAnswer, "last_answer", "fact");
 
     // 6️⃣ Return final output
     return res.json({
@@ -86,11 +65,11 @@ router.post("/", async (req, res) => {
       userId,
       answer: finalAnswer,
       memory: memoryContext,
-      sources: docs.rows,
+      sources: docs,
     });
   } catch (error: any) {
     console.error("RAG error:", error);
-    res.status(500).json({
+    return res.status(500).json({
       error: "rag failed",
       detail: error.message,
     });

@@ -104,7 +104,7 @@ Run inside Ubuntu terminal (WSL recommended)
 
 curl -X POST http://127.0.0.1:3000/api/ingest \
 -H "Content-Type: application/json" \
--d '{"filepath":"/mnt/d/self/rag-agent-project/test.md"}'
+-d '{"filepath":"/mnt/d/self/rag-agent-project/docs/policy.md"}'
 
 Example Output
 {"status":"ok","documentId":1,"chunks":3}

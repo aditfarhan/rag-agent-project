@@ -1,17 +1,12 @@
-import { client } from "./openAIClient.ts";
+import { embedText as coreEmbedText } from "../services/embeddingService";
 
+/**
+ * Backwards-compatible wrapper around the new embedding service.
+ *
+ * Existing imports from "src/service/embedding" continue to work, while the
+ * implementation is delegated to the centralized embedding service under
+ * "src/services/embeddingService".
+ */
 export async function embedText(text: string): Promise<number[]> {
-  const response = await client.embeddings.create({
-    model: "text-embedding-3-small",
-    input: text,
-  });
-
-  const first = response.data[0];
-
-  if (!first || !first.embedding) {
-    throw new Error("Embedding API returned invalid data");
-  }
-
-  const emb = first.embedding;
-  return emb;
+  return coreEmbedText(text);
 }

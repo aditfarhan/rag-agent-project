@@ -1,5 +1,18 @@
-import { pool } from "../utils/db";
-import { embedText } from "./embedding";
+import {
+  saveMemory as coreSaveMemory,
+  retrieveMemory as coreRetrieveMemory,
+} from "../services/memoryService";
+
+/**
+ * Backwards-compatible wrappers around the new memory service.
+ *
+ * Existing imports from "src/service/memory" continue to work, while the
+ * implementation is delegated to the centralized memory service under
+ * "src/services/memoryService".
+ *
+ * This file preserves the original function signatures so that all existing
+ * call sites remain valid.
+ */
 
 /**
  * Save memory for a user.
@@ -13,50 +26,13 @@ export async function saveMemory(
   memoryKey?: string,
   memoryType: "fact" | "chat" = "chat"
 ) {
-  console.log("Saving memory:", { userId, role, memoryKey, memoryType });
-
-  const embedding = await embedText(content);
-
-  // ✅ FACT MEMORY (single value per key)
-  if (memoryType === "fact" && memoryKey) {
-    const result = await pool.query(
-      `
-      INSERT INTO user_memories 
-        (user_id, role, content, embedding, memory_key, memory_type)
-      VALUES ($1, $2, $3, $4, $5, 'fact')
-      ON CONFLICT (user_id, memory_key)
-      DO UPDATE SET
-        content = EXCLUDED.content,
-        embedding = EXCLUDED.embedding,
-        updated_at = NOW()
-      RETURNING id, content, memory_key;
-      `,
-      [userId, role, content, JSON.stringify(embedding), memoryKey]
-    );
-
-    console.log("FACT UPSERT:", result.rows[0]);
-    return result.rows[0];
-  }
-
-  // ✅ CHAT MEMORY (always append)
-  const result = await pool.query(
-    `
-    INSERT INTO user_memories 
-      (user_id, role, content, embedding, memory_key, memory_type)
-    VALUES ($1, $2, $3, $4, NULL, 'chat')
-    RETURNING id;
-    `,
-    [userId, role, content, JSON.stringify(embedding)]
-  );
-
-  console.log("CHAT MEMORY INSERTED:", result.rows[0]);
-  return result.rows[0];
+  return coreSaveMemory(userId, role, content, memoryKey, memoryType);
 }
 
 /**
  * Retrieve memories with priority:
- * 1. Fact memory
- * 2. Most recent chat memory
+ * 1. Fact memory (keyed)
+ * 2. Most recent chat memory (by similarity)
  */
 export async function retrieveMemory(
   userId: string,
@@ -64,24 +40,5 @@ export async function retrieveMemory(
   limit = 5,
   role: "user" | "assistant" | "any" = "user"
 ) {
-  const roleClause = role === "any" ? "" : `AND role = '${role}'`;
-
-  const result = await pool.query(
-    `
-    SELECT content, memory_key
-    FROM user_memories
-    WHERE user_id = $1
-      ${roleClause}
-    ORDER BY 
-      CASE 
-        WHEN memory_key IS NOT NULL THEN 0 
-        ELSE 1 
-      END,
-      embedding <-> $2::vector
-    LIMIT $3;
-    `,
-    [userId, JSON.stringify(queryEmbedding), limit]
-  );
-
-  return result.rows.map((r: any) => r.content);
+  return coreRetrieveMemory(userId, queryEmbedding, limit, role as any);
 }
