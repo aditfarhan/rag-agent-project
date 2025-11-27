@@ -1,7 +1,7 @@
 // src/routes/ingest.ts
 import { Router } from "express";
 import path from "path";
-import { ingestDocument } from "../services/ingestService";
+import { ingestDocument } from "../../services/ingestService";
 
 const router = Router();
 

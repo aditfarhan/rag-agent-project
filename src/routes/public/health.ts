@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { callLLM } from "../service/mastraAgent";
+import { callLLM } from "../../services/mastraAgent";
 
 const router = Router();
 

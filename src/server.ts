@@ -1,11 +1,10 @@
 import express from "express";
 import dotenv from "dotenv";
 
-import ingestRouter from "./routes/ingest";
-import chatRoute from "./routes/chat";
-import searchRoute from "./routes/search";
-import ragRoutes from "./routes/rag";
-import healthRouter from "./routes/health";
+import ingestRouter from "./routes/public/ingest";
+import chatRoute from "./routes/public/chat";
+import searchRoute from "./routes/internal/search";
+import healthRouter from "./routes/public/health";
 
 import { errorHandler } from "./middleware/errorHandler";
 import { validateOpenAIKey } from "./utils/validateOpenAI";
@@ -17,11 +16,10 @@ validateOpenAIKey(); // ✅ now validated on startup
 const app = express();
 app.use(express.json());
 
+app.use("/api/health", healthRouter);
 app.use("/api/ingest", ingestRouter);
 app.use("/api/chat", chatRoute);
-app.use("/api/search", searchRoute);
-app.use("/api/rag", ragRoutes);
-app.use("/api/health", healthRouter);
+app.use("/api/internal/search", searchRoute);
 
 app.use(errorHandler);
 

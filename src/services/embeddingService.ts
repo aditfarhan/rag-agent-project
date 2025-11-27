@@ -1,4 +1,4 @@
-import { client } from "../service/openAIClient";
+import { client } from "./openAIClient";
 import { config } from "../config";
 import { logEvent } from "../utils/logger";
 

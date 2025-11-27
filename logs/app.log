@@ -158,3 +158,62 @@
 {"timestamp":"2025-11-26T04:29:15.668Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":474,"inputLength":31,"vectorLength":1536}
 {"timestamp":"2025-11-26T04:29:15.680Z","type":"MEMORY_SAVE_CHAT","userId":"test-user-42","role":"assistant","memoryType":"chat","memoryId":15}
 {"timestamp":"2025-11-26T04:29:15.685Z","type":"CHAT_RESPONSE","requestId":"2d1f30f8-c298-454a-8891-e6e6d15a09d0","userId":"test-user-42","answerLength":31,"durationMs":6400}
+{"timestamp":"2025-11-27T06:50:15.002Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":3786,"questionLength":4,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-27T06:50:30.764Z","type":"CHAT_REQUEST","requestId":"12c275e7-7942-4f00-adb5-ff834712348b","userId":"test-user-1","question":"What is stated about refund policy?"}
+{"timestamp":"2025-11-27T06:50:33.349Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2569,"questionLength":725,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-27T06:50:34.409Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":1045,"inputLength":35,"vectorLength":1536}
+{"timestamp":"2025-11-27T06:50:34.545Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":0,"finalCount":5}
+{"timestamp":"2025-11-27T06:50:34.577Z","type":"MEMORY_FACTS_LATEST","userId":"test-user-1","factsCount":1}
+{"timestamp":"2025-11-27T06:50:34.599Z","type":"MEMORY_RETRIEVE","userId":"test-user-1","role":"user","limit":5,"returned":0}
+{"timestamp":"2025-11-27T06:50:34.614Z","type":"MEMORY_CONTEXT","requestId":"12c275e7-7942-4f00-adb5-ff834712348b","factCount":1,"similarRetrieved":0}
+{"timestamp":"2025-11-27T06:50:38.333Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":3705,"questionLength":35,"contextLength":4017,"memoryLength":2400,"historyCount":0}
+{"timestamp":"2025-11-27T06:50:39.840Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":1492,"inputLength":31,"vectorLength":1536}
+{"timestamp":"2025-11-27T06:50:39.900Z","type":"MEMORY_SAVE_CHAT","userId":"test-user-1","role":"assistant","memoryType":"chat","memoryId":16}
+{"timestamp":"2025-11-27T06:50:39.915Z","type":"CHAT_RESPONSE","requestId":"12c275e7-7942-4f00-adb5-ff834712348b","userId":"test-user-1","answerLength":31,"durationMs":9150}
+{"timestamp":"2025-11-27T06:51:13.362Z","type":"CHAT_REQUEST","requestId":"847b45a6-6af3-49ed-81b1-255ef298ca32","userId":"test-user-1","question":"Tell me about Martian currency policy"}
+{"timestamp":"2025-11-27T06:51:16.145Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2767,"questionLength":727,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-27T06:51:17.655Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":1495,"inputLength":37,"vectorLength":1536}
+{"timestamp":"2025-11-27T06:51:17.685Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":0,"finalCount":5}
+{"timestamp":"2025-11-27T06:51:17.700Z","type":"MEMORY_FACTS_LATEST","userId":"test-user-1","factsCount":1}
+{"timestamp":"2025-11-27T06:51:17.716Z","type":"MEMORY_RETRIEVE","userId":"test-user-1","role":"user","limit":5,"returned":0}
+{"timestamp":"2025-11-27T06:51:17.730Z","type":"MEMORY_CONTEXT","requestId":"847b45a6-6af3-49ed-81b1-255ef298ca32","factCount":1,"similarRetrieved":0}
+{"timestamp":"2025-11-27T06:51:20.367Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2624,"questionLength":37,"contextLength":3975,"memoryLength":2400,"historyCount":0}
+{"timestamp":"2025-11-27T06:51:20.899Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":518,"inputLength":31,"vectorLength":1536}
+{"timestamp":"2025-11-27T06:51:20.943Z","type":"MEMORY_SAVE_CHAT","userId":"test-user-1","role":"assistant","memoryType":"chat","memoryId":17}
+{"timestamp":"2025-11-27T06:51:20.957Z","type":"CHAT_RESPONSE","requestId":"847b45a6-6af3-49ed-81b1-255ef298ca32","userId":"test-user-1","answerLength":31,"durationMs":7595}
+{"timestamp":"2025-11-27T06:51:40.481Z","type":"CHAT_REQUEST","requestId":"fa3712a5-2b32-411f-8494-12d969c91ffb","userId":"memory-test-1","question":"My name is Farhan"}
+{"timestamp":"2025-11-27T06:51:42.985Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2488,"questionLength":707,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-27T06:51:44.314Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":1318,"inputLength":6,"vectorLength":1536}
+{"timestamp":"2025-11-27T06:51:44.362Z","type":"MEMORY_SAVE_FACT","userId":"memory-test-1","role":"user","memoryKey":"name","memoryType":"fact","memoryId":18}
+{"timestamp":"2025-11-27T06:51:44.724Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":349,"inputLength":17,"vectorLength":1536}
+{"timestamp":"2025-11-27T06:51:44.743Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":0,"finalCount":5}
+{"timestamp":"2025-11-27T06:51:44.759Z","type":"MEMORY_FACTS_LATEST","userId":"memory-test-1","factsCount":1}
+{"timestamp":"2025-11-27T06:51:44.777Z","type":"MEMORY_RETRIEVE","userId":"memory-test-1","role":"user","limit":5,"returned":1}
+{"timestamp":"2025-11-27T06:51:44.791Z","type":"MEMORY_CONTEXT","requestId":"fa3712a5-2b32-411f-8494-12d969c91ffb","factCount":1,"similarRetrieved":1}
+{"timestamp":"2025-11-27T06:51:45.217Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":413,"inputLength":42,"vectorLength":1536}
+{"timestamp":"2025-11-27T06:51:45.260Z","type":"MEMORY_SAVE_CHAT","userId":"memory-test-1","role":"assistant","memoryType":"chat","memoryId":19}
+{"timestamp":"2025-11-27T06:51:45.274Z","type":"CHAT_RESPONSE","requestId":"fa3712a5-2b32-411f-8494-12d969c91ffb","userId":"memory-test-1","answerLength":42,"durationMs":4793}
+{"timestamp":"2025-11-27T06:54:04.571Z","type":"CHAT_REQUEST","requestId":"46c6c709-c9e0-4821-a8ca-d7b4e089002a","userId":"memory-test-1","question":"Based on my name, what does the document say about greetings?"}
+{"timestamp":"2025-11-27T06:54:07.614Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":3030,"questionLength":751,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-27T06:54:08.673Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":1046,"inputLength":61,"vectorLength":1536}
+{"timestamp":"2025-11-27T06:54:08.705Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":0,"finalCount":5}
+{"timestamp":"2025-11-27T06:54:08.720Z","type":"MEMORY_FACTS_LATEST","userId":"memory-test-1","factsCount":1}
+{"timestamp":"2025-11-27T06:54:08.735Z","type":"MEMORY_RETRIEVE","userId":"memory-test-1","role":"user","limit":5,"returned":1}
+{"timestamp":"2025-11-27T06:54:08.746Z","type":"MEMORY_CONTEXT","requestId":"46c6c709-c9e0-4821-a8ca-d7b4e089002a","factCount":1,"similarRetrieved":1}
+{"timestamp":"2025-11-27T06:54:11.214Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2456,"questionLength":61,"contextLength":4018,"memoryLength":21,"historyCount":0}
+{"timestamp":"2025-11-27T06:54:12.296Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":1069,"inputLength":31,"vectorLength":1536}
+{"timestamp":"2025-11-27T06:54:12.338Z","type":"MEMORY_SAVE_CHAT","userId":"memory-test-1","role":"assistant","memoryType":"chat","memoryId":20}
+{"timestamp":"2025-11-27T06:54:12.351Z","type":"CHAT_RESPONSE","requestId":"46c6c709-c9e0-4821-a8ca-d7b4e089002a","userId":"memory-test-1","answerLength":31,"durationMs":7782}
+{"timestamp":"2025-11-27T06:55:29.880Z","type":"CHAT_REQUEST","requestId":"29430e26-fb1d-4e93-97be-2d65d284655d","userId":"memory-test-1","question":"Based on my name, can you tell me what are our standard working hours?"}
+{"timestamp":"2025-11-27T06:55:32.503Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2609,"questionLength":760,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-27T06:55:33.004Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":487,"inputLength":70,"vectorLength":1536}
+{"timestamp":"2025-11-27T06:55:33.059Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":1,"finalCount":1}
+{"timestamp":"2025-11-27T06:55:33.073Z","type":"MEMORY_FACTS_LATEST","userId":"memory-test-1","factsCount":1}
+{"timestamp":"2025-11-27T06:55:33.090Z","type":"MEMORY_RETRIEVE","userId":"memory-test-1","role":"user","limit":5,"returned":1}
+{"timestamp":"2025-11-27T06:55:33.101Z","type":"MEMORY_CONTEXT","requestId":"29430e26-fb1d-4e93-97be-2d65d284655d","factCount":1,"similarRetrieved":1}
+{"timestamp":"2025-11-27T06:55:35.814Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2702,"questionLength":70,"contextLength":799,"memoryLength":21,"historyCount":0}
+{"timestamp":"2025-11-27T06:55:37.525Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":1696,"inputLength":166,"vectorLength":1536}
+{"timestamp":"2025-11-27T06:55:37.551Z","type":"MEMORY_SAVE_CHAT","userId":"memory-test-1","role":"assistant","memoryType":"chat","memoryId":21}
+{"timestamp":"2025-11-27T06:55:37.568Z","type":"CHAT_RESPONSE","requestId":"29430e26-fb1d-4e93-97be-2d65d284655d","userId":"memory-test-1","answerLength":166,"durationMs":7687}
+{"timestamp":"2025-11-27T06:56:00.069Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":364,"inputLength":21,"vectorLength":1536}
+{"timestamp":"2025-11-27T06:56:00.111Z","type":"RAG_SEMANTIC_SEARCH","limit":5,"returned":5}

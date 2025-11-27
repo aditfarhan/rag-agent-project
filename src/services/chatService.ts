@@ -8,7 +8,7 @@ import {
   saveMemory,
 } from "./memoryService";
 import { buildContextFromChunks, getRagContextForQuery } from "./ragService";
-import { callLLM } from "../service/mastraAgent";
+import { callLLM } from "./mastraAgent";
 
 export interface ChatRequest {
   userId: string;

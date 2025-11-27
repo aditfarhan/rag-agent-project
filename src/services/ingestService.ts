@@ -3,6 +3,7 @@ import MarkdownIt from "markdown-it";
 import { pool } from "../utils/db";
 import { embedBatch } from "./embeddingService";
 import { logEvent } from "../utils/logger";
+import { toPgVectorLiteral } from "../utils/vector";
 
 const md = new MarkdownIt();
 
@@ -164,7 +165,7 @@ export async function ingestDocument(
           continue;
         }
 
-        const vectorLiteral = `[${embedding.join(",")}]`;
+        const vectorLiteral = toPgVectorLiteral(embedding);
 
         await client.query(
           `

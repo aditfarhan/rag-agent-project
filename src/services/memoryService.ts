@@ -2,6 +2,7 @@ import { pool } from "../utils/db";
 import { embedText } from "./embeddingService";
 import { logEvent } from "../utils/logger";
 import { config } from "../config";
+import { toPgVectorLiteral } from "../utils/vector";
 
 export type MemoryType = "fact" | "chat";
 export type MemoryRole = "user" | "assistant";
@@ -56,7 +57,7 @@ export async function saveMemory(
 ): Promise<SavedMemory> {
   const embedding = await embedText(content);
 
-  const vectorLiteral = `[${embedding.join(",")}]`;
+  const vectorLiteral = toPgVectorLiteral(embedding);
 
   if (memoryType === "fact" && memoryKey) {
     const result = await pool.query(
@@ -125,7 +126,7 @@ export async function retrieveMemory(
 ): Promise<string[]> {
   const roleClause = role === "any" ? "" : `AND role = '${role}'`;
 
-  const vectorLiteral = `[${queryEmbedding.join(",")}]`;
+  const vectorLiteral = toPgVectorLiteral(queryEmbedding);
 
   const result = await pool.query(
     `

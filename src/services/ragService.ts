@@ -1,6 +1,7 @@
 import { pool } from "../utils/db";
 import { config } from "../config";
 import { logEvent } from "../utils/logger";
+import { toPgVectorLiteral } from "../utils/vector";
 
 /**
  * RAG Retrieval Service
@@ -38,13 +39,6 @@ export interface RagRetrievalResult {
 }
 
 /**
- * Convert a JS embedding array to a pgvector literal.
- */
-function toVectorLiteral(embedding: number[]): string {
-  return `[${embedding.join(",")}]`;
-}
-
-/**
  * Execute a vector similarity query over the chunks table, ordering by distance.
  *
  * This function uses the `<->` operator directly and does not apply any
@@ -54,7 +48,7 @@ async function queryChunksByEmbedding(
   queryEmbedding: number[],
   topK: number
 ): Promise<ChunkRow[]> {
-  const vectorLiteral = toVectorLiteral(queryEmbedding);
+  const vectorLiteral = toPgVectorLiteral(queryEmbedding);
 
   const result = await pool.query(
     `
@@ -146,7 +140,7 @@ export async function semanticSearch(
   queryEmbedding: number[],
   limit: number = 5
 ): Promise<ChunkRow[]> {
-  const vectorLiteral = toVectorLiteral(queryEmbedding);
+  const vectorLiteral = toPgVectorLiteral(queryEmbedding);
 
   const result = await pool.query(
     `

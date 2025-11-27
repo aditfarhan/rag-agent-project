@@ -1,6 +1,6 @@
 // src/routes/chat.ts
 import { Router } from "express";
-import { handleChat } from "../services/chatService";
+import { handleChat } from "../../services/chatService";
 
 const router = Router();
 
