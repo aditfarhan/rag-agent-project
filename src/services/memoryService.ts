@@ -13,40 +13,11 @@ export interface SavedMemory {
   memory_key: string | null;
 }
 
-export interface RetrieveMemoryOptions {
-  userId: string;
-  queryEmbedding: number[];
-  limit?: number;
-  role?: MemoryRole | "any";
-}
-
-/**
- * Memory Service
- *
- * Responsibilities:
- * - Manage user-specific memories as vector-indexed records.
- * - Separate FACT memory (keyed, upserted) from CHAT memory (append-only).
- * - Provide retrieval APIs optimized for RAG + conversational context.
- *
- * Design:
- * - FACT memories: one value per (userId, memoryKey), upserted with latest content & embedding.
- * - CHAT memories: append-only timeline, retrievable by vector similarity.
- * - Both types are stored in `user_memories` with a `memory_type` discriminator.
- *
- * Memory aging suggestion:
- * - To avoid unbounded growth of CHAT history, you can introduce:
- *   - a max window per user (e.g. last N chat entries),
- *   - or a time-based decay/archival policy, implemented as periodic cleanup jobs
- *     that down-sample or delete old CHAT rows beyond some threshold.
- */
-
 /**
  * Save a memory entry for a user.
  *
  * - FACT: unique per memory_key (UPSERT semantics).
  * - CHAT: always appended.
- *
- * This preserves the original `saveMemory` API shape while hardening semantics.
  */
 export async function saveMemory(
   userId: string,
@@ -56,7 +27,6 @@ export async function saveMemory(
   memoryType: MemoryType = "chat"
 ): Promise<SavedMemory> {
   const embedding = await embedText(content);
-
   const vectorLiteral = toPgVectorLiteral(embedding);
 
   if (memoryType === "fact" && memoryKey) {
@@ -69,24 +39,21 @@ export async function saveMemory(
       DO UPDATE SET
         content = EXCLUDED.content,
         embedding = EXCLUDED.embedding,
-        memory_type = 'fact',
         updated_at = NOW()
       RETURNING id, content, memory_key;
       `,
       [userId, role, content, vectorLiteral, memoryKey]
     );
 
-    const saved: SavedMemory = result.rows[0];
-
     logEvent("MEMORY_SAVE_FACT", {
       userId,
       role,
       memoryKey,
       memoryType,
-      memoryId: saved.id,
+      memoryId: result.rows[0].id,
     });
 
-    return saved;
+    return result.rows[0];
   }
 
   const result = await pool.query(
@@ -99,24 +66,35 @@ export async function saveMemory(
     [userId, role, content, vectorLiteral]
   );
 
-  const saved: SavedMemory = result.rows[0];
-
   logEvent("MEMORY_SAVE_CHAT", {
     userId,
     role,
     memoryType,
-    memoryId: saved.id,
+    memoryId: result.rows[0].id,
   });
 
-  return saved;
+  return result.rows[0];
 }
 
 /**
- * Retrieve memories for a user, prioritizing:
- * 1. FACT memories (keyed, upserted).
- * 2. CHAT memories (vector similarity).
+ * Internal shape used for ranking memories.
+ */
+interface MemoryRow {
+  content: string;
+  memory_key: string | null;
+  memory_type: MemoryType;
+  updated_at: Date | null;
+  distance: number | null;
+}
+
+/**
+ * INTELLIGENT MEMORY RETRIEVAL
  *
- * This mirrors and extends the original `retrieveMemory` behavior.
+ * Upgraded behavior:
+ * - Fetch more candidates from DB
+ * - Score each memory:
+ *   score = similarity*0.6 + recency*0.3 + typeBoost
+ * - Return top `limit` most valuable memories
  */
 export async function retrieveMemory(
   userId: string,
@@ -125,32 +103,69 @@ export async function retrieveMemory(
   role: MemoryRole | "any" = "user"
 ): Promise<string[]> {
   const roleClause = role === "any" ? "" : `AND role = '${role}'`;
-
   const vectorLiteral = toPgVectorLiteral(queryEmbedding);
+
+  const candidateLimit = Math.max(limit * 3, limit);
 
   const result = await pool.query(
     `
-    SELECT content, memory_key, memory_type
+    SELECT
+      content,
+      memory_key,
+      memory_type,
+      updated_at,
+      embedding <-> $2::vector AS distance
     FROM user_memories
     WHERE user_id = $1
       ${roleClause}
-    ORDER BY
-      CASE
-        WHEN memory_key IS NOT NULL THEN 0
-        ELSE 1
-      END,
-      embedding <-> $2::vector
+    ORDER BY embedding <-> $2::vector
     LIMIT $3;
     `,
-    [userId, vectorLiteral, limit]
+    [userId, vectorLiteral, candidateLimit]
   );
 
-  const memories = result.rows.map((r: any) => r.content as string);
+  const now = Date.now();
+  const THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000;
 
-  logEvent("MEMORY_RETRIEVE", {
+  const rows: MemoryRow[] = result.rows.map((row: any) => ({
+    content: row.content,
+    memory_key: row.memory_key,
+    memory_type: row.memory_type,
+    updated_at: row.updated_at,
+    distance: row.distance,
+  }));
+
+  const scored = rows.map((row) => {
+    let similarity = 0;
+    if (typeof row.distance === "number") {
+      similarity = Math.max(0, Math.min(1, 1 - row.distance));
+    }
+
+    let recency = 0.5;
+    if (row.updated_at) {
+      const ageRatio =
+        (now - new Date(row.updated_at).getTime()) / THIRTY_DAYS_MS;
+      recency = Math.max(0, Math.min(1, 1 - ageRatio));
+    }
+
+    const typeBoost = row.memory_type === "fact" ? 0.2 : 0;
+
+    return {
+      ...row,
+      score: similarity * 0.6 + recency * 0.3 + typeBoost,
+    };
+  });
+
+  scored.sort((a, b) => b.score - a.score);
+
+  const memories = scored.slice(0, limit).map((m) => m.content);
+
+  logEvent("MEMORY_RETRIEVE_INTELLIGENT", {
     userId,
     role,
     limit,
+    candidateLimit,
+    totalCandidates: rows.length,
     returned: memories.length,
   });
 
@@ -159,8 +174,6 @@ export async function retrieveMemory(
 
 /**
  * Retrieve the latest FACT memories per key for a user.
- *
- * This centralizes the logic that was previously embedded in the chat route.
  */
 export async function getLatestFactsByKey(
   userId: string
@@ -180,19 +193,20 @@ export async function getLatestFactsByKey(
     [userId]
   );
 
-  const facts = result.rows.map((row: any) => ({
-    memory_key: row.memory_key as string,
-    content: row.content as string,
-  }));
-
   logEvent("MEMORY_FACTS_LATEST", {
     userId,
-    factsCount: facts.length,
+    factsCount: result.rows.length,
   });
 
-  return facts;
+  return result.rows.map((row) => ({
+    memory_key: row.memory_key,
+    content: row.content,
+  }));
 }
 
+/**
+ * Retrieve recent user memories ordered by latest update.
+ */
 export async function getRecentUserMemories(
   userId: string,
   limit = 5
@@ -209,17 +223,8 @@ export async function getRecentUserMemories(
     [userId, limit]
   );
 
-  const memories = result.rows.map((row: any) => ({
-    memory_key:
-      typeof row.memory_key === "string" ? (row.memory_key as string) : null,
-    content: row.content as string,
+  return result.rows.map((row: any) => ({
+    memory_key: row.memory_key,
+    content: row.content,
   }));
-
-  logEvent("MEMORY_RECENT_USER", {
-    userId,
-    limit,
-    returned: memories.length,
-  });
-
-  return memories;
 }
