@@ -1672,3 +1672,720 @@
 {"timestamp":"2025-11-27T15:06:53.642Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":500,"inputLength":308,"vectorLength":1536}
 {"timestamp":"2025-11-27T15:06:53.680Z","type":"MEMORY_SAVE_CHAT","userId":"new-user-x","role":"assistant","memoryType":"chat","memoryId":266}
 {"timestamp":"2025-11-27T15:06:53.692Z","type":"CHAT_RESPONSE","requestId":"d5ee0514-1d08-42fb-964a-0befce1171c4","userId":"new-user-x","answerLength":308,"durationMs":6904}
+{"timestamp":"2025-11-27T15:45:01.170Z","type":"EMBEDDING_BATCH_SUCCESS","model":"text-embedding-3-small","durationMs":1400,"batchSize":8,"vectorLength":1536}
+{"timestamp":"2025-11-27T15:45:01.214Z","type":"INGEST_SUCCESS","filepath":"/mnt/d/self/rag-agent-project/docs/policy.md","documentId":1,"totalChunks":8,"inserted":8}
+{"timestamp":"2025-11-27T15:45:04.053Z","type":"INGEST_SKIPPED","filepath":"/mnt/d/self/rag-agent-project/docs/policy.md","reason":"Document already exists"}
+{"timestamp":"2025-11-27T15:46:14.268Z","type":"CHAT_REQUEST","requestId":"77467768-e175-4b51-9920-0b8449583c1a","userId":"e2e-clean","question":"My name is Farhan"}
+{"timestamp":"2025-11-27T15:46:15.253Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":969,"inputLength":6,"vectorLength":1536}
+{"timestamp":"2025-11-27T15:46:15.320Z","type":"MEMORY_SAVE_FACT","userId":"e2e-clean","role":"user","memoryKey":"name","memoryType":"fact","memoryId":1}
+{"timestamp":"2025-11-27T15:46:15.866Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":534,"inputLength":42,"vectorLength":1536}
+{"timestamp":"2025-11-27T15:46:15.904Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-clean","role":"assistant","memoryType":"chat","memoryId":2}
+{"timestamp":"2025-11-27T15:46:24.760Z","type":"CHAT_REQUEST","requestId":"decd9c8e-792b-45f8-bc45-301380efe4c9","userId":"e2e-clean","question":"What is my name?"}
+{"timestamp":"2025-11-27T15:46:28.382Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":3608,"questionLength":706,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-27T15:46:28.394Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-clean","factsCount":1}
+{"timestamp":"2025-11-27T15:46:29.142Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":737,"inputLength":20,"vectorLength":1536}
+{"timestamp":"2025-11-27T15:46:29.185Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-clean","role":"assistant","memoryType":"chat","memoryId":3}
+{"timestamp":"2025-11-27T15:46:37.805Z","type":"CHAT_REQUEST","requestId":"4029e3b0-eb48-4f95-bfe9-0f5331543f09","userId":"e2e-clean","question":"I like coffee"}
+{"timestamp":"2025-11-27T15:46:39.074Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":1254,"inputLength":6,"vectorLength":1536}
+{"timestamp":"2025-11-27T15:46:39.113Z","type":"MEMORY_SAVE_FACT","userId":"e2e-clean","role":"user","memoryKey":"preference","memoryType":"fact","memoryId":4}
+{"timestamp":"2025-11-27T15:46:39.839Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":715,"inputLength":43,"vectorLength":1536}
+{"timestamp":"2025-11-27T15:46:39.883Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-clean","role":"assistant","memoryType":"chat","memoryId":5}
+{"timestamp":"2025-11-27T15:46:45.678Z","type":"CHAT_REQUEST","requestId":"5203e888-d116-4fd2-892e-2cac871f5a0d","userId":"e2e-clean","question":"What do I like?"}
+{"timestamp":"2025-11-27T15:46:45.694Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-clean","factsCount":2}
+{"timestamp":"2025-11-27T15:46:46.284Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":578,"inputLength":32,"vectorLength":1536}
+{"timestamp":"2025-11-27T15:46:46.310Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-clean","role":"assistant","memoryType":"chat","memoryId":6}
+{"timestamp":"2025-11-27T15:46:51.169Z","type":"CHAT_REQUEST","requestId":"717805ca-bf09-4af7-ace2-c6f1718449d8","userId":"e2e-clean","question":"What are the standard working hours?"}
+{"timestamp":"2025-11-27T15:46:54.221Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":3039,"questionLength":726,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-27T15:46:54.237Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-clean","factsCount":2}
+{"timestamp":"2025-11-27T15:46:54.910Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":660,"inputLength":36,"vectorLength":1536}
+{"timestamp":"2025-11-27T15:46:54.954Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":2,"finalCount":2}
+{"timestamp":"2025-11-27T15:46:54.976Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"e2e-clean","role":"user","limit":5,"candidateLimit":15,"totalCandidates":2,"returned":2}
+{"timestamp":"2025-11-27T15:46:57.677Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2684,"questionLength":558,"contextLength":1604,"memoryLength":27,"historyCount":0}
+{"timestamp":"2025-11-27T15:46:58.292Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":602,"inputLength":118,"vectorLength":1536}
+{"timestamp":"2025-11-27T15:46:58.335Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-clean","role":"assistant","memoryType":"chat","memoryId":7}
+{"timestamp":"2025-11-27T15:46:58.348Z","type":"CHAT_RESPONSE","requestId":"717805ca-bf09-4af7-ace2-c6f1718449d8","userId":"e2e-clean","answerLength":118,"durationMs":7180}
+{"timestamp":"2025-11-27T15:47:01.469Z","type":"CHAT_REQUEST","requestId":"13f7dcd7-f751-4191-887b-c3184f9fa28b","userId":"e2e-clean","question":"What is my name and is my coffee habit acceptable based on company policy?"}
+{"timestamp":"2025-11-27T15:47:03.966Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2482,"questionLength":764,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-27T15:47:03.980Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-clean","factsCount":2}
+{"timestamp":"2025-11-27T15:47:04.457Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":464,"inputLength":74,"vectorLength":1536}
+{"timestamp":"2025-11-27T15:47:04.470Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":3,"finalCount":3}
+{"timestamp":"2025-11-27T15:47:04.485Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"e2e-clean","role":"user","limit":5,"candidateLimit":15,"totalCandidates":2,"returned":2}
+{"timestamp":"2025-11-27T15:47:06.936Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2437,"questionLength":596,"contextLength":2408,"memoryLength":27,"historyCount":0}
+{"timestamp":"2025-11-27T15:47:07.731Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":781,"inputLength":404,"vectorLength":1536}
+{"timestamp":"2025-11-27T15:47:07.774Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-clean","role":"assistant","memoryType":"chat","memoryId":8}
+{"timestamp":"2025-11-27T15:47:07.785Z","type":"CHAT_RESPONSE","requestId":"13f7dcd7-f751-4191-887b-c3184f9fa28b","userId":"e2e-clean","answerLength":404,"durationMs":6316}
+{"timestamp":"2025-11-27T15:47:19.282Z","type":"CHAT_REQUEST","requestId":"6e650872-cf59-4491-aca0-99ad9f9fd1c1","userId":"e2e-clean","question":"Do I own a yacht?"}
+{"timestamp":"2025-11-27T15:47:21.726Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2431,"questionLength":707,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-27T15:47:21.744Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-clean","factsCount":2}
+{"timestamp":"2025-11-27T15:47:22.168Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":411,"inputLength":17,"vectorLength":1536}
+{"timestamp":"2025-11-27T15:47:22.188Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":0,"finalCount":5}
+{"timestamp":"2025-11-27T15:47:22.206Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"e2e-clean","role":"user","limit":5,"candidateLimit":15,"totalCandidates":2,"returned":2}
+{"timestamp":"2025-11-27T15:47:25.618Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":3396,"questionLength":539,"contextLength":4018,"memoryLength":27,"historyCount":0}
+{"timestamp":"2025-11-27T15:47:26.028Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":398,"inputLength":312,"vectorLength":1536}
+{"timestamp":"2025-11-27T15:47:26.066Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-clean","role":"assistant","memoryType":"chat","memoryId":9}
+{"timestamp":"2025-11-27T15:47:26.077Z","type":"CHAT_RESPONSE","requestId":"6e650872-cf59-4491-aca0-99ad9f9fd1c1","userId":"e2e-clean","answerLength":312,"durationMs":6795}
+{"timestamp":"2025-11-27T15:56:56.843Z","type":"CHAT_REQUEST","requestId":"158d3b68-764e-4e76-a19b-f71de92a35ac","userId":"e2e-clean","question":"Do I own a yacht?"}
+{"timestamp":"2025-11-27T15:57:00.978Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":4126,"questionLength":707,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-27T15:57:01.018Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-clean","factsCount":2}
+{"timestamp":"2025-11-27T15:57:04.112Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":3081,"inputLength":17,"vectorLength":1536}
+{"timestamp":"2025-11-27T15:57:04.128Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":0,"finalCount":5}
+{"timestamp":"2025-11-27T15:57:04.145Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"e2e-clean","role":"user","limit":5,"candidateLimit":15,"totalCandidates":2,"returned":2}
+{"timestamp":"2025-11-27T15:57:07.341Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":3185,"questionLength":539,"contextLength":4018,"memoryLength":27,"historyCount":0}
+{"timestamp":"2025-11-27T15:57:08.199Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":844,"inputLength":286,"vectorLength":1536}
+{"timestamp":"2025-11-27T15:57:08.245Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-clean","role":"assistant","memoryType":"chat","memoryId":10}
+{"timestamp":"2025-11-27T15:57:08.259Z","type":"CHAT_RESPONSE","requestId":"158d3b68-764e-4e76-a19b-f71de92a35ac","userId":"e2e-clean","answerLength":286,"durationMs":11414}
+{"timestamp":"2025-11-27T15:59:20.198Z","type":"CHAT_REQUEST","requestId":"b8eeaea9-6c3f-470b-b881-b10e52929a06","userId":"e2e-clean","question":"Do I own a yacht?"}
+{"timestamp":"2025-11-27T15:59:23.164Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2958,"questionLength":707,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-27T15:59:23.229Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-clean","factsCount":2}
+{"timestamp":"2025-11-27T15:59:23.717Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":478,"inputLength":17,"vectorLength":1536}
+{"timestamp":"2025-11-27T15:59:23.735Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":0,"finalCount":5}
+{"timestamp":"2025-11-27T15:59:23.754Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"e2e-clean","role":"user","limit":5,"candidateLimit":15,"totalCandidates":2,"returned":2}
+{"timestamp":"2025-11-27T15:59:26.329Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2562,"questionLength":539,"contextLength":4018,"memoryLength":27,"historyCount":0}
+{"timestamp":"2025-11-27T15:59:26.833Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":492,"inputLength":327,"vectorLength":1536}
+{"timestamp":"2025-11-27T15:59:26.854Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-clean","role":"assistant","memoryType":"chat","memoryId":11}
+{"timestamp":"2025-11-27T15:59:26.867Z","type":"CHAT_RESPONSE","requestId":"b8eeaea9-6c3f-470b-b881-b10e52929a06","userId":"e2e-clean","answerLength":327,"durationMs":6668}
+{"timestamp":"2025-11-27T16:01:53.891Z","type":"CHAT_REQUEST","requestId":"7d2104ca-1694-4b1d-8c6d-b15bb98c1eaf","userId":"e2e-clean","question":"Do I own a yacht?"}
+{"timestamp":"2025-11-27T16:01:56.463Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2563,"questionLength":707,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-27T16:01:56.574Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-clean","factsCount":2}
+{"timestamp":"2025-11-27T16:01:56.891Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":309,"inputLength":17,"vectorLength":1536}
+{"timestamp":"2025-11-27T16:01:56.905Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":0,"finalCount":5}
+{"timestamp":"2025-11-27T16:01:56.921Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"e2e-clean","role":"user","limit":5,"candidateLimit":15,"totalCandidates":2,"returned":2}
+{"timestamp":"2025-11-27T16:01:59.529Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2592,"questionLength":539,"contextLength":4018,"memoryLength":27,"historyCount":0}
+{"timestamp":"2025-11-27T16:02:01.281Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":1737,"inputLength":286,"vectorLength":1536}
+{"timestamp":"2025-11-27T16:02:01.321Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-clean","role":"assistant","memoryType":"chat","memoryId":12}
+{"timestamp":"2025-11-27T16:02:01.331Z","type":"CHAT_RESPONSE","requestId":"7d2104ca-1694-4b1d-8c6d-b15bb98c1eaf","userId":"e2e-clean","answerLength":286,"durationMs":7440}
+{"timestamp":"2025-11-27T16:08:44.200Z","type":"CHAT_REQUEST","requestId":"45303fc8-a99d-481f-8158-6f1573c2fe0b","userId":"e2e-clean","question":"Do I own a yacht?"}
+{"timestamp":"2025-11-27T16:08:47.312Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":3105,"questionLength":707,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-27T16:08:47.377Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-clean","factsCount":2}
+{"timestamp":"2025-11-27T16:08:47.850Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":460,"inputLength":17,"vectorLength":1536}
+{"timestamp":"2025-11-27T16:08:47.869Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":0,"finalCount":5}
+{"timestamp":"2025-11-27T16:08:47.888Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"e2e-clean","role":"user","limit":5,"candidateLimit":15,"totalCandidates":2,"returned":2}
+{"timestamp":"2025-11-27T16:08:50.814Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2913,"questionLength":539,"contextLength":4018,"memoryLength":27,"historyCount":0}
+{"timestamp":"2025-11-27T16:08:53.045Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":2220,"inputLength":312,"vectorLength":1536}
+{"timestamp":"2025-11-27T16:08:53.090Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-clean","role":"assistant","memoryType":"chat","memoryId":13}
+{"timestamp":"2025-11-27T16:08:53.101Z","type":"CHAT_RESPONSE","requestId":"45303fc8-a99d-481f-8158-6f1573c2fe0b","userId":"e2e-clean","answerLength":312,"durationMs":8901}
+{"timestamp":"2025-11-27T16:25:01.614Z","type":"CHAT_REQUEST","requestId":"ba2d0faa-b9b8-44de-83e9-31cf89d3dda3","userId":"e2e-clean","question":"Do I own a yacht?"}
+{"timestamp":"2025-11-27T16:25:04.754Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":3131,"questionLength":707,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-27T16:25:04.794Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-clean","factsCount":2}
+{"timestamp":"2025-11-27T16:25:05.324Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":520,"inputLength":17,"vectorLength":1536}
+{"timestamp":"2025-11-27T16:25:05.343Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":0,"finalCount":5}
+{"timestamp":"2025-11-27T16:25:05.360Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"e2e-clean","role":"user","limit":5,"candidateLimit":15,"totalCandidates":2,"returned":2}
+{"timestamp":"2025-11-27T16:25:07.762Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2388,"questionLength":539,"contextLength":4018,"memoryLength":27,"historyCount":0}
+{"timestamp":"2025-11-27T16:25:08.191Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":407,"inputLength":312,"vectorLength":1536}
+{"timestamp":"2025-11-27T16:25:08.237Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-clean","role":"assistant","memoryType":"chat","memoryId":14}
+{"timestamp":"2025-11-27T16:25:08.252Z","type":"CHAT_RESPONSE","requestId":"ba2d0faa-b9b8-44de-83e9-31cf89d3dda3","userId":"e2e-clean","answerLength":312,"durationMs":6636}
+{"timestamp":"2025-11-27T16:27:43.928Z","type":"CHAT_REQUEST","requestId":"909e6a00-81a1-4b46-89a5-4ce46ef3cb12","userId":"e2e-clean","question":"Do I own a yacht?"}
+{"timestamp":"2025-11-27T16:27:46.538Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2601,"questionLength":707,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-27T16:27:46.579Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-clean","factsCount":2}
+{"timestamp":"2025-11-27T16:27:47.422Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":830,"inputLength":17,"vectorLength":1536}
+{"timestamp":"2025-11-27T16:27:47.440Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":0,"finalCount":5}
+{"timestamp":"2025-11-27T16:27:47.457Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"e2e-clean","role":"user","limit":5,"candidateLimit":15,"totalCandidates":2,"returned":2}
+{"timestamp":"2025-11-27T16:27:49.809Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2341,"questionLength":539,"contextLength":4018,"memoryLength":27,"historyCount":0}
+{"timestamp":"2025-11-27T16:27:50.194Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":375,"inputLength":312,"vectorLength":1536}
+{"timestamp":"2025-11-27T16:27:50.222Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-clean","role":"assistant","memoryType":"chat","memoryId":15}
+{"timestamp":"2025-11-27T16:27:50.234Z","type":"CHAT_RESPONSE","requestId":"909e6a00-81a1-4b46-89a5-4ce46ef3cb12","userId":"e2e-clean","answerLength":312,"durationMs":6305}
+{"timestamp":"2025-11-28T02:25:01.726Z","type":"CHAT_REQUEST","requestId":"00137889-f309-4124-a8c3-4a73c06cb0dc","userId":"e2e-clean","question":"My name is Farhan"}
+{"timestamp":"2025-11-28T02:25:03.177Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":1444,"inputLength":6,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:25:03.217Z","type":"MEMORY_SAVE_FACT","userId":"e2e-clean","role":"user","memoryKey":"name","memoryType":"fact","memoryId":16}
+{"timestamp":"2025-11-28T02:25:05.201Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":1975,"inputLength":42,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:25:05.215Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-clean","role":"assistant","memoryType":"chat","memoryId":17}
+{"timestamp":"2025-11-28T02:25:10.845Z","type":"CHAT_REQUEST","requestId":"91c20b0d-0150-4066-99cf-7b15acbfa15e","userId":"e2e-clean","question":"What is my name?"}
+{"timestamp":"2025-11-28T02:25:15.776Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":4924,"questionLength":706,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T02:25:15.794Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-clean","factsCount":1}
+{"timestamp":"2025-11-28T02:25:17.440Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":1637,"inputLength":20,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:25:17.451Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-clean","role":"assistant","memoryType":"chat","memoryId":18}
+{"timestamp":"2025-11-28T02:25:23.181Z","type":"CHAT_REQUEST","requestId":"68b074a3-e882-4e4d-add3-bb59dc0a4482","userId":"e2e-clean","question":"I like coffee"}
+{"timestamp":"2025-11-28T02:25:27.582Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":4394,"inputLength":6,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:25:27.596Z","type":"MEMORY_SAVE_FACT","userId":"e2e-clean","role":"user","memoryKey":"preference","memoryType":"fact","memoryId":19}
+{"timestamp":"2025-11-28T02:25:30.656Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":3052,"inputLength":43,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:25:30.672Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-clean","role":"assistant","memoryType":"chat","memoryId":20}
+{"timestamp":"2025-11-28T02:25:33.347Z","type":"CHAT_REQUEST","requestId":"2695253c-dd06-4b68-af42-11013c50c1d0","userId":"e2e-clean","question":"What do I like?"}
+{"timestamp":"2025-11-28T02:25:33.353Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-clean","factsCount":2}
+{"timestamp":"2025-11-28T02:25:34.452Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":1093,"inputLength":32,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:25:34.463Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-clean","role":"assistant","memoryType":"chat","memoryId":21}
+{"timestamp":"2025-11-28T02:25:40.117Z","type":"CHAT_REQUEST","requestId":"5d5074ed-1965-4c97-85a5-02db1c6b3918","userId":"e2e-clean","question":"What are the standard working hours?"}
+{"timestamp":"2025-11-28T02:25:45.825Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":5702,"questionLength":726,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T02:25:45.836Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-clean","factsCount":2}
+{"timestamp":"2025-11-28T02:25:48.556Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":2709,"inputLength":36,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:25:48.583Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":2,"finalCount":2}
+{"timestamp":"2025-11-28T02:25:48.596Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"e2e-clean","role":"user","limit":5,"candidateLimit":15,"totalCandidates":2,"returned":2}
+{"timestamp":"2025-11-28T02:25:52.593Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":3990,"questionLength":558,"contextLength":1604,"memoryLength":27,"historyCount":0}
+{"timestamp":"2025-11-28T02:25:57.546Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":4943,"inputLength":118,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:25:57.561Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-clean","role":"assistant","memoryType":"chat","memoryId":22}
+{"timestamp":"2025-11-28T02:25:57.568Z","type":"CHAT_RESPONSE","requestId":"5d5074ed-1965-4c97-85a5-02db1c6b3918","userId":"e2e-clean","answerLength":118,"durationMs":17451}
+{"timestamp":"2025-11-28T02:26:01.670Z","type":"CHAT_REQUEST","requestId":"6147796e-6b0e-4325-8434-29129d7204dd","userId":"e2e-clean","question":"What is my name and is my coffee habit acceptable based on company policy?"}
+{"timestamp":"2025-11-28T02:26:06.560Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":4884,"questionLength":764,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T02:26:06.567Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-clean","factsCount":2}
+{"timestamp":"2025-11-28T02:26:09.233Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":2658,"inputLength":74,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:26:09.246Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":3,"finalCount":3}
+{"timestamp":"2025-11-28T02:26:09.255Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"e2e-clean","role":"user","limit":5,"candidateLimit":15,"totalCandidates":2,"returned":2}
+{"timestamp":"2025-11-28T02:26:11.798Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2535,"questionLength":596,"contextLength":2408,"memoryLength":27,"historyCount":0}
+{"timestamp":"2025-11-28T02:26:16.810Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":5001,"inputLength":399,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:26:16.824Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-clean","role":"assistant","memoryType":"chat","memoryId":23}
+{"timestamp":"2025-11-28T02:26:16.831Z","type":"CHAT_RESPONSE","requestId":"6147796e-6b0e-4325-8434-29129d7204dd","userId":"e2e-clean","answerLength":399,"durationMs":15161}
+{"timestamp":"2025-11-28T02:26:22.929Z","type":"CHAT_REQUEST","requestId":"7f5f5720-db62-4bdb-8ef1-61fd696b131f","userId":"e2e-clean","question":"Do I own a yacht?"}
+{"timestamp":"2025-11-28T02:26:29.502Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":6567,"questionLength":707,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T02:26:29.510Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-clean","factsCount":2}
+{"timestamp":"2025-11-28T02:26:30.979Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":1464,"inputLength":46,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:26:30.993Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-clean","role":"assistant","memoryType":"chat","memoryId":24}
+{"timestamp":"2025-11-28T02:27:52.636Z","type":"CHAT_REQUEST","requestId":"1b78463d-eb7d-4f52-82d9-184a9a73ab68","userId":"e2e-proof","question":"My name is Farhan"}
+{"timestamp":"2025-11-28T02:27:56.117Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":3475,"inputLength":6,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:27:56.135Z","type":"MEMORY_SAVE_FACT","userId":"e2e-proof","role":"user","memoryKey":"name","memoryType":"fact","memoryId":25}
+{"timestamp":"2025-11-28T02:27:56.613Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":472,"inputLength":42,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:27:56.628Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":26}
+{"timestamp":"2025-11-28T02:27:58.211Z","type":"CHAT_REQUEST","requestId":"b42e6e4a-18ed-476b-a155-e6d0b2d16189","userId":"e2e-proof","question":"Who am I?"}
+{"timestamp":"2025-11-28T02:28:01.447Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":3231,"questionLength":699,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T02:28:01.457Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":1}
+{"timestamp":"2025-11-28T02:28:04.577Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":3113,"inputLength":20,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:28:04.594Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":27}
+{"timestamp":"2025-11-28T02:28:06.243Z","type":"CHAT_REQUEST","requestId":"beed8a03-3b0b-45cf-8e9b-8ac0ecb34b66","userId":"e2e-proof","question":"I like coffee"}
+{"timestamp":"2025-11-28T02:28:06.898Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":649,"inputLength":6,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:28:06.913Z","type":"MEMORY_SAVE_FACT","userId":"e2e-proof","role":"user","memoryKey":"preference","memoryType":"fact","memoryId":28}
+{"timestamp":"2025-11-28T02:28:09.075Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":2154,"inputLength":43,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:28:09.091Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":29}
+{"timestamp":"2025-11-28T02:28:13.978Z","type":"CHAT_REQUEST","requestId":"95b53880-435f-4308-8c80-fc4955ab6684","userId":"e2e-proof","question":"What do I like?"}
+{"timestamp":"2025-11-28T02:28:13.984Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T02:28:16.643Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":2654,"inputLength":32,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:28:16.653Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":30}
+{"timestamp":"2025-11-28T02:28:22.421Z","type":"CHAT_REQUEST","requestId":"28b9191b-25de-4481-ae56-ae701e7e759c","userId":"e2e-proof","question":"Do I own a yacht?"}
+{"timestamp":"2025-11-28T02:28:27.867Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":5439,"questionLength":707,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T02:28:27.878Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T02:28:28.937Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":1051,"inputLength":46,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:28:28.950Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":31}
+{"timestamp":"2025-11-28T02:28:30.941Z","type":"CHAT_REQUEST","requestId":"595bd89d-8c71-4709-85f9-0d4c7ce580a0","userId":"e2e-proof","question":"Is frequent coffee break allowed based on company policy?"}
+{"timestamp":"2025-11-28T02:28:33.573Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2625,"questionLength":747,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T02:28:33.583Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T02:28:34.361Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":768,"inputLength":57,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:28:34.374Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":4,"finalCount":4}
+{"timestamp":"2025-11-28T02:28:34.385Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"e2e-proof","role":"user","limit":5,"candidateLimit":15,"totalCandidates":2,"returned":2}
+{"timestamp":"2025-11-28T02:28:36.988Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2593,"questionLength":579,"contextLength":3213,"memoryLength":27,"historyCount":0}
+{"timestamp":"2025-11-28T02:28:38.183Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":1185,"inputLength":371,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:28:38.200Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":32}
+{"timestamp":"2025-11-28T02:28:38.211Z","type":"CHAT_RESPONSE","requestId":"595bd89d-8c71-4709-85f9-0d4c7ce580a0","userId":"e2e-proof","answerLength":371,"durationMs":7268}
+{"timestamp":"2025-11-28T02:28:51.895Z","type":"CHAT_REQUEST","requestId":"5dcbc6d3-3017-4254-a1d1-76568d4693e4","userId":"e2e-proof","question":"What is my name and is my coffee habit acceptable based on company policy?"}
+{"timestamp":"2025-11-28T02:28:55.924Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":4023,"questionLength":764,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T02:28:55.932Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T02:28:56.362Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":422,"inputLength":74,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:28:56.372Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":3,"finalCount":3}
+{"timestamp":"2025-11-28T02:28:56.379Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"e2e-proof","role":"user","limit":5,"candidateLimit":15,"totalCandidates":2,"returned":2}
+{"timestamp":"2025-11-28T02:28:56.817Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":431,"inputLength":20,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:28:56.832Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":33}
+{"timestamp":"2025-11-28T02:29:05.506Z","type":"CHAT_REQUEST","requestId":"32ad6e8a-8fa6-48c9-9ba6-5278613dfcc5","userId":"e2e-proof","question":"I now like tea"}
+{"timestamp":"2025-11-28T02:29:06.513Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":1002,"inputLength":3,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:29:06.534Z","type":"MEMORY_SAVE_FACT","userId":"e2e-proof","role":"user","memoryKey":"preference","memoryType":"fact","memoryId":28}
+{"timestamp":"2025-11-28T02:29:07.064Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":521,"inputLength":40,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:29:07.075Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":35}
+{"timestamp":"2025-11-28T02:29:16.470Z","type":"CHAT_REQUEST","requestId":"0119b657-1987-4640-bea5-5f8f30035090","userId":"e2e-proof","question":"What do I like?"}
+{"timestamp":"2025-11-28T02:29:16.476Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T02:29:17.310Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":827,"inputLength":29,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:29:17.326Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":36}
+{"timestamp":"2025-11-28T02:29:25.212Z","type":"CHAT_REQUEST","requestId":"920af79a-bf26-4198-8bd8-a9c3c78acb87","userId":"e2e-proof","question":"Am I rich?"}
+{"timestamp":"2025-11-28T02:29:30.368Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":5151,"questionLength":700,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T02:29:30.376Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T02:29:31.723Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":1340,"inputLength":46,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:29:31.737Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":37}
+{"timestamp":"2025-11-28T02:29:37.182Z","type":"CHAT_REQUEST","requestId":"c98035b0-90c4-4400-b057-dcd7e7080714","userId":"e2e-proof","question":"Is it okay to skateboard in the office?"}
+{"timestamp":"2025-11-28T02:29:41.103Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":3915,"questionLength":729,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T02:29:41.115Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T02:29:41.763Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":641,"inputLength":39,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:29:41.776Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":0,"finalCount":5}
+{"timestamp":"2025-11-28T02:29:41.785Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"e2e-proof","role":"user","limit":5,"candidateLimit":15,"totalCandidates":2,"returned":2}
+{"timestamp":"2025-11-28T02:29:44.260Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2470,"questionLength":561,"contextLength":3975,"memoryLength":21,"historyCount":0}
+{"timestamp":"2025-11-28T02:29:45.267Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":998,"inputLength":417,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:29:45.281Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":38}
+{"timestamp":"2025-11-28T02:29:45.286Z","type":"CHAT_RESPONSE","requestId":"c98035b0-90c4-4400-b057-dcd7e7080714","userId":"e2e-proof","answerLength":417,"durationMs":8104}
+{"timestamp":"2025-11-28T02:29:53.826Z","type":"CHAT_REQUEST","requestId":"6a514d62-3956-457a-95df-e0b49bd69303","userId":"e2e-proof","question":"asdjklqwoie 123123 ???"}
+{"timestamp":"2025-11-28T02:29:57.221Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":3388,"questionLength":712,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T02:29:57.231Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T02:29:57.995Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":755,"inputLength":22,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:29:58.009Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":0,"finalCount":5}
+{"timestamp":"2025-11-28T02:29:58.018Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"e2e-proof","role":"user","limit":5,"candidateLimit":15,"totalCandidates":2,"returned":2}
+{"timestamp":"2025-11-28T02:30:00.783Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2757,"questionLength":544,"contextLength":3974,"memoryLength":21,"historyCount":0}
+{"timestamp":"2025-11-28T02:30:04.070Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":3276,"inputLength":414,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:30:04.087Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":39}
+{"timestamp":"2025-11-28T02:30:04.094Z","type":"CHAT_RESPONSE","requestId":"6a514d62-3956-457a-95df-e0b49bd69303","userId":"e2e-proof","answerLength":414,"durationMs":10267}
+{"timestamp":"2025-11-28T02:36:21.103Z","type":"CHAT_REQUEST","requestId":"6f299495-6abd-4cf6-8e2e-24fde96e2e18","userId":"e2e-proof","question":"My name is Farhan"}
+{"timestamp":"2025-11-28T02:36:21.993Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":885,"inputLength":6,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:36:22.034Z","type":"MEMORY_SAVE_FACT","userId":"e2e-proof","role":"user","memoryKey":"name","memoryType":"fact","memoryId":40}
+{"timestamp":"2025-11-28T02:36:22.509Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":468,"inputLength":42,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:36:22.522Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":41}
+{"timestamp":"2025-11-28T02:36:28.057Z","type":"CHAT_REQUEST","requestId":"36ea79c4-3270-4759-9442-128365d2d678","userId":"e2e-proof","question":"Who am I?"}
+{"timestamp":"2025-11-28T02:36:31.065Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":3003,"questionLength":699,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T02:36:31.076Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":1}
+{"timestamp":"2025-11-28T02:36:31.604Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":521,"inputLength":20,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:36:31.615Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":42}
+{"timestamp":"2025-11-28T02:36:33.166Z","type":"CHAT_REQUEST","requestId":"4098e6a3-3140-4d0d-ab3a-b1e6dbbd8ced","userId":"e2e-proof","question":"I like coffee"}
+{"timestamp":"2025-11-28T02:36:33.636Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":465,"inputLength":6,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:36:33.649Z","type":"MEMORY_SAVE_FACT","userId":"e2e-proof","role":"user","memoryKey":"preference","memoryType":"fact","memoryId":43}
+{"timestamp":"2025-11-28T02:36:34.249Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":591,"inputLength":43,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:36:34.264Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":44}
+{"timestamp":"2025-11-28T02:36:38.163Z","type":"CHAT_REQUEST","requestId":"9a9ce5ad-4f4d-44ab-8fd2-cb18cc4f3fa7","userId":"e2e-proof","question":"What do I like?"}
+{"timestamp":"2025-11-28T02:36:38.169Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T02:36:39.365Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":1193,"inputLength":32,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:36:39.382Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":45}
+{"timestamp":"2025-11-28T02:36:44.412Z","type":"CHAT_REQUEST","requestId":"8f19511f-3ba0-462f-98ea-d8af8b8d1ace","userId":"e2e-proof","question":"Do I own a yacht?"}
+{"timestamp":"2025-11-28T02:36:47.804Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":3387,"questionLength":707,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T02:36:47.815Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T02:36:48.948Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":1127,"inputLength":46,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:36:48.961Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":46}
+{"timestamp":"2025-11-28T02:36:50.599Z","type":"CHAT_REQUEST","requestId":"ff1c9fc8-bd22-4ec9-b7e5-cc690d2c986d","userId":"e2e-proof","question":"Is frequent coffee break allowed based on company policy?"}
+{"timestamp":"2025-11-28T02:36:53.219Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2615,"questionLength":747,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T02:36:53.229Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T02:36:53.859Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":623,"inputLength":57,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:36:53.873Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":4,"finalCount":4}
+{"timestamp":"2025-11-28T02:36:53.881Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"e2e-proof","role":"user","limit":5,"candidateLimit":15,"totalCandidates":2,"returned":2}
+{"timestamp":"2025-11-28T02:36:56.461Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2576,"questionLength":638,"contextLength":3213,"memoryLength":27,"historyCount":0}
+{"timestamp":"2025-11-28T02:36:57.495Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":1025,"inputLength":333,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:36:57.507Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":47}
+{"timestamp":"2025-11-28T02:36:57.512Z","type":"CHAT_RESPONSE","requestId":"ff1c9fc8-bd22-4ec9-b7e5-cc690d2c986d","userId":"e2e-proof","answerLength":333,"durationMs":6913}
+{"timestamp":"2025-11-28T02:37:04.710Z","type":"CHAT_REQUEST","requestId":"9b2ac070-ce77-4994-b43b-cac19f934125","userId":"e2e-proof","question":"What is my name and is my coffee habit acceptable based on company policy?"}
+{"timestamp":"2025-11-28T02:37:07.437Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2721,"questionLength":764,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T02:37:07.448Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T02:37:07.862Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":406,"inputLength":74,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:37:07.870Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":3,"finalCount":3}
+{"timestamp":"2025-11-28T02:37:07.875Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"e2e-proof","role":"user","limit":5,"candidateLimit":15,"totalCandidates":2,"returned":2}
+{"timestamp":"2025-11-28T02:37:08.861Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":979,"inputLength":20,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:37:08.874Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":48}
+{"timestamp":"2025-11-28T02:37:34.252Z","type":"CHAT_REQUEST","requestId":"b4c133db-4320-4f9a-be8e-2e675d35a283","userId":"e2e-proof","question":"I now like tea"}
+{"timestamp":"2025-11-28T02:37:37.027Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":2770,"inputLength":3,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:37:37.046Z","type":"MEMORY_SAVE_FACT","userId":"e2e-proof","role":"user","memoryKey":"preference","memoryType":"fact","memoryId":43}
+{"timestamp":"2025-11-28T02:37:37.595Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":542,"inputLength":40,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:37:37.608Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":50}
+{"timestamp":"2025-11-28T02:37:42.367Z","type":"CHAT_REQUEST","requestId":"6209c191-232a-41ef-8552-d67b434d0924","userId":"e2e-proof","question":"What do I like?"}
+{"timestamp":"2025-11-28T02:37:42.372Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T02:37:43.314Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":938,"inputLength":29,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:37:43.326Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":51}
+{"timestamp":"2025-11-28T02:37:48.386Z","type":"CHAT_REQUEST","requestId":"c5b4913b-4994-4f8a-8cbf-493ef070ba37","userId":"e2e-proof","question":"Am I rich?"}
+{"timestamp":"2025-11-28T02:37:51.250Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2860,"questionLength":700,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T02:37:51.258Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T02:37:51.686Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":422,"inputLength":46,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:37:51.699Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":52}
+{"timestamp":"2025-11-28T02:37:54.217Z","type":"CHAT_REQUEST","requestId":"e3ac6489-ccc7-4c42-8cea-fb2230a51f8a","userId":"e2e-proof","question":"Is it okay to skateboard in the office?"}
+{"timestamp":"2025-11-28T02:37:57.048Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2825,"questionLength":729,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T02:37:57.055Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T02:37:57.493Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":433,"inputLength":39,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:37:57.503Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":0,"finalCount":5}
+{"timestamp":"2025-11-28T02:37:57.510Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"e2e-proof","role":"user","limit":5,"candidateLimit":15,"totalCandidates":2,"returned":2}
+{"timestamp":"2025-11-28T02:38:01.155Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":3641,"questionLength":620,"contextLength":3975,"memoryLength":21,"historyCount":0}
+{"timestamp":"2025-11-28T02:38:03.077Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":1914,"inputLength":324,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:38:03.090Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":53}
+{"timestamp":"2025-11-28T02:38:03.098Z","type":"CHAT_RESPONSE","requestId":"e3ac6489-ccc7-4c42-8cea-fb2230a51f8a","userId":"e2e-proof","answerLength":324,"durationMs":8881}
+{"timestamp":"2025-11-28T02:38:11.393Z","type":"CHAT_REQUEST","requestId":"3c1d044b-e74e-49e3-9253-78ad34939ba2","userId":"e2e-proof","question":"asdjklqwoie 123123 ???"}
+{"timestamp":"2025-11-28T02:38:14.157Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2759,"questionLength":712,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T02:38:14.166Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T02:38:14.668Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":497,"inputLength":22,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:38:14.679Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":0,"finalCount":5}
+{"timestamp":"2025-11-28T02:38:14.686Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"e2e-proof","role":"user","limit":5,"candidateLimit":15,"totalCandidates":2,"returned":2}
+{"timestamp":"2025-11-28T02:38:17.966Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":3274,"questionLength":603,"contextLength":3974,"memoryLength":21,"historyCount":0}
+{"timestamp":"2025-11-28T02:38:19.650Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":1677,"inputLength":185,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:38:19.664Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":54}
+{"timestamp":"2025-11-28T02:38:19.668Z","type":"CHAT_RESPONSE","requestId":"3c1d044b-e74e-49e3-9253-78ad34939ba2","userId":"e2e-proof","answerLength":185,"durationMs":8275}
+{"timestamp":"2025-11-28T02:42:57.511Z","type":"CHAT_REQUEST","requestId":"5115ef2b-0ef9-46d4-9a1a-d3ad2e0b42e0","userId":"e2e-proof","question":"What is my name and is my coffee habit acceptable based on company policy?"}
+{"timestamp":"2025-11-28T02:43:02.695Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":5178,"questionLength":764,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T02:43:02.718Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T02:43:08.787Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":6061,"inputLength":74,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:43:08.798Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":3,"finalCount":3}
+{"timestamp":"2025-11-28T02:43:08.805Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"e2e-proof","role":"user","limit":5,"candidateLimit":15,"totalCandidates":2,"returned":2}
+{"timestamp":"2025-11-28T02:43:09.317Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":507,"inputLength":20,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:43:09.333Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":55}
+{"timestamp":"2025-11-28T02:48:47.333Z","type":"CHAT_REQUEST","requestId":"e8810310-1052-49ec-b4c7-9a307192c496","userId":"e2e-proof","question":"What is my name and is my coffee habit acceptable based on company policy?"}
+{"timestamp":"2025-11-28T02:48:50.329Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2990,"questionLength":764,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T02:48:50.353Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T02:48:50.957Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":596,"inputLength":74,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:48:50.966Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":3,"finalCount":3}
+{"timestamp":"2025-11-28T02:48:50.973Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"e2e-proof","role":"user","limit":5,"candidateLimit":15,"totalCandidates":2,"returned":2}
+{"timestamp":"2025-11-28T02:48:53.579Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2602,"questionLength":424,"contextLength":2408,"memoryLength":21,"historyCount":0}
+{"timestamp":"2025-11-28T02:48:54.649Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":1062,"inputLength":52,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:48:54.665Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":56}
+{"timestamp":"2025-11-28T02:48:54.671Z","type":"CHAT_RESPONSE","requestId":"e8810310-1052-49ec-b4c7-9a307192c496","userId":"e2e-proof","answerLength":52,"durationMs":7338}
+{"timestamp":"2025-11-28T02:58:03.221Z","type":"CHAT_REQUEST","requestId":"f8743aa6-6766-4d2d-bef1-a86023132873","userId":"e2e-proof","question":"What is my name and is my coffee habit acceptable based on company policy?"}
+{"timestamp":"2025-11-28T02:58:06.243Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":3015,"questionLength":764,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T02:58:06.265Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T02:58:07.161Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":889,"inputLength":74,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:58:07.174Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":3,"finalCount":3}
+{"timestamp":"2025-11-28T02:58:07.183Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"e2e-proof","role":"user","limit":5,"candidateLimit":15,"totalCandidates":2,"returned":2}
+{"timestamp":"2025-11-28T02:58:09.737Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2549,"questionLength":526,"contextLength":2408,"memoryLength":21,"historyCount":0}
+{"timestamp":"2025-11-28T02:58:10.663Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":917,"inputLength":386,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:58:10.677Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":57}
+{"timestamp":"2025-11-28T02:58:10.681Z","type":"CHAT_RESPONSE","requestId":"f8743aa6-6766-4d2d-bef1-a86023132873","userId":"e2e-proof","answerLength":386,"durationMs":7461}
+{"timestamp":"2025-11-28T02:59:00.823Z","type":"CHAT_REQUEST","requestId":"201c427b-e9b9-4063-93bb-d1634693cc73","userId":"e2e-proof","question":"My name is Farhan"}
+{"timestamp":"2025-11-28T02:59:01.707Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":879,"inputLength":6,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:59:01.734Z","type":"MEMORY_SAVE_FACT","userId":"e2e-proof","role":"user","memoryKey":"name","memoryType":"fact","memoryId":58}
+{"timestamp":"2025-11-28T02:59:02.301Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":561,"inputLength":42,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:59:02.316Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":59}
+{"timestamp":"2025-11-28T02:59:11.202Z","type":"CHAT_REQUEST","requestId":"35d11508-9468-4f4d-ac93-e1d147d23fb3","userId":"e2e-proof","question":"Who am I?"}
+{"timestamp":"2025-11-28T02:59:14.160Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2952,"questionLength":699,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T02:59:14.170Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":1}
+{"timestamp":"2025-11-28T02:59:15.070Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":890,"inputLength":20,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:59:15.082Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":60}
+{"timestamp":"2025-11-28T02:59:15.086Z","type":"CHAT_RESPONSE","requestId":"35d11508-9468-4f4d-ac93-e1d147d23fb3","userId":"e2e-proof","answerLength":20,"durationMs":3884}
+{"timestamp":"2025-11-28T02:59:19.770Z","type":"CHAT_REQUEST","requestId":"8b23c62a-c8b9-44c3-bef9-25ed1b9cd47a","userId":"e2e-proof","question":"I like coffee"}
+{"timestamp":"2025-11-28T02:59:20.730Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":955,"inputLength":6,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:59:20.743Z","type":"MEMORY_SAVE_FACT","userId":"e2e-proof","role":"user","memoryKey":"preference","memoryType":"fact","memoryId":61}
+{"timestamp":"2025-11-28T02:59:21.387Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":638,"inputLength":43,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:59:21.401Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":62}
+{"timestamp":"2025-11-28T02:59:26.715Z","type":"CHAT_REQUEST","requestId":"b528e246-fec9-46b6-b26a-08c41d2141e8","userId":"e2e-proof","question":"What do I like?"}
+{"timestamp":"2025-11-28T02:59:26.721Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T02:59:27.468Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":743,"inputLength":32,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:59:27.482Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":63}
+{"timestamp":"2025-11-28T02:59:31.873Z","type":"CHAT_REQUEST","requestId":"d7f3dcae-a22c-462e-83ff-b06a83699f98","userId":"e2e-proof","question":"Do I own a yacht?"}
+{"timestamp":"2025-11-28T02:59:35.432Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":3554,"questionLength":707,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T02:59:35.441Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T02:59:35.876Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":426,"inputLength":46,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:59:35.886Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":64}
+{"timestamp":"2025-11-28T02:59:35.890Z","type":"CHAT_RESPONSE","requestId":"d7f3dcae-a22c-462e-83ff-b06a83699f98","userId":"e2e-proof","answerLength":46,"durationMs":4016}
+{"timestamp":"2025-11-28T02:59:38.396Z","type":"CHAT_REQUEST","requestId":"40705e9e-930a-418f-9f9e-f17272b76422","userId":"e2e-proof","question":"Is frequent coffee break allowed based on company policy?"}
+{"timestamp":"2025-11-28T02:59:41.163Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2761,"questionLength":747,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T02:59:41.175Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T02:59:41.661Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":479,"inputLength":57,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:59:41.673Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":4,"finalCount":4}
+{"timestamp":"2025-11-28T02:59:41.679Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"e2e-proof","role":"user","limit":5,"candidateLimit":15,"totalCandidates":2,"returned":2}
+{"timestamp":"2025-11-28T02:59:44.717Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":3034,"questionLength":509,"contextLength":3213,"memoryLength":27,"historyCount":0}
+{"timestamp":"2025-11-28T02:59:45.789Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":1063,"inputLength":545,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:59:45.803Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":65}
+{"timestamp":"2025-11-28T02:59:45.808Z","type":"CHAT_RESPONSE","requestId":"40705e9e-930a-418f-9f9e-f17272b76422","userId":"e2e-proof","answerLength":545,"durationMs":7413}
+{"timestamp":"2025-11-28T02:59:51.430Z","type":"CHAT_REQUEST","requestId":"2c995aa5-fbc2-47c7-b1d4-b7a2b1bf128e","userId":"e2e-proof","question":"What is my name and is my coffee habit acceptable based on company policy?"}
+{"timestamp":"2025-11-28T02:59:54.902Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":3467,"questionLength":764,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T02:59:54.913Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T02:59:55.368Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":447,"inputLength":74,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:59:55.379Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":3,"finalCount":3}
+{"timestamp":"2025-11-28T02:59:55.387Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"e2e-proof","role":"user","limit":5,"candidateLimit":15,"totalCandidates":2,"returned":2}
+{"timestamp":"2025-11-28T02:59:58.052Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2659,"questionLength":577,"contextLength":2408,"memoryLength":27,"historyCount":0}
+{"timestamp":"2025-11-28T02:59:58.755Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":698,"inputLength":333,"vectorLength":1536}
+{"timestamp":"2025-11-28T02:59:58.761Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":66}
+{"timestamp":"2025-11-28T02:59:58.764Z","type":"CHAT_RESPONSE","requestId":"2c995aa5-fbc2-47c7-b1d4-b7a2b1bf128e","userId":"e2e-proof","answerLength":333,"durationMs":7335}
+{"timestamp":"2025-11-28T03:00:04.365Z","type":"CHAT_REQUEST","requestId":"ee40db2d-a4c3-459e-90ee-6078ab034b32","userId":"e2e-proof","question":"I now like tea"}
+{"timestamp":"2025-11-28T03:00:05.227Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":858,"inputLength":3,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:00:05.242Z","type":"MEMORY_SAVE_FACT","userId":"e2e-proof","role":"user","memoryKey":"preference","memoryType":"fact","memoryId":61}
+{"timestamp":"2025-11-28T03:00:06.282Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":1034,"inputLength":40,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:00:06.293Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":68}
+{"timestamp":"2025-11-28T03:00:11.174Z","type":"CHAT_REQUEST","requestId":"775b291c-c128-4447-b6ac-6477e2cb8ec4","userId":"e2e-proof","question":"What do I like?"}
+{"timestamp":"2025-11-28T03:00:11.185Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T03:00:12.014Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":822,"inputLength":29,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:00:12.024Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":69}
+{"timestamp":"2025-11-28T03:00:17.034Z","type":"CHAT_REQUEST","requestId":"5378096d-bf4f-42bc-a89f-75391b653db5","userId":"e2e-proof","question":"Am I rich?"}
+{"timestamp":"2025-11-28T03:00:19.919Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2880,"questionLength":700,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T03:00:19.929Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T03:00:20.548Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":612,"inputLength":46,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:00:20.563Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":70}
+{"timestamp":"2025-11-28T03:00:20.572Z","type":"CHAT_RESPONSE","requestId":"5378096d-bf4f-42bc-a89f-75391b653db5","userId":"e2e-proof","answerLength":46,"durationMs":3537}
+{"timestamp":"2025-11-28T03:00:32.740Z","type":"CHAT_REQUEST","requestId":"5b1b6253-4822-49eb-b2a5-644eb76173da","userId":"e2e-proof","question":"Is it okay to skateboard in the office?"}
+{"timestamp":"2025-11-28T03:00:35.617Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2872,"questionLength":729,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T03:00:35.625Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T03:00:36.079Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":449,"inputLength":39,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:00:36.100Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":0,"finalCount":5}
+{"timestamp":"2025-11-28T03:00:36.113Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"e2e-proof","role":"user","limit":5,"candidateLimit":15,"totalCandidates":2,"returned":2}
+{"timestamp":"2025-11-28T03:00:38.717Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2596,"questionLength":297,"contextLength":3975,"memoryLength":21,"historyCount":0}
+{"timestamp":"2025-11-28T03:00:39.398Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":674,"inputLength":31,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:00:39.406Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":71}
+{"timestamp":"2025-11-28T03:00:39.411Z","type":"CHAT_RESPONSE","requestId":"5b1b6253-4822-49eb-b2a5-644eb76173da","userId":"e2e-proof","answerLength":31,"durationMs":6671}
+{"timestamp":"2025-11-28T03:00:52.701Z","type":"CHAT_REQUEST","requestId":"d4ffc132-65bd-4069-a935-dad7612ee737","userId":"e2e-proof","question":"asdjklqwoie 123123 ???"}
+{"timestamp":"2025-11-28T03:00:55.420Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2715,"questionLength":712,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T03:00:55.428Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T03:00:55.901Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":467,"inputLength":22,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:00:55.908Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":0,"finalCount":5}
+{"timestamp":"2025-11-28T03:00:55.914Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"e2e-proof","role":"user","limit":5,"candidateLimit":15,"totalCandidates":2,"returned":2}
+{"timestamp":"2025-11-28T03:00:58.561Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2641,"questionLength":280,"contextLength":3974,"memoryLength":21,"historyCount":0}
+{"timestamp":"2025-11-28T03:00:59.518Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":950,"inputLength":31,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:00:59.529Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":72}
+{"timestamp":"2025-11-28T03:00:59.534Z","type":"CHAT_RESPONSE","requestId":"d4ffc132-65bd-4069-a935-dad7612ee737","userId":"e2e-proof","answerLength":31,"durationMs":6833}
+{"timestamp":"2025-11-28T03:06:34.897Z","type":"CHAT_REQUEST","requestId":"75b759c0-f41e-4122-a074-c22b86faf9e5","userId":"e2e-proof","question":"Is it okay to skateboard in the office?"}
+{"timestamp":"2025-11-28T03:06:38.302Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":3398,"questionLength":729,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T03:06:38.340Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T03:06:38.789Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":441,"inputLength":39,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:06:38.803Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":0,"finalCount":5}
+{"timestamp":"2025-11-28T03:06:38.815Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"e2e-proof","role":"user","limit":5,"candidateLimit":15,"totalCandidates":2,"returned":2}
+{"timestamp":"2025-11-28T03:06:41.780Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2958,"questionLength":297,"contextLength":3975,"memoryLength":21,"historyCount":0}
+{"timestamp":"2025-11-28T03:06:42.900Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":1111,"inputLength":31,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:06:42.922Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":73}
+{"timestamp":"2025-11-28T03:06:42.927Z","type":"CHAT_RESPONSE","requestId":"75b759c0-f41e-4122-a074-c22b86faf9e5","userId":"e2e-proof","answerLength":31,"durationMs":8030}
+{"timestamp":"2025-11-28T03:18:11.354Z","type":"CHAT_REQUEST","requestId":"7e09d2dd-47e3-4469-8bc4-ef722507a165","userId":"e2e-proof","question":"Is it okay to skateboard in the office?"}
+{"timestamp":"2025-11-28T03:18:17.173Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":5809,"questionLength":729,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T03:18:17.196Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T03:18:19.617Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":2412,"inputLength":39,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:18:19.625Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":0,"finalCount":5}
+{"timestamp":"2025-11-28T03:18:19.631Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"e2e-proof","role":"user","limit":5,"candidateLimit":15,"totalCandidates":2,"returned":2}
+{"timestamp":"2025-11-28T03:18:23.072Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":3435,"questionLength":297,"contextLength":3975,"memoryLength":21,"historyCount":0}
+{"timestamp":"2025-11-28T03:18:24.569Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":1486,"inputLength":31,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:18:24.586Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":74}
+{"timestamp":"2025-11-28T03:18:24.593Z","type":"CHAT_RESPONSE","requestId":"7e09d2dd-47e3-4469-8bc4-ef722507a165","userId":"e2e-proof","answerLength":31,"durationMs":13241}
+{"timestamp":"2025-11-28T03:21:06.120Z","type":"CHAT_REQUEST","requestId":"645a0463-10ef-4ead-a74b-a39203ee67f9","userId":"e2e-proof","question":"Is it okay to skateboard in the office?"}
+{"timestamp":"2025-11-28T03:21:08.774Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2649,"questionLength":729,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T03:21:08.797Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T03:21:09.270Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":466,"inputLength":39,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:21:09.284Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":0,"finalCount":5}
+{"timestamp":"2025-11-28T03:21:09.294Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"e2e-proof","role":"user","limit":5,"candidateLimit":15,"totalCandidates":2,"returned":2}
+{"timestamp":"2025-11-28T03:21:11.906Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2607,"questionLength":297,"contextLength":3975,"memoryLength":21,"historyCount":0}
+{"timestamp":"2025-11-28T03:21:12.992Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":1075,"inputLength":31,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:21:13.006Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":75}
+{"timestamp":"2025-11-28T03:21:13.012Z","type":"CHAT_RESPONSE","requestId":"645a0463-10ef-4ead-a74b-a39203ee67f9","userId":"e2e-proof","answerLength":31,"durationMs":6894}
+{"timestamp":"2025-11-28T03:29:40.573Z","type":"CHAT_REQUEST","requestId":"37cffdb2-9ccf-40ee-9833-749c92e9f5bb","userId":"e2e-proof","question":"Is it okay to skateboard in the office?"}
+{"timestamp":"2025-11-28T03:29:44.507Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":3928,"questionLength":729,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T03:29:44.540Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T03:29:44.962Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":415,"inputLength":39,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:29:44.978Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":0,"finalCount":5}
+{"timestamp":"2025-11-28T03:29:44.992Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"e2e-proof","role":"user","limit":5,"candidateLimit":15,"totalCandidates":2,"returned":2}
+{"timestamp":"2025-11-28T03:29:47.883Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2882,"questionLength":401,"contextLength":3975,"memoryLength":21,"historyCount":0}
+{"timestamp":"2025-11-28T03:29:48.739Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":846,"inputLength":332,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:29:48.760Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":76}
+{"timestamp":"2025-11-28T03:29:48.767Z","type":"CHAT_RESPONSE","requestId":"37cffdb2-9ccf-40ee-9833-749c92e9f5bb","userId":"e2e-proof","answerLength":332,"durationMs":8194}
+{"timestamp":"2025-11-28T03:30:46.594Z","type":"CHAT_REQUEST","requestId":"e88d25fb-8aad-4876-b9fc-d2887a553429","userId":"e2e-proof","question":"My name is Farhan"}
+{"timestamp":"2025-11-28T03:30:48.942Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":2342,"inputLength":6,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:30:48.966Z","type":"MEMORY_SAVE_FACT","userId":"e2e-proof","role":"user","memoryKey":"name","memoryType":"fact","memoryId":77}
+{"timestamp":"2025-11-28T03:30:49.702Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":730,"inputLength":42,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:30:49.716Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":78}
+{"timestamp":"2025-11-28T03:30:56.812Z","type":"CHAT_REQUEST","requestId":"d7bfb96a-5357-4a63-aa95-8ad5109ce208","userId":"e2e-proof","question":"Who am I?"}
+{"timestamp":"2025-11-28T03:30:59.892Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":3072,"questionLength":699,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T03:30:59.904Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":1}
+{"timestamp":"2025-11-28T03:31:00.618Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":703,"inputLength":20,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:31:00.633Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":79}
+{"timestamp":"2025-11-28T03:31:00.642Z","type":"CHAT_RESPONSE","requestId":"d7bfb96a-5357-4a63-aa95-8ad5109ce208","userId":"e2e-proof","answerLength":20,"durationMs":3830}
+{"timestamp":"2025-11-28T03:31:02.032Z","type":"CHAT_REQUEST","requestId":"37cd9cfc-fa7d-406f-b19d-1fa2277f6b8a","userId":"e2e-proof","question":"I like coffee"}
+{"timestamp":"2025-11-28T03:31:02.556Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":519,"inputLength":6,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:31:02.569Z","type":"MEMORY_SAVE_FACT","userId":"e2e-proof","role":"user","memoryKey":"preference","memoryType":"fact","memoryId":80}
+{"timestamp":"2025-11-28T03:31:03.316Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":736,"inputLength":43,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:31:03.327Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":81}
+{"timestamp":"2025-11-28T03:31:07.256Z","type":"CHAT_REQUEST","requestId":"398437f0-c380-4db9-b3f7-b4660136a26f","userId":"e2e-proof","question":"What do I like?"}
+{"timestamp":"2025-11-28T03:31:07.262Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T03:31:07.913Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":647,"inputLength":32,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:31:07.926Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":82}
+{"timestamp":"2025-11-28T03:31:13.558Z","type":"CHAT_REQUEST","requestId":"dc3d22fd-133a-4f37-be78-39a8d8c04f82","userId":"e2e-proof","question":"Do I own a yacht?"}
+{"timestamp":"2025-11-28T03:31:16.414Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2850,"questionLength":707,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T03:31:16.428Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T03:31:16.942Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":504,"inputLength":46,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:31:16.954Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":83}
+{"timestamp":"2025-11-28T03:31:16.958Z","type":"CHAT_RESPONSE","requestId":"dc3d22fd-133a-4f37-be78-39a8d8c04f82","userId":"e2e-proof","answerLength":46,"durationMs":3401}
+{"timestamp":"2025-11-28T03:31:21.743Z","type":"CHAT_REQUEST","requestId":"880a91d4-c440-4d49-b48e-8fc8d3684230","userId":"e2e-proof","question":"Is frequent coffee break allowed based on company policy?"}
+{"timestamp":"2025-11-28T03:31:24.650Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2903,"questionLength":747,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T03:31:24.658Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T03:31:25.632Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":967,"inputLength":57,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:31:25.644Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":4,"finalCount":4}
+{"timestamp":"2025-11-28T03:31:25.654Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"e2e-proof","role":"user","limit":5,"candidateLimit":15,"totalCandidates":2,"returned":2}
+{"timestamp":"2025-11-28T03:31:28.648Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2989,"questionLength":419,"contextLength":3213,"memoryLength":27,"historyCount":0}
+{"timestamp":"2025-11-28T03:31:29.448Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":791,"inputLength":536,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:31:29.464Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":84}
+{"timestamp":"2025-11-28T03:31:29.471Z","type":"CHAT_RESPONSE","requestId":"880a91d4-c440-4d49-b48e-8fc8d3684230","userId":"e2e-proof","answerLength":536,"durationMs":7729}
+{"timestamp":"2025-11-28T03:31:43.006Z","type":"CHAT_REQUEST","requestId":"706faa46-25d1-4fc5-a3ec-17d77b888666","userId":"e2e-proof","question":"What is my name and is my coffee habit acceptable based on company policy?"}
+{"timestamp":"2025-11-28T03:31:45.836Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2825,"questionLength":764,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T03:31:45.847Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T03:31:46.347Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":488,"inputLength":74,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:31:46.357Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":3,"finalCount":3}
+{"timestamp":"2025-11-28T03:31:46.368Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"e2e-proof","role":"user","limit":5,"candidateLimit":15,"totalCandidates":2,"returned":2}
+{"timestamp":"2025-11-28T03:31:48.925Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2550,"questionLength":577,"contextLength":2408,"memoryLength":27,"historyCount":0}
+{"timestamp":"2025-11-28T03:31:49.704Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":769,"inputLength":336,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:31:49.719Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":85}
+{"timestamp":"2025-11-28T03:31:49.727Z","type":"CHAT_RESPONSE","requestId":"706faa46-25d1-4fc5-a3ec-17d77b888666","userId":"e2e-proof","answerLength":336,"durationMs":6721}
+{"timestamp":"2025-11-28T03:31:56.076Z","type":"CHAT_REQUEST","requestId":"848b6710-1ede-4d6c-81b9-f138313757f1","userId":"e2e-proof","question":"I now like tea"}
+{"timestamp":"2025-11-28T03:31:56.887Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":806,"inputLength":3,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:31:56.902Z","type":"MEMORY_SAVE_FACT","userId":"e2e-proof","role":"user","memoryKey":"preference","memoryType":"fact","memoryId":80}
+{"timestamp":"2025-11-28T03:31:57.833Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":923,"inputLength":40,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:31:57.848Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":87}
+{"timestamp":"2025-11-28T03:32:02.822Z","type":"CHAT_REQUEST","requestId":"72b39e1b-6127-4f57-b412-acfe56d718ea","userId":"e2e-proof","question":"What do I like?"}
+{"timestamp":"2025-11-28T03:32:02.832Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T03:32:03.605Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":765,"inputLength":29,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:32:03.617Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":88}
+{"timestamp":"2025-11-28T03:32:08.594Z","type":"CHAT_REQUEST","requestId":"2608f702-9c81-46e6-adf9-4f53c90c60a2","userId":"e2e-proof","question":"Am I rich?"}
+{"timestamp":"2025-11-28T03:32:11.499Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2900,"questionLength":700,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T03:32:11.507Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T03:32:11.984Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":470,"inputLength":46,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:32:11.994Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":89}
+{"timestamp":"2025-11-28T03:32:11.998Z","type":"CHAT_RESPONSE","requestId":"2608f702-9c81-46e6-adf9-4f53c90c60a2","userId":"e2e-proof","answerLength":46,"durationMs":3404}
+{"timestamp":"2025-11-28T03:32:13.652Z","type":"CHAT_REQUEST","requestId":"d0800ff0-77b6-41f8-bb51-d4d11c587be3","userId":"e2e-proof","question":"Is it okay to skateboard in the office?"}
+{"timestamp":"2025-11-28T03:32:16.304Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2647,"questionLength":729,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T03:32:16.316Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T03:32:16.799Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":472,"inputLength":39,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:32:16.813Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":0,"finalCount":5}
+{"timestamp":"2025-11-28T03:32:16.824Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"e2e-proof","role":"user","limit":5,"candidateLimit":15,"totalCandidates":2,"returned":2}
+{"timestamp":"2025-11-28T03:32:19.468Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2638,"questionLength":401,"contextLength":3975,"memoryLength":21,"historyCount":0}
+{"timestamp":"2025-11-28T03:32:23.459Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":3980,"inputLength":332,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:32:23.469Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":90}
+{"timestamp":"2025-11-28T03:32:23.474Z","type":"CHAT_RESPONSE","requestId":"d0800ff0-77b6-41f8-bb51-d4d11c587be3","userId":"e2e-proof","answerLength":332,"durationMs":9823}
+{"timestamp":"2025-11-28T03:32:34.601Z","type":"CHAT_REQUEST","requestId":"e0317d6e-6d19-43e6-bd89-ff1994ec4e4f","userId":"e2e-proof","question":"asdjklqwoie 123123 ???"}
+{"timestamp":"2025-11-28T03:32:37.555Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2948,"questionLength":712,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T03:32:37.566Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T03:32:38.157Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":582,"inputLength":22,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:32:38.167Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":0,"finalCount":5}
+{"timestamp":"2025-11-28T03:32:38.175Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"e2e-proof","role":"user","limit":5,"candidateLimit":15,"totalCandidates":2,"returned":2}
+{"timestamp":"2025-11-28T03:32:40.802Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2622,"questionLength":280,"contextLength":3974,"memoryLength":21,"historyCount":0}
+{"timestamp":"2025-11-28T03:32:41.543Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":731,"inputLength":273,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:32:41.561Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":91}
+{"timestamp":"2025-11-28T03:32:41.568Z","type":"CHAT_RESPONSE","requestId":"e0317d6e-6d19-43e6-bd89-ff1994ec4e4f","userId":"e2e-proof","answerLength":273,"durationMs":6967}
+{"timestamp":"2025-11-28T03:36:18.509Z","type":"CHAT_REQUEST","requestId":"727785ee-0fbb-4a94-a8eb-a0eca3f0e44b","userId":"e2e-proof","question":"asdjklqwoie 123123 ???"}
+{"timestamp":"2025-11-28T03:36:21.514Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2999,"questionLength":712,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T03:36:21.536Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T03:36:22.166Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":623,"inputLength":22,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:36:22.176Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":0,"finalCount":5}
+{"timestamp":"2025-11-28T03:36:22.186Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"e2e-proof","role":"user","limit":5,"candidateLimit":15,"totalCandidates":2,"returned":2}
+{"timestamp":"2025-11-28T03:36:24.904Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2712,"questionLength":280,"contextLength":3974,"memoryLength":21,"historyCount":0}
+{"timestamp":"2025-11-28T03:36:25.757Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":845,"inputLength":273,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:36:25.775Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":92}
+{"timestamp":"2025-11-28T03:36:25.781Z","type":"CHAT_RESPONSE","requestId":"727785ee-0fbb-4a94-a8eb-a0eca3f0e44b","userId":"e2e-proof","answerLength":273,"durationMs":7272}
+{"timestamp":"2025-11-28T03:48:59.910Z","type":"CHAT_REQUEST","requestId":"52dbfc83-b7ef-4638-84b5-cd37b474462a","userId":"e2e-proof","question":"asdjklqwoie 123123 ???"}
+{"timestamp":"2025-11-28T03:50:19.688Z","type":"CHAT_REQUEST","requestId":"9901035a-41d1-461b-a4bd-f89edfa6c17d","userId":"e2e-proof","question":"My name is Farhan"}
+{"timestamp":"2025-11-28T03:50:20.635Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":940,"inputLength":6,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:50:20.664Z","type":"MEMORY_SAVE_FACT","userId":"e2e-proof","role":"user","memoryKey":"name","memoryType":"fact","memoryId":93}
+{"timestamp":"2025-11-28T03:50:21.263Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":593,"inputLength":42,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:50:21.276Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":94}
+{"timestamp":"2025-11-28T03:50:24.631Z","type":"CHAT_REQUEST","requestId":"3810cac5-e4b7-4984-8d54-92c57cf04928","userId":"e2e-proof","question":"Who am I?"}
+{"timestamp":"2025-11-28T03:50:27.361Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2724,"questionLength":699,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T03:50:27.374Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":1}
+{"timestamp":"2025-11-28T03:50:27.821Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":440,"inputLength":20,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:50:27.834Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":95}
+{"timestamp":"2025-11-28T03:50:27.839Z","type":"CHAT_RESPONSE","requestId":"3810cac5-e4b7-4984-8d54-92c57cf04928","userId":"e2e-proof","answerLength":20,"durationMs":3208}
+{"timestamp":"2025-11-28T03:50:32.693Z","type":"CHAT_REQUEST","requestId":"c58045b1-3acb-4f3f-84bf-84d877323811","userId":"e2e-proof","question":"I like coffee"}
+{"timestamp":"2025-11-28T03:50:33.569Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":871,"inputLength":6,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:50:33.587Z","type":"MEMORY_SAVE_FACT","userId":"e2e-proof","role":"user","memoryKey":"preference","memoryType":"fact","memoryId":96}
+{"timestamp":"2025-11-28T03:50:34.221Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":627,"inputLength":43,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:50:34.236Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":97}
+{"timestamp":"2025-11-28T03:50:40.282Z","type":"CHAT_REQUEST","requestId":"4580d5e4-2910-44c6-b835-913da0102209","userId":"e2e-proof","question":"What do I like?"}
+{"timestamp":"2025-11-28T03:50:40.289Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T03:50:41.484Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":1191,"inputLength":32,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:50:41.494Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":98}
+{"timestamp":"2025-11-28T03:50:45.262Z","type":"CHAT_REQUEST","requestId":"c97571c6-5411-4724-87c1-6e3852ef0038","userId":"e2e-proof","question":"Do I own a yacht?"}
+{"timestamp":"2025-11-28T03:50:48.227Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2959,"questionLength":707,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T03:50:48.239Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T03:50:48.890Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":644,"inputLength":46,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:50:48.908Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":99}
+{"timestamp":"2025-11-28T03:50:48.916Z","type":"CHAT_RESPONSE","requestId":"c97571c6-5411-4724-87c1-6e3852ef0038","userId":"e2e-proof","answerLength":46,"durationMs":3654}
+{"timestamp":"2025-11-28T03:50:51.313Z","type":"CHAT_REQUEST","requestId":"fb202168-cd19-4499-8f78-ba9d494d6fb6","userId":"e2e-proof","question":"Is frequent coffee break allowed based on company policy?"}
+{"timestamp":"2025-11-28T03:50:54.141Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2823,"questionLength":747,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T03:50:54.153Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T03:50:54.927Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":766,"inputLength":57,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:50:54.937Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":4,"finalCount":4}
+{"timestamp":"2025-11-28T03:50:54.944Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"e2e-proof","role":"user","limit":5,"candidateLimit":15,"totalCandidates":2,"returned":2}
+{"timestamp":"2025-11-28T03:50:57.678Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2727,"questionLength":509,"contextLength":3213,"memoryLength":27,"historyCount":0}
+{"timestamp":"2025-11-28T03:50:58.473Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":785,"inputLength":502,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:50:58.489Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":100}
+{"timestamp":"2025-11-28T03:50:58.497Z","type":"CHAT_RESPONSE","requestId":"fb202168-cd19-4499-8f78-ba9d494d6fb6","userId":"e2e-proof","answerLength":502,"durationMs":7183}
+{"timestamp":"2025-11-28T03:51:07.484Z","type":"CHAT_REQUEST","requestId":"7ed7bb32-dc3b-41d6-96a0-0d156a439b0f","userId":"e2e-proof","question":"What is my name and is my coffee habit acceptable based on company policy?"}
+{"timestamp":"2025-11-28T03:51:10.191Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2700,"questionLength":764,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T03:51:10.200Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T03:51:10.635Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":430,"inputLength":74,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:51:10.647Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":3,"finalCount":3}
+{"timestamp":"2025-11-28T03:51:10.657Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"e2e-proof","role":"user","limit":5,"candidateLimit":15,"totalCandidates":2,"returned":2}
+{"timestamp":"2025-11-28T03:51:13.118Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2453,"questionLength":577,"contextLength":2408,"memoryLength":27,"historyCount":0}
+{"timestamp":"2025-11-28T03:51:13.626Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":498,"inputLength":395,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:51:13.639Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":101}
+{"timestamp":"2025-11-28T03:51:13.646Z","type":"CHAT_RESPONSE","requestId":"7ed7bb32-dc3b-41d6-96a0-0d156a439b0f","userId":"e2e-proof","answerLength":395,"durationMs":6161}
+{"timestamp":"2025-11-28T03:51:26.774Z","type":"CHAT_REQUEST","requestId":"a202e4dd-3d75-46cc-be2f-3920f2db81b0","userId":"e2e-proof","question":"I now like tea"}
+{"timestamp":"2025-11-28T03:51:27.453Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":674,"inputLength":3,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:51:27.466Z","type":"MEMORY_SAVE_FACT","userId":"e2e-proof","role":"user","memoryKey":"preference","memoryType":"fact","memoryId":96}
+{"timestamp":"2025-11-28T03:51:28.066Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":594,"inputLength":40,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:51:28.084Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":103}
+{"timestamp":"2025-11-28T03:51:33.152Z","type":"CHAT_REQUEST","requestId":"c94edebc-9227-41ea-abea-3dc140dde9ed","userId":"e2e-proof","question":"What do I like?"}
+{"timestamp":"2025-11-28T03:51:33.159Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T03:51:33.871Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":704,"inputLength":29,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:51:33.883Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":104}
+{"timestamp":"2025-11-28T03:51:39.860Z","type":"CHAT_REQUEST","requestId":"3fd7b8e7-0cd8-4c62-ae7e-ea1fdb888b6e","userId":"e2e-proof","question":"Am I rich?"}
+{"timestamp":"2025-11-28T03:51:48.162Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":8297,"questionLength":700,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T03:51:48.171Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T03:51:48.645Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":467,"inputLength":46,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:51:48.660Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":105}
+{"timestamp":"2025-11-28T03:51:48.666Z","type":"CHAT_RESPONSE","requestId":"3fd7b8e7-0cd8-4c62-ae7e-ea1fdb888b6e","userId":"e2e-proof","answerLength":46,"durationMs":8807}
+{"timestamp":"2025-11-28T03:51:54.890Z","type":"CHAT_REQUEST","requestId":"6337cdb7-7048-4a28-ad8c-7db65904d6eb","userId":"e2e-proof","question":"Is it okay to skateboard in the office?"}
+{"timestamp":"2025-11-28T03:51:57.921Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":3025,"questionLength":729,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T03:51:57.931Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T03:51:58.444Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":504,"inputLength":39,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:51:58.456Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":0,"finalCount":5}
+{"timestamp":"2025-11-28T03:51:58.465Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"e2e-proof","role":"user","limit":5,"candidateLimit":15,"totalCandidates":2,"returned":2}
+{"timestamp":"2025-11-28T03:52:01.023Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2552,"questionLength":297,"contextLength":3975,"memoryLength":21,"historyCount":0}
+{"timestamp":"2025-11-28T03:52:01.575Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":543,"inputLength":31,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:52:01.590Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":106}
+{"timestamp":"2025-11-28T03:52:01.599Z","type":"CHAT_RESPONSE","requestId":"6337cdb7-7048-4a28-ad8c-7db65904d6eb","userId":"e2e-proof","answerLength":31,"durationMs":6708}
+{"timestamp":"2025-11-28T03:52:13.190Z","type":"CHAT_REQUEST","requestId":"278a9f85-ee5a-4314-8107-b9db97f37abf","userId":"e2e-proof","question":"asdjklqwoie 123123 ???"}
+{"timestamp":"2025-11-28T03:56:42.174Z","type":"CHAT_REQUEST","requestId":"2bdf9d8a-ab85-4a28-b9b1-2b39794354a3","userId":"e2e-proof","question":"Is it okay to skateboard in the office?"}
+{"timestamp":"2025-11-28T03:56:45.496Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":3317,"questionLength":729,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T03:56:45.519Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T03:56:45.916Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":388,"inputLength":39,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:56:45.927Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":0,"finalCount":5}
+{"timestamp":"2025-11-28T03:56:46.381Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":444,"inputLength":39,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:56:46.391Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":0,"finalCount":5}
+{"timestamp":"2025-11-28T03:56:46.402Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"e2e-proof","role":"user","limit":5,"candidateLimit":15,"totalCandidates":2,"returned":2}
+{"timestamp":"2025-11-28T03:56:49.112Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2702,"questionLength":491,"contextLength":3975,"memoryLength":21,"historyCount":0}
+{"timestamp":"2025-11-28T03:56:49.643Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":521,"inputLength":417,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:56:49.658Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":107}
+{"timestamp":"2025-11-28T03:56:49.666Z","type":"CHAT_RESPONSE","requestId":"2bdf9d8a-ab85-4a28-b9b1-2b39794354a3","userId":"e2e-proof","answerLength":417,"durationMs":7492}
+{"timestamp":"2025-11-28T03:57:21.995Z","type":"CHAT_REQUEST","requestId":"81b8110d-95c8-4b17-946a-0837c1ae7b45","userId":"e2e-proof","question":"My name is Farhan"}
+{"timestamp":"2025-11-28T03:57:22.939Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":939,"inputLength":6,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:57:22.966Z","type":"MEMORY_SAVE_FACT","userId":"e2e-proof","role":"user","memoryKey":"name","memoryType":"fact","memoryId":108}
+{"timestamp":"2025-11-28T03:57:23.363Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":390,"inputLength":42,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:57:23.381Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":109}
+{"timestamp":"2025-11-28T03:57:26.527Z","type":"CHAT_REQUEST","requestId":"a45f9f09-c5cf-4f70-9df3-0d4d9c3f8954","userId":"e2e-proof","question":"Who am I?"}
+{"timestamp":"2025-11-28T03:57:29.026Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2492,"questionLength":699,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T03:57:29.038Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":1}
+{"timestamp":"2025-11-28T03:57:29.738Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":693,"inputLength":9,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:57:29.749Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":0,"finalCount":5}
+{"timestamp":"2025-11-28T03:57:30.205Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":449,"inputLength":20,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:57:30.219Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":110}
+{"timestamp":"2025-11-28T03:57:30.227Z","type":"CHAT_RESPONSE","requestId":"a45f9f09-c5cf-4f70-9df3-0d4d9c3f8954","userId":"e2e-proof","answerLength":20,"durationMs":3700}
+{"timestamp":"2025-11-28T03:57:31.457Z","type":"CHAT_REQUEST","requestId":"5171b541-2b4a-4eb3-9aa4-96a8818052d3","userId":"e2e-proof","question":"I like coffee"}
+{"timestamp":"2025-11-28T03:57:31.939Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":477,"inputLength":6,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:57:31.953Z","type":"MEMORY_SAVE_FACT","userId":"e2e-proof","role":"user","memoryKey":"preference","memoryType":"fact","memoryId":111}
+{"timestamp":"2025-11-28T03:57:32.462Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":502,"inputLength":43,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:57:32.474Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":112}
+{"timestamp":"2025-11-28T03:57:36.773Z","type":"CHAT_REQUEST","requestId":"b3cdebf7-0dd7-4cdc-9d9b-126644ee516d","userId":"e2e-proof","question":"What do I like?"}
+{"timestamp":"2025-11-28T03:57:36.778Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T03:57:37.485Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":702,"inputLength":32,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:57:37.499Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":113}
+{"timestamp":"2025-11-28T03:57:42.775Z","type":"CHAT_REQUEST","requestId":"218debcd-80d5-4b23-ae4f-7a46ecb5472d","userId":"e2e-proof","question":"Do I own a yacht?"}
+{"timestamp":"2025-11-28T03:57:45.833Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":3052,"questionLength":707,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T03:57:45.843Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T03:57:46.465Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":616,"inputLength":17,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:57:46.478Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":0,"finalCount":5}
+{"timestamp":"2025-11-28T03:57:46.914Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":426,"inputLength":46,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:57:46.928Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":114}
+{"timestamp":"2025-11-28T03:57:46.936Z","type":"CHAT_RESPONSE","requestId":"218debcd-80d5-4b23-ae4f-7a46ecb5472d","userId":"e2e-proof","answerLength":46,"durationMs":4160}
+{"timestamp":"2025-11-28T03:57:48.531Z","type":"CHAT_REQUEST","requestId":"d6b4090d-d629-4e7a-a6c4-bc2b43df8064","userId":"e2e-proof","question":"Is frequent coffee break allowed based on company policy?"}
+{"timestamp":"2025-11-28T03:57:51.035Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2500,"questionLength":747,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T03:57:51.047Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T03:57:51.733Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":678,"inputLength":57,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:57:51.745Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":4,"finalCount":4}
+{"timestamp":"2025-11-28T03:57:52.234Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":480,"inputLength":57,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:57:52.245Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":4,"finalCount":4}
+{"timestamp":"2025-11-28T03:57:52.255Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"e2e-proof","role":"user","limit":5,"candidateLimit":15,"totalCandidates":2,"returned":2}
+{"timestamp":"2025-11-28T03:57:55.286Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":3023,"questionLength":509,"contextLength":3213,"memoryLength":27,"historyCount":0}
+{"timestamp":"2025-11-28T03:57:55.913Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":618,"inputLength":516,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:57:55.925Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":115}
+{"timestamp":"2025-11-28T03:57:55.931Z","type":"CHAT_RESPONSE","requestId":"d6b4090d-d629-4e7a-a6c4-bc2b43df8064","userId":"e2e-proof","answerLength":516,"durationMs":7400}
+{"timestamp":"2025-11-28T03:58:07.249Z","type":"CHAT_REQUEST","requestId":"3fa9b376-c327-471f-8939-67ac810eaa69","userId":"e2e-proof","question":"What is my name and is my coffee habit acceptable based on company policy?"}
+{"timestamp":"2025-11-28T03:58:10.363Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":3108,"questionLength":764,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T03:58:10.374Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T03:58:10.902Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":520,"inputLength":74,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:58:10.912Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":3,"finalCount":3}
+{"timestamp":"2025-11-28T03:58:11.561Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":642,"inputLength":74,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:58:11.572Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":3,"finalCount":3}
+{"timestamp":"2025-11-28T03:58:11.580Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"e2e-proof","role":"user","limit":5,"candidateLimit":15,"totalCandidates":2,"returned":2}
+{"timestamp":"2025-11-28T03:58:14.042Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2456,"questionLength":526,"contextLength":2408,"memoryLength":27,"historyCount":0}
+{"timestamp":"2025-11-28T03:58:14.584Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":534,"inputLength":322,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:58:14.597Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":116}
+{"timestamp":"2025-11-28T03:58:14.605Z","type":"CHAT_RESPONSE","requestId":"3fa9b376-c327-471f-8939-67ac810eaa69","userId":"e2e-proof","answerLength":322,"durationMs":7355}
+{"timestamp":"2025-11-28T03:58:18.310Z","type":"CHAT_REQUEST","requestId":"1ffcf2dd-f169-4596-95b2-0a76a6780680","userId":"e2e-proof","question":"I now like tea"}
+{"timestamp":"2025-11-28T03:58:19.094Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":777,"inputLength":3,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:58:19.111Z","type":"MEMORY_SAVE_FACT","userId":"e2e-proof","role":"user","memoryKey":"preference","memoryType":"fact","memoryId":111}
+{"timestamp":"2025-11-28T03:58:19.571Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":452,"inputLength":40,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:58:19.585Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":118}
+{"timestamp":"2025-11-28T03:58:22.925Z","type":"CHAT_REQUEST","requestId":"6543d555-06c0-4c99-80a7-1ad98de8ff3a","userId":"e2e-proof","question":"What do I like?"}
+{"timestamp":"2025-11-28T03:58:22.931Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T03:58:23.443Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":505,"inputLength":29,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:58:23.453Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":119}
+{"timestamp":"2025-11-28T03:58:29.557Z","type":"CHAT_REQUEST","requestId":"a2434e6a-440c-4e3b-9741-68d1cbd67b4a","userId":"e2e-proof","question":"Am I rich?"}
+{"timestamp":"2025-11-28T03:58:32.293Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2729,"questionLength":700,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T03:58:32.304Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T03:58:32.829Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":519,"inputLength":10,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:58:32.838Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":0,"finalCount":5}
+{"timestamp":"2025-11-28T03:58:33.222Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":377,"inputLength":46,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:58:33.232Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":120}
+{"timestamp":"2025-11-28T03:58:33.237Z","type":"CHAT_RESPONSE","requestId":"a2434e6a-440c-4e3b-9741-68d1cbd67b4a","userId":"e2e-proof","answerLength":46,"durationMs":3680}
+{"timestamp":"2025-11-28T03:58:36.431Z","type":"CHAT_REQUEST","requestId":"2e76e102-1a48-469a-9cc4-264f7af58b14","userId":"e2e-proof","question":"Is it okay to skateboard in the office?"}
+{"timestamp":"2025-11-28T03:58:38.975Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2539,"questionLength":729,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-28T03:58:38.983Z","type":"MEMORY_FACTS_LATEST","userId":"e2e-proof","factsCount":2}
+{"timestamp":"2025-11-28T03:58:39.465Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":475,"inputLength":39,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:58:39.476Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":0,"finalCount":5}
+{"timestamp":"2025-11-28T03:58:39.989Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":506,"inputLength":39,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:58:39.999Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":0,"finalCount":5}
+{"timestamp":"2025-11-28T03:58:40.010Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"e2e-proof","role":"user","limit":5,"candidateLimit":15,"totalCandidates":2,"returned":2}
+{"timestamp":"2025-11-28T03:58:42.761Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2745,"questionLength":491,"contextLength":3975,"memoryLength":21,"historyCount":0}
+{"timestamp":"2025-11-28T03:58:43.357Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":588,"inputLength":395,"vectorLength":1536}
+{"timestamp":"2025-11-28T03:58:43.371Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":121}
+{"timestamp":"2025-11-28T03:58:43.377Z","type":"CHAT_RESPONSE","requestId":"2e76e102-1a48-469a-9cc4-264f7af58b14","userId":"e2e-proof","answerLength":395,"durationMs":6947}
+{"timestamp":"2025-11-28T03:58:47.150Z","type":"CHAT_REQUEST","requestId":"c7d62bb1-b48b-4156-9ac9-3b1f7f9a91f7","userId":"e2e-proof","question":"asdjklqwoie 123123 ???"}

@@ -17,7 +17,7 @@ const app = express();
 app.use(express.json());
 
 app.use("/api/health", healthRouter);
-app.use("/api/ingest", ingestRouter);
+app.use("/api/documents/ingest", ingestRouter);
 app.use("/api/chat", chatRoute);
 app.use("/api/internal/search", searchRoute);
 
