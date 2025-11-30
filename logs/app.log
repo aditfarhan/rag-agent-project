@@ -2389,3 +2389,355 @@
 {"timestamp":"2025-11-28T03:58:43.371Z","type":"MEMORY_SAVE_CHAT","userId":"e2e-proof","role":"assistant","memoryType":"chat","memoryId":121}
 {"timestamp":"2025-11-28T03:58:43.377Z","type":"CHAT_RESPONSE","requestId":"2e76e102-1a48-469a-9cc4-264f7af58b14","userId":"e2e-proof","answerLength":395,"durationMs":6947}
 {"timestamp":"2025-11-28T03:58:47.150Z","type":"CHAT_REQUEST","requestId":"c7d62bb1-b48b-4156-9ac9-3b1f7f9a91f7","userId":"e2e-proof","question":"asdjklqwoie 123123 ???"}
+{"timestamp":"2025-11-30T22:57:31.308Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":3026,"questionLength":4,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-30T22:58:34.621Z","type":"EMBEDDING_BATCH_SUCCESS","model":"text-embedding-3-small","durationMs":1379,"batchSize":8,"vectorLength":1536}
+{"timestamp":"2025-11-30T22:58:34.642Z","type":"INGEST_SUCCESS","filepath":"/mnt/d/self/rag-agent-project/docs/policy.md","documentId":2,"totalChunks":8,"inserted":8}
+{"timestamp":"2025-11-30T22:58:36.781Z","type":"INGEST_SKIPPED","filepath":"/mnt/d/self/rag-agent-project/docs/policy.md","reason":"Document already exists"}
+{"timestamp":"2025-11-30T22:58:46.993Z","level":"error","message":"file not found","type":"InfrastructureError","statusCode":404,"metadata":{"originalError":{"statusCode":404}},"originalError":{"statusCode":404}}
+{"timestamp":"2025-11-30T22:59:14.582Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":939,"inputLength":9,"vectorLength":1536}
+{"timestamp":"2025-11-30T22:59:14.609Z","type":"RAG_SEMANTIC_SEARCH","limit":5,"returned":5}
+{"timestamp":"2025-11-30T23:00:00.922Z","level":"error","message":"Invalid request","type":"ValidationError","statusCode":400,"metadata":{"issues":[{"code":"too_small","minimum":1,"type":"string","inclusive":true,"exact":false,"message":"String must contain at least 1 character(s)","path":["query"]}]}}
+{"timestamp":"2025-11-30T23:00:15.022Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":1470,"inputLength":4,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:00:15.039Z","level":"error","message":"LIMIT must not be negative","type":"InfrastructureError","statusCode":500,"metadata":{"originalError":{"length":90,"name":"error","severity":"ERROR","code":"2201W","file":"nodeLimit.c","line":"398","routine":"recompute_limits","statusCode":500}},"originalError":{"length":90,"name":"error","severity":"ERROR","code":"2201W","file":"nodeLimit.c","line":"398","routine":"recompute_limits","statusCode":500}}
+{"timestamp":"2025-11-30T23:00:23.865Z","level":"error","message":"Expected ',' or '}' after property value in JSON at position 13 (line 1 column 14)","type":"entity.parse.failed","statusCode":400}
+{"timestamp":"2025-11-30T23:00:27.388Z","level":"error","message":"Expected ',' or '}' after property value in JSON at position 13 (line 1 column 14)","type":"entity.parse.failed","statusCode":400}
+{"timestamp":"2025-11-30T23:00:35.693Z","type":"CHAT_REQUEST","requestId":"a1908a68-a0b9-4e3b-82ee-482687631726","userId":"u1","question":"What does the test document talk about?"}
+{"timestamp":"2025-11-30T23:00:42.142Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":6444,"questionLength":729,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-30T23:00:42.162Z","type":"MEMORY_FACTS_LATEST","userId":"u1","factsCount":0}
+{"timestamp":"2025-11-30T23:00:42.166Z","level":"debug","message":"INTENT_RESOLVED","userId":"u1","intent":"UNKNOWN","intentVersion":"v1","intentConfidence":1}
+{"timestamp":"2025-11-30T23:00:43.359Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":1190,"inputLength":39,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:00:43.377Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":0,"finalCount":5}
+{"timestamp":"2025-11-30T23:00:43.682Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":297,"inputLength":39,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:00:43.692Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":0,"finalCount":5}
+{"timestamp":"2025-11-30T23:00:43.704Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"u1","role":"user","limit":5,"candidateLimit":15,"totalCandidates":0,"returned":0}
+{"timestamp":"2025-11-30T23:00:49.299Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":5591,"questionLength":491,"contextLength":4017,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-30T23:00:49.828Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":521,"inputLength":1230,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:00:49.849Z","type":"MEMORY_SAVE_CHAT","userId":"u1","role":"assistant","memoryType":"chat","memoryId":122}
+{"timestamp":"2025-11-30T23:00:49.856Z","type":"CHAT_RESPONSE","requestId":"a1908a68-a0b9-4e3b-82ee-482687631726","userId":"u1","answerLength":1230,"durationMs":14163}
+{"timestamp":"2025-11-30T23:01:11.213Z","type":"CHAT_REQUEST","requestId":"275551ba-7660-47a6-a49d-6d611925dae1","userId":"u1","question":"Can you remind me what I asked earlier?"}
+{"timestamp":"2025-11-30T23:01:16.782Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":5565,"questionLength":729,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-30T23:01:16.790Z","type":"MEMORY_FACTS_LATEST","userId":"u1","factsCount":0}
+{"timestamp":"2025-11-30T23:01:16.796Z","level":"debug","message":"INTENT_RESOLVED","userId":"u1","intent":"UNKNOWN","intentVersion":"v1","intentConfidence":1}
+{"timestamp":"2025-11-30T23:01:17.864Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":1064,"inputLength":39,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:01:17.873Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":0,"finalCount":5}
+{"timestamp":"2025-11-30T23:01:18.270Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":390,"inputLength":39,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:01:18.280Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":0,"finalCount":5}
+{"timestamp":"2025-11-30T23:01:18.287Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"u1","role":"user","limit":5,"candidateLimit":15,"totalCandidates":0,"returned":0}
+{"timestamp":"2025-11-30T23:01:20.631Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2337,"questionLength":491,"contextLength":4017,"memoryLength":0,"historyCount":2}
+{"timestamp":"2025-11-30T23:01:21.855Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":1216,"inputLength":376,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:01:21.869Z","type":"MEMORY_SAVE_CHAT","userId":"u1","role":"assistant","memoryType":"chat","memoryId":123}
+{"timestamp":"2025-11-30T23:01:21.876Z","type":"CHAT_RESPONSE","requestId":"275551ba-7660-47a6-a49d-6d611925dae1","userId":"u1","answerLength":376,"durationMs":10663}
+{"timestamp":"2025-11-30T23:01:32.896Z","type":"CHAT_REQUEST","requestId":"01332a49-0484-4c77-bf8a-1b0333890543","userId":"u1","question":"dkjsahd812h182h1!@#!@#"}
+{"timestamp":"2025-11-30T23:01:38.592Z","type":"CHAT_REQUEST","requestId":"dab634bf-d72c-42e7-a106-b60e2d50e3c3","userId":"u2","question":"Tell me about quantum teleportation in 1800s."}
+{"timestamp":"2025-11-30T23:01:42.495Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":3899,"questionLength":735,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-30T23:01:42.504Z","type":"MEMORY_FACTS_LATEST","userId":"u2","factsCount":0}
+{"timestamp":"2025-11-30T23:01:42.510Z","level":"debug","message":"INTENT_RESOLVED","userId":"u2","intent":"UNKNOWN","intentVersion":"v1","intentConfidence":1}
+{"timestamp":"2025-11-30T23:01:42.826Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":314,"inputLength":45,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:01:42.836Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":0,"finalCount":5}
+{"timestamp":"2025-11-30T23:01:43.811Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":969,"inputLength":45,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:01:43.821Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":0,"finalCount":5}
+{"timestamp":"2025-11-30T23:01:43.829Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"u2","role":"user","limit":5,"candidateLimit":15,"totalCandidates":0,"returned":0}
+{"timestamp":"2025-11-30T23:01:46.464Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2631,"questionLength":497,"contextLength":3975,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-30T23:01:46.876Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":406,"inputLength":203,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:01:46.889Z","type":"MEMORY_SAVE_CHAT","userId":"u2","role":"assistant","memoryType":"chat","memoryId":124}
+{"timestamp":"2025-11-30T23:01:46.895Z","type":"CHAT_RESPONSE","requestId":"dab634bf-d72c-42e7-a106-b60e2d50e3c3","userId":"u2","answerLength":203,"durationMs":8303}
+{"timestamp":"2025-11-30T23:02:02.585Z","type":"CHAT_REQUEST","requestId":"dfb26c84-d7aa-4a59-9ef8-5f3584f1d543","userId":"u3","question":"What is your name?"}
+{"timestamp":"2025-11-30T23:02:04.846Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2258,"questionLength":708,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-30T23:02:04.859Z","type":"MEMORY_FACTS_LATEST","userId":"u3","factsCount":0}
+{"timestamp":"2025-11-30T23:02:04.866Z","level":"debug","message":"INTENT_RESOLVED","userId":"u3","intent":"UNKNOWN","intentVersion":"v1","intentConfidence":1}
+{"timestamp":"2025-11-30T23:02:05.209Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":339,"inputLength":18,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:02:05.220Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":0,"finalCount":5}
+{"timestamp":"2025-11-30T23:02:05.549Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":321,"inputLength":18,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:02:05.559Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":0,"finalCount":5}
+{"timestamp":"2025-11-30T23:02:05.563Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"u3","role":"user","limit":5,"candidateLimit":15,"totalCandidates":0,"returned":0}
+{"timestamp":"2025-11-30T23:02:07.777Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2210,"questionLength":470,"contextLength":3975,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-30T23:02:08.116Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":331,"inputLength":128,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:02:08.128Z","type":"MEMORY_SAVE_CHAT","userId":"u3","role":"assistant","memoryType":"chat","memoryId":125}
+{"timestamp":"2025-11-30T23:02:08.134Z","type":"CHAT_RESPONSE","requestId":"dfb26c84-d7aa-4a59-9ef8-5f3584f1d543","userId":"u3","answerLength":128,"durationMs":5549}
+{"timestamp":"2025-11-30T23:02:12.053Z","level":"error","message":"Invalid request","type":"ValidationError","statusCode":400,"metadata":{"issues":[{"code":"invalid_type","expected":"string","received":"undefined","path":["userId"],"message":"Required"}]}}
+{"timestamp":"2025-11-30T23:02:16.783Z","level":"error","message":"Invalid request","type":"ValidationError","statusCode":400,"metadata":{"issues":[{"code":"invalid_type","expected":"string","received":"number","path":["userId"],"message":"Expected string, received number"},{"code":"invalid_type","expected":"string","received":"boolean","path":["question"],"message":"Expected string, received boolean"},{"code":"invalid_type","expected":"array","received":"string","path":["history"],"message":"Expected array, received string"}]}}
+{"timestamp":"2025-11-30T23:02:33.290Z","level":"error","message":"Expected ',' or '}' after property value in JSON at position 168 (line 7 column 6)","type":"entity.parse.failed","statusCode":400}
+{"timestamp":"2025-11-30T23:06:23.666Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":383,"inputLength":25,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:06:23.683Z","type":"RAG_SEMANTIC_SEARCH","limit":5,"returned":5}
+{"timestamp":"2025-11-30T23:06:45.992Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":380,"inputLength":22,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:06:46.000Z","type":"RAG_SEMANTIC_SEARCH","limit":5,"returned":5}
+{"timestamp":"2025-11-30T23:07:53.490Z","level":"error","message":"Invalid request","type":"ValidationError","statusCode":400,"metadata":{"issues":[{"code":"invalid_type","expected":"object","received":"undefined","path":[],"message":"Required"}]}}
+{"timestamp":"2025-11-30T23:08:35.863Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":343,"inputLength":23,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:08:35.877Z","type":"RAG_SEMANTIC_SEARCH","limit":5,"returned":5}
+{"timestamp":"2025-11-30T23:09:04.138Z","type":"CHAT_REQUEST","requestId":"e924e53f-ea41-4edd-b1cc-f0970c346737","userId":"u99","question":"Berapa hari cuti tahunan yang saya dapat?"}
+{"timestamp":"2025-11-30T23:09:06.452Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2310,"questionLength":731,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-30T23:09:06.462Z","type":"MEMORY_FACTS_LATEST","userId":"u99","factsCount":0}
+{"timestamp":"2025-11-30T23:09:06.468Z","level":"debug","message":"INTENT_RESOLVED","userId":"u99","intent":"UNKNOWN","intentVersion":"v1","intentConfidence":1}
+{"timestamp":"2025-11-30T23:09:06.948Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":477,"inputLength":41,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:09:06.956Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":5,"finalCount":5}
+{"timestamp":"2025-11-30T23:09:07.291Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":330,"inputLength":41,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:09:07.298Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":5,"finalCount":5}
+{"timestamp":"2025-11-30T23:09:07.304Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"u99","role":"user","limit":5,"candidateLimit":15,"totalCandidates":0,"returned":0}
+{"timestamp":"2025-11-30T23:09:10.098Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2791,"questionLength":493,"contextLength":4018,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-30T23:09:10.559Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":454,"inputLength":224,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:09:10.576Z","type":"MEMORY_SAVE_CHAT","userId":"u99","role":"assistant","memoryType":"chat","memoryId":126}
+{"timestamp":"2025-11-30T23:09:10.582Z","type":"CHAT_RESPONSE","requestId":"e924e53f-ea41-4edd-b1cc-f0970c346737","userId":"u99","answerLength":224,"durationMs":6444}
+{"timestamp":"2025-11-30T23:09:21.820Z","type":"CHAT_REQUEST","requestId":"8b093051-0a6c-459b-826d-5a1f0130e0cc","userId":"u99","question":"Apa perusahaan memberikan bonus tahunan?"}
+{"timestamp":"2025-11-30T23:09:24.120Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2296,"questionLength":730,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-30T23:09:24.129Z","type":"MEMORY_FACTS_LATEST","userId":"u99","factsCount":0}
+{"timestamp":"2025-11-30T23:09:24.134Z","level":"debug","message":"INTENT_RESOLVED","userId":"u99","intent":"UNKNOWN","intentVersion":"v1","intentConfidence":1}
+{"timestamp":"2025-11-30T23:09:24.432Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":294,"inputLength":40,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:09:24.439Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":5,"finalCount":5}
+{"timestamp":"2025-11-30T23:09:24.780Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":338,"inputLength":40,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:09:24.789Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":5,"finalCount":5}
+{"timestamp":"2025-11-30T23:09:24.795Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"u99","role":"user","limit":5,"candidateLimit":15,"totalCandidates":0,"returned":0}
+{"timestamp":"2025-11-30T23:09:27.037Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2239,"questionLength":492,"contextLength":4018,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-30T23:09:27.624Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":578,"inputLength":139,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:09:27.637Z","type":"MEMORY_SAVE_CHAT","userId":"u99","role":"assistant","memoryType":"chat","memoryId":127}
+{"timestamp":"2025-11-30T23:09:27.642Z","type":"CHAT_RESPONSE","requestId":"8b093051-0a6c-459b-826d-5a1f0130e0cc","userId":"u99","answerLength":139,"durationMs":5822}
+{"timestamp":"2025-11-30T23:09:39.530Z","type":"CHAT_REQUEST","requestId":"3b43120a-081c-40cf-baed-276905415ea5","userId":"u99","question":"Pakaian yang boleh dipakai di kantor apa?"}
+{"timestamp":"2025-11-30T23:09:41.823Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2290,"questionLength":731,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-30T23:09:41.831Z","type":"MEMORY_FACTS_LATEST","userId":"u99","factsCount":0}
+{"timestamp":"2025-11-30T23:09:41.838Z","level":"debug","message":"INTENT_RESOLVED","userId":"u99","intent":"UNKNOWN","intentVersion":"v1","intentConfidence":1}
+{"timestamp":"2025-11-30T23:09:42.164Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":323,"inputLength":41,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:09:42.175Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":5,"finalCount":5}
+{"timestamp":"2025-11-30T23:09:42.537Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":354,"inputLength":41,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:09:42.548Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":5,"finalCount":5}
+{"timestamp":"2025-11-30T23:09:42.555Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"u99","role":"user","limit":5,"candidateLimit":15,"totalCandidates":0,"returned":0}
+{"timestamp":"2025-11-30T23:09:44.797Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2239,"questionLength":493,"contextLength":3975,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-30T23:09:45.158Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":351,"inputLength":125,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:09:45.170Z","type":"MEMORY_SAVE_CHAT","userId":"u99","role":"assistant","memoryType":"chat","memoryId":128}
+{"timestamp":"2025-11-30T23:09:45.176Z","type":"CHAT_RESPONSE","requestId":"3b43120a-081c-40cf-baed-276905415ea5","userId":"u99","answerLength":125,"durationMs":5646}
+{"timestamp":"2025-11-30T23:09:53.003Z","type":"CHAT_REQUEST","requestId":"a983f4b6-3d68-4fd2-bb46-ce06bbaa85e6","userId":"u7","question":"Saya suka bekerja remote di pagi hari karena bisa fokus."}
+{"timestamp":"2025-11-30T23:09:55.619Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2612,"questionLength":746,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-30T23:09:55.938Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":310,"inputLength":45,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:09:55.951Z","type":"MEMORY_SAVE_FACT","userId":"u7","role":"user","memoryKey":"preference","memoryType":"fact","memoryId":129}
+{"timestamp":"2025-11-30T23:09:56.310Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":353,"inputLength":88,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:09:56.322Z","type":"MEMORY_SAVE_CHAT","userId":"u7","role":"assistant","memoryType":"chat","memoryId":130}
+{"timestamp":"2025-11-30T23:10:02.978Z","type":"CHAT_REQUEST","requestId":"90d459ba-0911-4d19-9f65-964669a9456f","userId":"u7","question":"Apa preferensi kerja saya?"}
+{"timestamp":"2025-11-30T23:10:05.276Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2295,"questionLength":716,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-30T23:10:05.287Z","type":"MEMORY_FACTS_LATEST","userId":"u7","factsCount":1}
+{"timestamp":"2025-11-30T23:10:05.294Z","level":"debug","message":"INTENT_RESOLVED","userId":"u7","intent":"UNKNOWN","intentVersion":"v1","intentConfidence":1}
+{"timestamp":"2025-11-30T23:10:05.668Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":371,"inputLength":26,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:10:05.676Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":5,"finalCount":5}
+{"timestamp":"2025-11-30T23:10:05.980Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":301,"inputLength":26,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:10:05.989Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":5,"finalCount":5}
+{"timestamp":"2025-11-30T23:10:05.995Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"u7","role":"user","limit":5,"candidateLimit":15,"totalCandidates":1,"returned":1}
+{"timestamp":"2025-11-30T23:10:11.591Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":5592,"questionLength":478,"contextLength":4017,"memoryLength":91,"historyCount":0}
+{"timestamp":"2025-11-30T23:10:11.984Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":383,"inputLength":182,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:10:11.997Z","type":"MEMORY_SAVE_CHAT","userId":"u7","role":"assistant","memoryType":"chat","memoryId":131}
+{"timestamp":"2025-11-30T23:10:12.002Z","type":"CHAT_RESPONSE","requestId":"90d459ba-0911-4d19-9f65-964669a9456f","userId":"u7","answerLength":182,"durationMs":9024}
+{"timestamp":"2025-11-30T23:10:27.569Z","type":"CHAT_REQUEST","requestId":"864cf444-e9c8-4c66-9b41-cb5d22cd2971","userId":"employeeA","question":"Saya sedang hamil 5 bulan."}
+{"timestamp":"2025-11-30T23:10:29.947Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2374,"questionLength":716,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-30T23:10:30.293Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":337,"inputLength":8,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:10:30.304Z","type":"MEMORY_SAVE_FACT","userId":"employeeA","role":"user","memoryKey":"pregnancy_status","memoryType":"fact","memoryId":132}
+{"timestamp":"2025-11-30T23:10:30.666Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":355,"inputLength":58,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:10:30.678Z","type":"MEMORY_SAVE_CHAT","userId":"employeeA","role":"assistant","memoryType":"chat","memoryId":133}
+{"timestamp":"2025-11-30T23:10:32.192Z","type":"CHAT_REQUEST","requestId":"f859c3cb-ad9a-4870-a75f-e3b241344fac","userId":"employeeA","question":"Dengan kondisi saya hamil, berapa lama cuti melahirkan yang saya dapatkan?"}
+{"timestamp":"2025-11-30T23:10:34.368Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2173,"questionLength":764,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-30T23:10:34.377Z","type":"MEMORY_FACTS_LATEST","userId":"employeeA","factsCount":1}
+{"timestamp":"2025-11-30T23:10:34.383Z","level":"debug","message":"INTENT_RESOLVED","userId":"employeeA","intent":"UNKNOWN","intentVersion":"v1","intentConfidence":1}
+{"timestamp":"2025-11-30T23:10:34.734Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":349,"inputLength":74,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:10:34.741Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":4,"finalCount":4}
+{"timestamp":"2025-11-30T23:10:35.143Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":396,"inputLength":74,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:10:35.152Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":4,"finalCount":4}
+{"timestamp":"2025-11-30T23:10:35.158Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"employeeA","role":"user","limit":5,"candidateLimit":15,"totalCandidates":1,"returned":1}
+{"timestamp":"2025-11-30T23:10:37.293Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2132,"questionLength":526,"contextLength":3213,"memoryLength":17,"historyCount":0}
+{"timestamp":"2025-11-30T23:10:37.765Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":464,"inputLength":168,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:10:37.779Z","type":"MEMORY_SAVE_CHAT","userId":"employeeA","role":"assistant","memoryType":"chat","memoryId":134}
+{"timestamp":"2025-11-30T23:10:37.785Z","type":"CHAT_RESPONSE","requestId":"f859c3cb-ad9a-4870-a75f-e3b241344fac","userId":"employeeA","answerLength":168,"durationMs":5593}
+{"timestamp":"2025-11-30T23:10:46.910Z","type":"CHAT_REQUEST","requestId":"9a8e8570-e15b-463a-8bed-71a0f452103e","userId":"employeeA","question":"Saya ingin meningkatkan skill saya dalam manajemen."}
+{"timestamp":"2025-11-30T23:10:49.385Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2471,"questionLength":741,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-30T23:10:49.397Z","type":"MEMORY_FACTS_LATEST","userId":"employeeA","factsCount":1}
+{"timestamp":"2025-11-30T23:10:49.403Z","level":"debug","message":"INTENT_RESOLVED","userId":"employeeA","intent":"UNKNOWN","intentVersion":"v1","intentConfidence":1}
+{"timestamp":"2025-11-30T23:10:49.828Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":423,"inputLength":51,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:10:49.841Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":5,"finalCount":5}
+{"timestamp":"2025-11-30T23:10:50.233Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":387,"inputLength":51,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:10:50.246Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":5,"finalCount":5}
+{"timestamp":"2025-11-30T23:10:50.255Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"employeeA","role":"user","limit":5,"candidateLimit":15,"totalCandidates":1,"returned":1}
+{"timestamp":"2025-11-30T23:10:52.550Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2291,"questionLength":503,"contextLength":4017,"memoryLength":17,"historyCount":0}
+{"timestamp":"2025-11-30T23:10:52.986Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":428,"inputLength":318,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:10:53.001Z","type":"MEMORY_SAVE_CHAT","userId":"employeeA","role":"assistant","memoryType":"chat","memoryId":135}
+{"timestamp":"2025-11-30T23:10:53.008Z","type":"CHAT_RESPONSE","requestId":"9a8e8570-e15b-463a-8bed-71a0f452103e","userId":"employeeA","answerLength":318,"durationMs":6098}
+{"timestamp":"2025-11-30T23:11:06.691Z","type":"CHAT_REQUEST","requestId":"abe1ac5e-5162-440b-b9e2-c65ea1ddf1bf","userId":"employeeA","question":"Apakah perusahaan mendukung saya mengambil pelatihan manajemen?"}
+{"timestamp":"2025-11-30T23:11:08.881Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2187,"questionLength":753,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-30T23:11:08.890Z","type":"MEMORY_FACTS_LATEST","userId":"employeeA","factsCount":1}
+{"timestamp":"2025-11-30T23:11:08.894Z","level":"debug","message":"INTENT_RESOLVED","userId":"employeeA","intent":"UNKNOWN","intentVersion":"v1","intentConfidence":1}
+{"timestamp":"2025-11-30T23:11:09.225Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":327,"inputLength":63,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:11:09.234Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":5,"finalCount":5}
+{"timestamp":"2025-11-30T23:11:09.531Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":294,"inputLength":63,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:11:09.537Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":5,"finalCount":5}
+{"timestamp":"2025-11-30T23:11:09.543Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"employeeA","role":"user","limit":5,"candidateLimit":15,"totalCandidates":1,"returned":1}
+{"timestamp":"2025-11-30T23:11:11.865Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2319,"questionLength":515,"contextLength":4018,"memoryLength":17,"historyCount":0}
+{"timestamp":"2025-11-30T23:11:12.240Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":367,"inputLength":223,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:11:12.255Z","type":"MEMORY_SAVE_CHAT","userId":"employeeA","role":"assistant","memoryType":"chat","memoryId":136}
+{"timestamp":"2025-11-30T23:11:12.260Z","type":"CHAT_RESPONSE","requestId":"abe1ac5e-5162-440b-b9e2-c65ea1ddf1bf","userId":"employeeA","answerLength":223,"durationMs":5569}
+{"timestamp":"2025-11-30T23:11:16.899Z","type":"CHAT_REQUEST","requestId":"6d768e51-3933-4584-8051-62ce6ca9de3b","userId":"u77","question":"Apakah ada cuti ayah 6 bulan?"}
+{"timestamp":"2025-11-30T23:11:22.403Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":5500,"questionLength":719,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-30T23:11:22.414Z","type":"MEMORY_FACTS_LATEST","userId":"u77","factsCount":0}
+{"timestamp":"2025-11-30T23:11:22.421Z","level":"debug","message":"INTENT_RESOLVED","userId":"u77","intent":"UNKNOWN","intentVersion":"v1","intentConfidence":1}
+{"timestamp":"2025-11-30T23:11:23.119Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":694,"inputLength":29,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:11:23.124Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":2,"finalCount":2}
+{"timestamp":"2025-11-30T23:11:23.506Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":379,"inputLength":29,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:11:23.512Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":2,"finalCount":2}
+{"timestamp":"2025-11-30T23:11:23.518Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"u77","role":"user","limit":5,"candidateLimit":15,"totalCandidates":0,"returned":0}
+{"timestamp":"2025-11-30T23:11:25.836Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2314,"questionLength":481,"contextLength":1605,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-30T23:11:26.173Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":328,"inputLength":354,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:11:26.185Z","type":"MEMORY_SAVE_CHAT","userId":"u77","role":"assistant","memoryType":"chat","memoryId":137}
+{"timestamp":"2025-11-30T23:11:26.189Z","type":"CHAT_RESPONSE","requestId":"6d768e51-3933-4584-8051-62ce6ca9de3b","userId":"u77","answerLength":354,"durationMs":9290}
+{"timestamp":"2025-11-30T23:11:45.561Z","level":"error","message":"Invalid request","type":"ValidationError","statusCode":400,"metadata":{"issues":[{"code":"invalid_type","expected":"object","received":"undefined","path":[],"message":"Required"}]}}
+{"timestamp":"2025-11-30T23:12:09.662Z","type":"CHAT_REQUEST","requestId":"5bafebbf-3318-4000-a274-756e702b2fb6","userId":"u77","question":"Bolehkan saya melihat data pribadi karyawan lain?"}
+{"timestamp":"2025-11-30T23:12:12.167Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2500,"questionLength":739,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-30T23:12:12.181Z","type":"MEMORY_FACTS_LATEST","userId":"u77","factsCount":0}
+{"timestamp":"2025-11-30T23:12:12.186Z","level":"debug","message":"INTENT_RESOLVED","userId":"u77","intent":"UNKNOWN","intentVersion":"v1","intentConfidence":1}
+{"timestamp":"2025-11-30T23:12:12.611Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":420,"inputLength":49,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:12:12.647Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":5,"finalCount":5}
+{"timestamp":"2025-11-30T23:12:13.024Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":370,"inputLength":49,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:12:13.038Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":5,"finalCount":5}
+{"timestamp":"2025-11-30T23:12:13.048Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"u77","role":"user","limit":5,"candidateLimit":15,"totalCandidates":0,"returned":0}
+{"timestamp":"2025-11-30T23:12:15.201Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2146,"questionLength":501,"contextLength":3974,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-30T23:12:15.682Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":474,"inputLength":214,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:12:15.696Z","type":"MEMORY_SAVE_CHAT","userId":"u77","role":"assistant","memoryType":"chat","memoryId":138}
+{"timestamp":"2025-11-30T23:12:15.703Z","type":"CHAT_RESPONSE","requestId":"5bafebbf-3318-4000-a274-756e702b2fb6","userId":"u77","answerLength":214,"durationMs":6041}
+{"timestamp":"2025-11-30T23:12:48.207Z","type":"CHAT_REQUEST","requestId":"bde5f023-067e-4768-a7ab-12798ae54546","userId":"u77","question":"Apa strategi bisnis rahasia perusahaan?"}
+{"timestamp":"2025-11-30T23:12:50.406Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2194,"questionLength":729,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-30T23:12:50.422Z","type":"MEMORY_FACTS_LATEST","userId":"u77","factsCount":0}
+{"timestamp":"2025-11-30T23:12:50.427Z","level":"debug","message":"INTENT_RESOLVED","userId":"u77","intent":"UNKNOWN","intentVersion":"v1","intentConfidence":1}
+{"timestamp":"2025-11-30T23:12:50.749Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":314,"inputLength":39,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:12:50.757Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":5,"finalCount":5}
+{"timestamp":"2025-11-30T23:12:51.080Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":317,"inputLength":39,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:12:51.085Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":5,"finalCount":5}
+{"timestamp":"2025-11-30T23:12:51.094Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"u77","role":"user","limit":5,"candidateLimit":15,"totalCandidates":0,"returned":0}
+{"timestamp":"2025-11-30T23:12:53.295Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2192,"questionLength":491,"contextLength":3975,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-30T23:12:53.640Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":339,"inputLength":357,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:12:53.649Z","type":"MEMORY_SAVE_CHAT","userId":"u77","role":"assistant","memoryType":"chat","memoryId":139}
+{"timestamp":"2025-11-30T23:12:53.654Z","type":"CHAT_RESPONSE","requestId":"bde5f023-067e-4768-a7ab-12798ae54546","userId":"u77","answerLength":357,"durationMs":5447}
+{"timestamp":"2025-11-30T23:15:32.862Z","type":"CHAT_REQUEST","requestId":"04f6506e-98ba-467c-9940-59060c3359c7","userId":"farhan","question":"Halo, nama saya Farhan."}
+{"timestamp":"2025-11-30T23:15:35.222Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2355,"questionLength":713,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-30T23:15:36.131Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":903,"inputLength":6,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:15:36.150Z","type":"MEMORY_SAVE_FACT","userId":"farhan","role":"user","memoryKey":"name","memoryType":"fact","memoryId":140}
+{"timestamp":"2025-11-30T23:15:36.479Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":323,"inputLength":42,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:15:36.495Z","type":"MEMORY_SAVE_CHAT","userId":"farhan","role":"assistant","memoryType":"chat","memoryId":141}
+{"timestamp":"2025-11-30T23:15:37.851Z","type":"CHAT_REQUEST","requestId":"387a3b7a-3328-47cd-904b-c251320a81c5","userId":"farhan","question":"Saya lebih produktif bekerja secara remote di pagi hari."}
+{"timestamp":"2025-11-30T23:15:40.194Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2340,"questionLength":746,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-30T23:15:40.200Z","type":"MEMORY_FACTS_LATEST","userId":"farhan","factsCount":1}
+{"timestamp":"2025-11-30T23:15:40.204Z","level":"debug","message":"INTENT_RESOLVED","userId":"farhan","intent":"UNKNOWN","intentVersion":"v1","intentConfidence":1}
+{"timestamp":"2025-11-30T23:15:40.591Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":384,"inputLength":56,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:15:40.602Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":5,"finalCount":5}
+{"timestamp":"2025-11-30T23:15:40.990Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":382,"inputLength":56,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:15:40.999Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":5,"finalCount":5}
+{"timestamp":"2025-11-30T23:15:41.005Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"farhan","role":"user","limit":5,"candidateLimit":15,"totalCandidates":1,"returned":1}
+{"timestamp":"2025-11-30T23:15:44.259Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":3251,"questionLength":508,"contextLength":3974,"memoryLength":13,"historyCount":0}
+{"timestamp":"2025-11-30T23:15:44.620Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":353,"inputLength":434,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:15:44.633Z","type":"MEMORY_SAVE_CHAT","userId":"farhan","role":"assistant","memoryType":"chat","memoryId":142}
+{"timestamp":"2025-11-30T23:15:44.640Z","type":"CHAT_RESPONSE","requestId":"387a3b7a-3328-47cd-904b-c251320a81c5","userId":"farhan","answerLength":434,"durationMs":6789}
+{"timestamp":"2025-11-30T23:15:51.708Z","type":"CHAT_REQUEST","requestId":"9c3912f8-fb0e-4858-be59-9ed2fbd5b48c","userId":"farhan","question":"Saya ingin meningkatkan skill kepemimpinan melalui pelatihan."}
+{"timestamp":"2025-11-30T23:15:54.076Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2366,"questionLength":751,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-30T23:15:54.084Z","type":"MEMORY_FACTS_LATEST","userId":"farhan","factsCount":1}
+{"timestamp":"2025-11-30T23:15:54.090Z","level":"debug","message":"INTENT_RESOLVED","userId":"farhan","intent":"UNKNOWN","intentVersion":"v1","intentConfidence":1}
+{"timestamp":"2025-11-30T23:15:54.364Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":269,"inputLength":61,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:15:54.373Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":4,"finalCount":4}
+{"timestamp":"2025-11-30T23:15:54.705Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":328,"inputLength":61,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:15:54.716Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":4,"finalCount":4}
+{"timestamp":"2025-11-30T23:15:54.722Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"farhan","role":"user","limit":5,"candidateLimit":15,"totalCandidates":1,"returned":1}
+{"timestamp":"2025-11-30T23:15:57.078Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2351,"questionLength":513,"contextLength":3213,"memoryLength":13,"historyCount":0}
+{"timestamp":"2025-11-30T23:15:57.545Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":459,"inputLength":292,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:15:57.555Z","type":"MEMORY_SAVE_CHAT","userId":"farhan","role":"assistant","memoryType":"chat","memoryId":143}
+{"timestamp":"2025-11-30T23:15:57.558Z","type":"CHAT_RESPONSE","requestId":"9c3912f8-fb0e-4858-be59-9ed2fbd5b48c","userId":"farhan","answerLength":292,"durationMs":5850}
+{"timestamp":"2025-11-30T23:16:00.893Z","type":"CHAT_REQUEST","requestId":"bd4018c6-96a8-4a3a-95db-a8b361c752c8","userId":"farhan","question":"Apa saja preferensi kerja saya?"}
+{"timestamp":"2025-11-30T23:16:03.056Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2160,"questionLength":721,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-30T23:16:03.065Z","type":"MEMORY_FACTS_LATEST","userId":"farhan","factsCount":1}
+{"timestamp":"2025-11-30T23:16:03.069Z","level":"debug","message":"INTENT_RESOLVED","userId":"farhan","intent":"UNKNOWN","intentVersion":"v1","intentConfidence":1}
+{"timestamp":"2025-11-30T23:16:06.737Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":3664,"inputLength":31,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:16:06.747Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":5,"finalCount":5}
+{"timestamp":"2025-11-30T23:16:07.033Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":281,"inputLength":31,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:16:07.043Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":5,"finalCount":5}
+{"timestamp":"2025-11-30T23:16:07.051Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"farhan","role":"user","limit":5,"candidateLimit":15,"totalCandidates":1,"returned":1}
+{"timestamp":"2025-11-30T23:16:09.336Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2282,"questionLength":483,"contextLength":4017,"memoryLength":13,"historyCount":0}
+{"timestamp":"2025-11-30T23:16:09.704Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":359,"inputLength":198,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:16:09.716Z","type":"MEMORY_SAVE_CHAT","userId":"farhan","role":"assistant","memoryType":"chat","memoryId":144}
+{"timestamp":"2025-11-30T23:16:09.724Z","type":"CHAT_RESPONSE","requestId":"bd4018c6-96a8-4a3a-95db-a8b361c752c8","userId":"farhan","answerLength":198,"durationMs":8831}
+{"timestamp":"2025-11-30T23:16:23.076Z","type":"CHAT_REQUEST","requestId":"09ef07a7-8c06-48c5-8bf2-cbc9e3124481","userId":"farhan","question":"Saya Farhan, saya ingin mengikuti pelatihan kepemimpinan dan prefer bekerja remote di pagi hari. Apakah perusahaan mendukung pelatihan tersebut, dan bagaimana kebijakan kerja remote?"}
+{"timestamp":"2025-11-30T23:16:25.321Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2241,"questionLength":872,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-30T23:16:25.832Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":502,"inputLength":6,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:16:25.849Z","type":"MEMORY_SAVE_FACT","userId":"farhan","role":"user","memoryKey":"name","memoryType":"fact","memoryId":140}
+{"timestamp":"2025-11-30T23:16:26.287Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":433,"inputLength":42,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:16:26.300Z","type":"MEMORY_SAVE_CHAT","userId":"farhan","role":"assistant","memoryType":"chat","memoryId":146}
+{"timestamp":"2025-11-30T23:16:31.154Z","type":"CHAT_REQUEST","requestId":"e2c3d8b8-2133-4165-ac9c-7797388f2f67","userId":"farhan","question":"Kalau saya mengambil pelatihan kepemimpinan, apakah ada aturan cuti khusus untuk itu? Dan apakah bisa dijadwalkan pagi hari karena saya lebih fokus saat bekerja remote?"}
+{"timestamp":"2025-11-30T23:16:33.781Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2623,"questionLength":858,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-30T23:16:33.792Z","type":"MEMORY_FACTS_LATEST","userId":"farhan","factsCount":1}
+{"timestamp":"2025-11-30T23:16:33.799Z","level":"debug","message":"INTENT_RESOLVED","userId":"farhan","intent":"UNKNOWN","intentVersion":"v1","intentConfidence":1}
+{"timestamp":"2025-11-30T23:16:34.130Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":326,"inputLength":168,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:16:34.141Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":5,"finalCount":5}
+{"timestamp":"2025-11-30T23:16:34.483Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":337,"inputLength":168,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:16:34.493Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":5,"finalCount":5}
+{"timestamp":"2025-11-30T23:16:34.501Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"farhan","role":"user","limit":5,"candidateLimit":15,"totalCandidates":1,"returned":1}
+{"timestamp":"2025-11-30T23:16:37.127Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2611,"questionLength":620,"contextLength":4017,"memoryLength":13,"historyCount":0}
+{"timestamp":"2025-11-30T23:16:37.492Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":357,"inputLength":515,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:16:37.504Z","type":"MEMORY_SAVE_CHAT","userId":"farhan","role":"assistant","memoryType":"chat","memoryId":147}
+{"timestamp":"2025-11-30T23:16:37.512Z","type":"CHAT_RESPONSE","requestId":"e2c3d8b8-2133-4165-ac9c-7797388f2f67","userId":"farhan","answerLength":515,"durationMs":6358}
+{"timestamp":"2025-11-30T23:17:27.525Z","level":"error","message":"Unexpected token 'S', ...\"uestion\": Saya suka \"... is not valid JSON","type":"entity.parse.failed","statusCode":400}
+{"timestamp":"2025-11-30T23:17:34.889Z","type":"CHAT_REQUEST","requestId":"4b6d0d6a-75eb-4d35-b3e2-d96bb2852cb4","userId":"farhan","question":"Saya suka kopi"}
+{"timestamp":"2025-11-30T23:17:37.186Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2292,"questionLength":704,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-30T23:17:37.198Z","type":"MEMORY_FACTS_LATEST","userId":"farhan","factsCount":1}
+{"timestamp":"2025-11-30T23:17:37.204Z","level":"debug","message":"INTENT_RESOLVED","userId":"farhan","intent":"UNKNOWN","intentVersion":"v1","intentConfidence":1}
+{"timestamp":"2025-11-30T23:17:37.527Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":318,"inputLength":14,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:17:37.535Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":1,"finalCount":1}
+{"timestamp":"2025-11-30T23:17:37.847Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":307,"inputLength":14,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:17:37.855Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":1,"finalCount":1}
+{"timestamp":"2025-11-30T23:17:37.863Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"farhan","role":"user","limit":5,"candidateLimit":15,"totalCandidates":1,"returned":1}
+{"timestamp":"2025-11-30T23:17:40.083Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2215,"questionLength":466,"contextLength":757,"memoryLength":13,"historyCount":0}
+{"timestamp":"2025-11-30T23:17:40.460Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":371,"inputLength":270,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:17:40.472Z","type":"MEMORY_SAVE_CHAT","userId":"farhan","role":"assistant","memoryType":"chat","memoryId":148}
+{"timestamp":"2025-11-30T23:17:40.478Z","type":"CHAT_RESPONSE","requestId":"4b6d0d6a-75eb-4d35-b3e2-d96bb2852cb4","userId":"farhan","answerLength":270,"durationMs":5589}
+{"timestamp":"2025-11-30T23:18:17.572Z","type":"CHAT_REQUEST","requestId":"842771c8-fe97-4a2d-ab21-bc0d989756de","userId":"farhan","question":"I prefer coffee as my morning meal"}
+{"timestamp":"2025-11-30T23:18:20.248Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2671,"questionLength":724,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-30T23:18:20.842Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":587,"inputLength":6,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:18:20.857Z","type":"MEMORY_SAVE_FACT","userId":"farhan","role":"user","memoryKey":"morning meal preference","memoryType":"fact","memoryId":149}
+{"timestamp":"2025-11-30T23:18:21.165Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":303,"inputLength":64,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:18:21.175Z","type":"MEMORY_SAVE_CHAT","userId":"farhan","role":"assistant","memoryType":"chat","memoryId":150}
+{"timestamp":"2025-11-30T23:18:59.502Z","type":"CHAT_REQUEST","requestId":"544bebc4-f87e-4575-b161-e408535176ab","userId":"farhan","question":"I want to improve my leadership skill"}
+{"timestamp":"2025-11-30T23:19:05.443Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":5936,"questionLength":727,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-30T23:19:05.456Z","type":"MEMORY_FACTS_LATEST","userId":"farhan","factsCount":2}
+{"timestamp":"2025-11-30T23:19:05.461Z","level":"debug","message":"INTENT_RESOLVED","userId":"farhan","intent":"UNKNOWN","intentVersion":"v1","intentConfidence":1}
+{"timestamp":"2025-11-30T23:19:05.886Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":422,"inputLength":37,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:19:05.894Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":0,"finalCount":5}
+{"timestamp":"2025-11-30T23:19:06.219Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":321,"inputLength":37,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:19:06.226Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":0,"finalCount":5}
+{"timestamp":"2025-11-30T23:19:06.232Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"farhan","role":"user","limit":5,"candidateLimit":15,"totalCandidates":2,"returned":2}
+{"timestamp":"2025-11-30T23:19:08.406Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2169,"questionLength":489,"contextLength":4017,"memoryLength":27,"historyCount":0}
+{"timestamp":"2025-11-30T23:19:08.762Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":351,"inputLength":345,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:19:08.772Z","type":"MEMORY_SAVE_CHAT","userId":"farhan","role":"assistant","memoryType":"chat","memoryId":151}
+{"timestamp":"2025-11-30T23:19:08.778Z","type":"CHAT_RESPONSE","requestId":"544bebc4-f87e-4575-b161-e408535176ab","userId":"farhan","answerLength":345,"durationMs":9276}
+{"timestamp":"2025-11-30T23:19:26.102Z","type":"CHAT_REQUEST","requestId":"92bebe28-faee-40da-baa0-2a97d53c4db1","userId":"farhan","question":"I like to work remote on the morning"}
+{"timestamp":"2025-11-30T23:19:26.477Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":369,"inputLength":29,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:19:26.490Z","type":"MEMORY_SAVE_FACT","userId":"farhan","role":"user","memoryKey":"preference","memoryType":"fact","memoryId":152}
+{"timestamp":"2025-11-30T23:19:26.806Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":311,"inputLength":66,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:19:26.838Z","type":"MEMORY_SAVE_CHAT","userId":"farhan","role":"assistant","memoryType":"chat","memoryId":153}
+{"timestamp":"2025-11-30T23:19:55.450Z","type":"CHAT_REQUEST","requestId":"32591298-7417-48ab-a37f-1015e49b82bd","userId":"farhan","question":"Apa saja preferensi kerja saya?"}
+{"timestamp":"2025-11-30T23:19:57.768Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2312,"questionLength":721,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-30T23:19:57.779Z","type":"MEMORY_FACTS_LATEST","userId":"farhan","factsCount":3}
+{"timestamp":"2025-11-30T23:19:57.785Z","level":"debug","message":"INTENT_RESOLVED","userId":"farhan","intent":"UNKNOWN","intentVersion":"v1","intentConfidence":1}
+{"timestamp":"2025-11-30T23:19:58.094Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":307,"inputLength":31,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:19:58.105Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":5,"finalCount":5}
+{"timestamp":"2025-11-30T23:19:58.374Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":263,"inputLength":31,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:19:58.381Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":5,"finalCount":5}
+{"timestamp":"2025-11-30T23:19:58.387Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"farhan","role":"user","limit":5,"candidateLimit":15,"totalCandidates":3,"returned":3}
+{"timestamp":"2025-11-30T23:20:00.606Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2217,"questionLength":483,"contextLength":4017,"memoryLength":87,"historyCount":0}
+{"timestamp":"2025-11-30T23:20:01.285Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":671,"inputLength":184,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:20:01.299Z","type":"MEMORY_SAVE_CHAT","userId":"farhan","role":"assistant","memoryType":"chat","memoryId":154}
+{"timestamp":"2025-11-30T23:20:01.305Z","type":"CHAT_RESPONSE","requestId":"32591298-7417-48ab-a37f-1015e49b82bd","userId":"farhan","answerLength":184,"durationMs":5855}
+{"timestamp":"2025-11-30T23:22:08.549Z","type":"CHAT_REQUEST","requestId":"1ca12bf2-e7ca-4936-93e4-ef66a4be419c","userId":"farhan","question":"I prefer tea as my morning meal for now"}
+{"timestamp":"2025-11-30T23:22:11.316Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2760,"questionLength":729,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-30T23:22:11.710Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":385,"inputLength":3,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:22:11.722Z","type":"MEMORY_SAVE_FACT","userId":"farhan","role":"user","memoryKey":"morning meal preference","memoryType":"fact","memoryId":149}
+{"timestamp":"2025-11-30T23:22:12.064Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":338,"inputLength":69,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:22:12.077Z","type":"MEMORY_SAVE_CHAT","userId":"farhan","role":"assistant","memoryType":"chat","memoryId":156}
+{"timestamp":"2025-11-30T23:22:19.328Z","type":"CHAT_REQUEST","requestId":"a81dd254-fb75-450f-9061-d8f430bb7487","userId":"farhan","question":"Apa saja preferensi kerja saya?"}
+{"timestamp":"2025-11-30T23:22:21.570Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2235,"questionLength":721,"contextLength":0,"memoryLength":0,"historyCount":0}
+{"timestamp":"2025-11-30T23:22:21.581Z","type":"MEMORY_FACTS_LATEST","userId":"farhan","factsCount":3}
+{"timestamp":"2025-11-30T23:22:21.589Z","level":"debug","message":"INTENT_RESOLVED","userId":"farhan","intent":"UNKNOWN","intentVersion":"v1","intentConfidence":1}
+{"timestamp":"2025-11-30T23:22:21.988Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":395,"inputLength":31,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:22:21.997Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":5,"finalCount":5}
+{"timestamp":"2025-11-30T23:22:22.350Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":345,"inputLength":31,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:22:22.361Z","type":"RAG_RETRIEVE","topK":5,"distanceThreshold":1.2,"rawCount":5,"filteredCount":5,"finalCount":5}
+{"timestamp":"2025-11-30T23:22:22.370Z","type":"MEMORY_RETRIEVE_INTELLIGENT","userId":"farhan","role":"user","limit":5,"candidateLimit":15,"totalCandidates":3,"returned":3}
+{"timestamp":"2025-11-30T23:22:24.865Z","type":"LLM_SUCCESS","model":"gpt-4o-mini","durationMs":2490,"questionLength":483,"contextLength":4017,"memoryLength":81,"historyCount":0}
+{"timestamp":"2025-11-30T23:22:25.179Z","type":"EMBEDDING_SUCCESS","model":"text-embedding-3-small","durationMs":305,"inputLength":192,"vectorLength":1536}
+{"timestamp":"2025-11-30T23:22:25.194Z","type":"MEMORY_SAVE_CHAT","userId":"farhan","role":"assistant","memoryType":"chat","memoryId":157}
+{"timestamp":"2025-11-30T23:22:25.201Z","type":"CHAT_RESPONSE","requestId":"a81dd254-fb75-450f-9061-d8f430bb7487","userId":"farhan","answerLength":192,"durationMs":5873}

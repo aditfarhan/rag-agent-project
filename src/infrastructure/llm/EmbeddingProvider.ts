@@ -1,26 +1,21 @@
+/**
+ * Embedding provider for vector-based semantic operations in RAG system.
+ *
+ * Centralized text-to-vector conversion service enabling semantic search:
+ * - OpenAI embedding API integration with configurable models
+ * - Single-text and batch embedding support for performance optimization
+ * - Structured error handling and observability logging
+ * - Config-driven model selection and timeout management
+ *
+ * Critical infrastructure component powering both RAG document retrieval
+ * and memory similarity search through consistent vector representation.
+ */
 import { config } from "@config/index";
 import { logEvent } from "@infra/logging/Logger";
 
 import { client, withRetry } from "./OpenAIAdapter";
 import type { StatusCodeError } from "../../types/StatusCodeError";
 
-/**
- * Embedding provider (infrastructure layer).
- *
- * Responsibilities:
- * - Provide a single, centralized API for generating text embeddings.
- * - Use config-driven model selection and timeouts (via the shared OpenAI client).
- * - Support both single-text and batched embeddings for performance.
- * - Emit structured logs for observability.
- *
- * Behavior is identical to the original embedding service implementation.
- */
-
-/**
- * Generate an embedding for a single text input.
- *
- * This is the primary entry point used by higher-level services/use-cases.
- */
 export async function embedText(text: string): Promise<number[]> {
   const normalized = text?.trim() ?? "";
 
@@ -87,11 +82,6 @@ export async function embedText(text: string): Promise<number[]> {
   }
 }
 
-/**
- * Generate embeddings for a batch of texts in a single API call.
- *
- * This is useful for ingest flows where many chunks must be embedded.
- */
 export async function embedBatch(texts: string[]): Promise<number[][]> {
   const normalized = texts.map((t) => (t ?? "").trim());
   const nonEmpty = normalized.filter((t) => t.length > 0);

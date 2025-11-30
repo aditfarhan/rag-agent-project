@@ -1,8 +1,11 @@
 /**
- * Utilities for working with pgvector-compatible embeddings.
+ * Vector utilities for PostgreSQL pgvector integration in RAG system.
  *
- * This module centralizes the string literal format used in all SQL queries
- * so that changes to vector representation are done in exactly one place.
+ * Provides consistent embedding format conversion for semantic search operations.
+ * Ensures all vector operations use uniform representation for reliable
+ * similarity calculations in both document retrieval and memory search contexts.
+ *
+ * Critical infrastructure for the "retrieval" phase of RAG and memory subsystems.
  */
 export function toPgVectorLiteral(vector: number[]): string {
   if (!Array.isArray(vector)) {

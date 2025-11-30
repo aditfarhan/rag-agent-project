@@ -1,3 +1,15 @@
+/**
+ * OpenAI + Mastra AI agent integration layer.
+ *
+ * Provides LLM capabilities for the RAG system:
+ * - OpenAI API client with retry logic and error handling
+ * - Mastra AI agent for context-aware conversations
+ * - Embedding generation for vector search
+ * - Structured prompting with memory and document context
+ *
+ * Critical infrastructure enabling the "Generation" component of RAG,
+ * powering intelligent responses that combine user memory with document context.
+ */
 import { openai as mastraOpenAI } from "@ai-sdk/openai";
 import { Agent } from "@mastra/core/agent";
 import OpenAI from "openai";
@@ -9,38 +21,12 @@ import {
 } from "@domain/llm/ports";
 import { logEvent, logger } from "@infra/logging/Logger";
 
-/**
- * OpenAI / LLM adapter (infrastructure layer).
- *
- * Responsibilities:
- * - Provide a single, centralized OpenAI-compatible client for embeddings.
- * - Provide the Mastra-based LLM agent and the core callLLM function.
- *
- * This file merges the responsibilities that previously lived in:
- * - core/mastraAgent.ts
- * - services/mastraAgent.ts
- * - services/openAIClient.ts
- *
- * Behavior and prompts are preserved exactly.
- */
-
-/**
- * Shared OpenAI REST client used for embeddings.
- *
- * Mirrors the behavior of the previous services/openAIClient + infrastructure/openAI client.
- */
 export const client = new OpenAI({
   apiKey: config.openai.key,
-  // Optional compatible base URL, e.g. for proxies or gateways.
-  // When undefined, the official api.openai.com endpoint is used.
   baseURL: config.openai.baseUrl,
   timeout: config.openai.timeoutMs,
 });
 
-/**
- * Mastra-powered LLM agent, configured with the same instructions and model
- * as the original core/mastraAgent.ts.
- */
 export const mastra = new Agent({
   name: "document-agent",
   instructions: `
@@ -107,14 +93,10 @@ function delay(ms: number): Promise<void> {
 }
 
 /**
- * Determine whether an error is transient and should be retried.
+ * Determines if an error warrants retry in the RAG pipeline.
  *
- * We treat the following as retryable:
- * - Network-style errors: ECONNRESET, ETIMEDOUT
- * - HTTP status: 429, 500, 502, 503
- *
- * This function is intentionally conservative and does NOT change the
- * final error shape propagated to callers.
+ * Conservative approach prevents infinite retries while allowing recovery
+ * from transient network issues and rate limits that are common in LLM operations.
  */
 function isRetryableError(error: unknown): boolean {
   const retryableCodes = new Set(["ECONNRESET", "ETIMEDOUT"]);
@@ -138,32 +120,22 @@ function isRetryableError(error: unknown): boolean {
 }
 
 /**
- * Generic retry + backoff wrapper for LLM-related calls.
+ * Retry configuration for LLM operations with exponential backoff.
  *
- * Rules:
- * - Up to 3 attempts total (initial + 2 retries)
- * - Backoff: 0ms (first) -> 200ms -> 500ms
- * - Only retries on transient network / rate-limit / 5xx errors
- *
- * IMPORTANT:
- * - Does NOT modify the successful return value in any way.
- * - On final failure, re-throws the last error as-is so existing
- *   error handling and response behavior remain identical.
- *
- * The `operation` argument is used only for structured telemetry and has no
- * effect on control flow or error propagation.
+ * Strategy prioritizes quick recovery from transient failures while preventing
+ * resource exhaustion. Conservative retry limits ensure resilience without
+ * masking persistent errors in the RAG pipeline.
  */
 export async function withRetry<T>(
   fn: () => Promise<T>,
   operation: string
 ): Promise<T> {
-  const backoffDelays: number[] = [0, 200, 500]; // ms
+  const backoffDelays: number[] = [0, 200, 500];
 
   let lastError: unknown;
 
   for (let attempt = 1; attempt <= backoffDelays.length; attempt += 1) {
     if (attempt > 1) {
-      // Apply backoff before retrying
       const delayMs = backoffDelays[attempt - 1] ?? 0;
       await delay(delayMs);
     }
@@ -174,13 +146,11 @@ export async function withRetry<T>(
       lastError = e;
 
       if (!isRetryableError(e) || attempt === backoffDelays.length) {
-        // Non-retryable error or we've exhausted all attempts
         throw e;
       }
 
       const candidate = e as { message?: unknown };
 
-      // Structured retry telemetry; does not affect control flow.
       logger.log("warn", "LLM_RETRY", {
         attempt,
         error:
@@ -190,7 +160,6 @@ export async function withRetry<T>(
     }
   }
 
-  // Should be unreachable, but keep TypeScript satisfied and match behavior.
   throw lastError instanceof Error
     ? lastError
     : new Error("LLM operation failed after retries.");
@@ -227,9 +196,6 @@ export async function callLLM(
   const startedAt = Date.now();
 
   try {
-    // Mastra's generate() expects a MessageListInput type that is structurally
-    // compatible with our message shape, but typed more loosely. We cast at the
-    // boundary to satisfy TypeScript while keeping strong typing internally.
     const result = await withRetry(
       () =>
         mastra.generate(
@@ -274,8 +240,6 @@ export async function callLLM(
   }
 }
 
-// Concrete implementation of the LLMPort used by domain/application layers.
-// This preserves the existing callLLM behavior while exposing it via the port.
 export const llmPort: LLMPort = {
   callLLM,
 };
@@ -296,7 +260,6 @@ export async function validateOpenAIKey(): Promise<void> {
     return;
   }
 
-  // 1) Basic key format validation (do not throw, only log)
   if (!/^sk-[A-Za-z0-9]{20,}$/.test(key)) {
     console.error(
       "❌ OPENAI_API_KEY format appears invalid. It should start with 'sk-' and contain a valid token."
@@ -305,12 +268,10 @@ export async function validateOpenAIKey(): Promise<void> {
     console.log("✅ OPENAI_API_KEY detected & basic format looks valid.");
   }
 
-  // 2) Online connectivity test (non-fatal)
   try {
     const healthClient = new OpenAI({
       apiKey: key,
       baseURL: config.openai.baseUrl,
-      // Use a conservative timeout for health checks to avoid blocking startup.
       timeout: Math.min(config.openai.timeoutMs, 5000),
     });
 
@@ -338,7 +299,6 @@ export async function validateOpenAIKey(): Promise<void> {
   } catch (error: unknown) {
     const caught = error as { message?: unknown; name?: unknown };
 
-    // Do NOT throw — only log. Application should still start.
     console.error("❌ OpenAI connectivity test failed:", {
       message:
         typeof caught.message === "string" ? caught.message : String(error),

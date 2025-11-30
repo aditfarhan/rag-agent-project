@@ -1,16 +1,19 @@
+/**
+ * RAG (Retrieval-Augmented Generation) context retrieval engine.
+ *
+ * Orchestrates vector-based document search for intelligent context retrieval:
+ * - Generates embeddings for user queries
+ * - Performs similarity search over document chunks
+ * - Applies distance thresholds for quality filtering
+ * - Builds contextual prompt strings for LLM consumption
+ *
+ * Central coordinator for the "retrieval" component in RAG, providing relevant
+ * document context to the Mastra AI agent for informed responses.
+ */
 import { config } from "@config/index";
 import { ragRepository } from "@infra/database/PgVectorRagRepository";
 import { logEvent } from "@infra/logging/Logger";
 
-/**
- * RAG Retrieval Service (domain-level RAG engine)
- *
- * Responsibilities:
- * - Provide a single, centralized retrieval engine for document chunks.
- * - Encapsulate vector similarity queries against the `chunks` table (via infra).
- * - Apply configurable similarity thresholding and ranking.
- * - Assemble textual context for LLM consumption.
- */
 export interface ChunkRow {
   id: number;
   document_id: number;
@@ -37,14 +40,6 @@ export interface RagRetrievalResult {
   };
 }
 
-/**
- * Execute a vector similarity query over the chunks table, ordering by distance.
- *
- * This function now delegates to the PgVectorRagRepository adapter, which
- * preserves the original behavior (embedding <-> $1::vector ordered ASC).
- * No post-filtering is applied here; it is intended for internal use by
- * higher-level helpers.
- */
 async function queryChunksByEmbedding(
   queryEmbedding: number[],
   topK: number
@@ -52,14 +47,6 @@ async function queryChunksByEmbedding(
   return ragRepository.queryChunksByEmbedding(queryEmbedding, topK);
 }
 
-/**
- * Unified RAG retrieval with configurable thresholding and ranking.
- *
- * Behavior matches the existing /chat RAG logic:
- * - Retrieve topK nearest chunks.
- * - Filter out chunks with distance > threshold.
- * - If all filtered out, fall back to the raw topK set.
- */
 export async function getRagContextForQuery(
   queryEmbedding: number[],
   options: RagRetrievalOptions = {}
@@ -77,8 +64,6 @@ export async function getRagContextForQuery(
   );
 
   const finalChunks = filteredChunks.length > 0 ? filteredChunks : rawChunks;
-
-  // const context = finalChunks.map((c) => c.content).join("\n---\n");
 
   logEvent("RAG_RETRIEVE", {
     topK,
@@ -101,11 +86,6 @@ export async function getRagContextForQuery(
   };
 }
 
-/**
- * Assemble a plain text context string from a set of chunks.
- *
- * This is exposed in case higher-level services want context-only behavior.
- */
 export function buildContextFromChunks(chunks: ChunkRow[]): string {
   if (!chunks.length) {
     return "";
@@ -114,13 +94,6 @@ export function buildContextFromChunks(chunks: ChunkRow[]): string {
   return chunks.map((c) => c.content).join("\n---\n");
 }
 
-/**
- * Simple document search by vector similarity, returning the top N chunks.
- *
- * This keeps the /api/search behavior but routes DB access through the
- * PgVectorRagRepository adapter for consistency and observability. Logging
- * remains here in the domain layer so behavior is unchanged.
- */
 export async function semanticSearch(
   queryEmbedding: number[],
   limit: number = 5

@@ -1,10 +1,14 @@
 /**
- * Ingest application use-case.
+ * Document ingestion pipeline for RAG system.
  *
- * Normalizes markdown-like documents, chunks them into semantically sized
- * segments, embeds all chunks via the shared embedding provider, and writes
- * them into the Postgres + pgvector-backed `documents` and `chunks` tables.
- * This module contains no HTTP concerns and is invoked by the ingest controller.
+ * Handles end-to-end processing of markdown documents:
+ * - Validates file existence and size constraints
+ * - Normalizes markdown content to plain text
+ * - Chunks text into semantically sized segments
+ * - Generates vector embeddings for all chunks
+ * - Stores documents and chunks in PostgreSQL + pgvector
+ *
+ * Integrates with the vector database to enable semantic search capabilities.
  */
 import fs from "fs";
 
@@ -30,10 +34,6 @@ export interface IngestResult {
   inserted: number;
 }
 
-/**
- * Chunk text by paragraphs, with a fallback to a fixed-size sliding window.
- * This preserves the behavior of the original route-level implementation.
- */
 function chunkText(text: string, maxLen = 800): string[] {
   const paragraphs = text
     .split(/\n{2,}/)
@@ -46,7 +46,6 @@ function chunkText(text: string, maxLen = 800): string[] {
     if (p.length <= maxLen) {
       chunks.push(p);
     } else {
-      // Slide over long paragraphs
       let start = 0;
       while (start < p.length) {
         chunks.push(p.slice(start, start + maxLen).trim());
@@ -55,7 +54,6 @@ function chunkText(text: string, maxLen = 800): string[] {
     }
   }
 
-  // If no paragraphs (very short doc), fallback to full text windowing
   if (chunks.length === 0 && text.trim().length > 0) {
     let start = 0;
     while (start < text.length) {
@@ -67,10 +65,6 @@ function chunkText(text: string, maxLen = 800): string[] {
   return chunks.filter(Boolean);
 }
 
-/**
- * Normalize raw markdown into plain text suitable for embedding.
- * Mirrors the original cleaning logic, but centralized in a use-case.
- */
 function normalizeMarkdown(raw: string): string {
   const rendered = md.render(raw);
 
@@ -86,20 +80,6 @@ function normalizeMarkdown(raw: string): string {
   return textOnly;
 }
 
-/**
- * Ingest a markdown-like document into the vector store.
- *
- * Behavior:
- * - Validates file existence and size.
- * - Normalizes markdown content to text.
- * - Chunks text using the same strategy as the original implementation.
- * - Uses batched embeddings for performance.
- * - Inserts chunks into the `chunks` table with pgvector embeddings.
- * - Prevents duplicate documents by filepath, reusing the existing document id.
- *
- * This function is designed to be called from the /api/documents/ingest route
- * while preserving the existing HTTP API contract.
- */
 interface IngestFailureError extends Error {
   statusCode?: number;
 }
@@ -143,7 +123,6 @@ export async function ingestDocument(
   try {
     await client.query("BEGIN");
 
-    // Prevent duplicate documents
     const existingDoc = await client.query(
       "SELECT id FROM documents WHERE filepath = $1",
       [filepath]
@@ -154,7 +133,7 @@ export async function ingestDocument(
     if (existingDoc.rows.length > 0) {
       documentId = existingDoc.rows[0].id;
 
-      // ✅ SAFETY STOP: Document already ingested
+      // Prevent duplicate document ingestion - existing content remains authoritative
       logEvent("INGEST_SKIPPED", {
         filepath,
         reason: "Document already exists",
@@ -176,7 +155,6 @@ export async function ingestDocument(
     let inserted = 0;
 
     if (chunks.length > 0) {
-      // Batched embeddings for performance.
       const embeddings = await embedBatch(chunks);
 
       for (let i = 0; i < chunks.length; i++) {

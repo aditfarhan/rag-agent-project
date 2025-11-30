@@ -1,10 +1,13 @@
 /**
- * Chat application use-case.
+ * Main chat orchestration use-case combining RAG, memory, and LLM reasoning.
  *
- * Orchestrates intent detection, user memory, RAG document context,
- * and LLM calls to produce a single chat response while preserving
- * the original routing, prompts, thresholds, and response shape.
- * This module must not depend on Express and is invoked by HTTP controllers.
+ * Implements the core conversation flow that:
+ * - Detects user intent through pattern matching and LLM classification
+ * - Retrieves relevant memories and document context via vector similarity
+ * - Generates contextually appropriate responses using Mastra AI agent
+ * - Manages conversation history and stores new memories
+ *
+ * Serves as the primary entry point for the /api/chat endpoint.
  */
 import crypto from "crypto";
 
@@ -29,6 +32,7 @@ import {
 import { embedText } from "@infra/llm/EmbeddingProvider";
 import { callLLM } from "@infra/llm/OpenAIAdapter";
 import { logEvent, logger } from "@infra/logging/Logger";
+
 import type { InternalChatMeta } from "types/ChatMeta";
 
 export interface ChatMessage {
@@ -61,11 +65,6 @@ export interface ChatResponsePayload {
   memoryUsed: boolean;
   meta: ChatResponseMeta;
 }
-
-// ---------- Types & Constants ----------
-// Intent-related types and helpers are defined in domain/chat/IntentClassifier.ts
-
-// ---------- Helpers ----------
 
 function buildMeta(
   ragMetaOverride: Partial<ChatResponseMeta["rag"]>,
@@ -129,8 +128,6 @@ async function buildRagAndMemory(
 
   return { ragResult, ragContext, memoryText };
 }
-
-// ---------- Pipelines ----------
 
 async function handlePureMemoryQuery(params: {
   userId: string;
@@ -448,8 +445,6 @@ ${question}
   };
 }
 
-// ---------- Main Entry ----------
-
 export async function handleChat(
   request: ChatRequest
 ): Promise<ChatResponsePayload> {
@@ -467,7 +462,6 @@ export async function handleChat(
   const trimmedQuestion = question.trim();
   const normalizedQuestion = trimmedQuestion.toLowerCase();
 
-  // 0) Guard for empty question
   if (!trimmedQuestion) {
     const answer = "question required";
 
@@ -489,7 +483,6 @@ export async function handleChat(
     };
   }
 
-  // 0.b EARLY GIBBERISH / NONSENSE GUARD (no RAG, no memory)
   if (isGarbageQuestion(trimmedQuestion)) {
     const answer =
       "It looks like your message might be incomplete or unclear. Could you please rephrase your question?";
@@ -514,11 +507,8 @@ export async function handleChat(
     };
   }
 
-  /**
-   * 1) HARD-WIRED PATHS (NO LLM, NO RAG)
-   */
-
-  // 1.a Manual identity introduction: "My name is Farhan"
+  // Fast-path processing for simple identity declarations
+  // These patterns enable immediate personalized responses without RAG overhead
   const nameMatch = trimmedQuestion.match(/\bmy name is\s+(.+)/i);
   if (nameMatch && nameMatch[1]) {
     const name = nameMatch[1].trim().replace(/[.!?,]+$/, "");
@@ -549,7 +539,8 @@ export async function handleChat(
     };
   }
 
-  // 1.b Manual preference introduction: "I like coffee" / "I now like tea"
+  // Fast-path for preference capture - enables immediate personalized responses
+  // Distinguishes preference storage from identity for targeted memory retrieval
   const likeMatch = trimmedQuestion.match(/^i\s+(now\s+)?like\s+(.+)/i);
   if (likeMatch && likeMatch[2]) {
     const pref = likeMatch[2].trim().replace(/[.!?,]+$/, "");
@@ -580,7 +571,6 @@ export async function handleChat(
     };
   }
 
-  // 1.c "What do I like?"
   if (
     normalizedQuestion === "what do i like" ||
     normalizedQuestion === "what do i like?"
@@ -635,10 +625,6 @@ export async function handleChat(
       ),
     };
   }
-
-  /**
-   * 2) DYNAMIC FACT + INTENT FROM LLM
-   */
 
   const hasPolicyKeyword = POLICY_REGEX.test(question);
   const isDirectPersonalQuestion =
@@ -716,10 +702,6 @@ export async function handleChat(
     };
   }
 
-  /**
-   * 3) LOAD LATEST FACTS & CLASSIFY INTENT
-   */
-
   const latestFacts = await getLatestFactsByKey(userId);
   const similarTopK = config.memory.similarTopK;
 
@@ -743,17 +725,12 @@ export async function handleChat(
     intentConfidence: internalMeta.intentConfidence,
   });
 
-  // ✅ FORCE POLICY MODE if RAG context exists
   const probeEmbedding = await embedText(trimmedQuestion);
   const probeRag = await getRagContextForQuery(probeEmbedding);
 
   if (intent === "UNKNOWN" && probeRag.finalChunks.length > 0) {
     intent = "PURE_POLICY_QUERY";
   }
-
-  /**
-   * 4) DISPATCH TO PIPELINE
-   */
 
   let response: ChatResponsePayload;
 

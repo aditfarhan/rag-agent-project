@@ -1,3 +1,13 @@
+/**
+ * Memory repository interface definitions.
+ *
+ * Defines the contract for user memory storage and retrieval:
+ * - Persistent storage of user facts, preferences, and chat history
+ * - Vector-based similarity search for context-aware memory retrieval
+ * - Conversation-scoped memory management
+ *
+ * Core component enabling personalized AI responses in the RAG system.
+ */
 import type {
   MemoryRole,
   MemoryType,
@@ -6,14 +16,6 @@ import type {
   UserMemory,
 } from "./memoryManager";
 
-/**
- * Domain port for user memory persistence and retrieval.
- *
- * This interface describes the contract used by higher layers. The current
- * implementation lives in memoryManager and talks directly to Postgres;
- * future infrastructure adapters (e.g., PostgresMemoryRepository) will
- * implement this interface without changing behavior.
- */
 export interface MemoryRepository {
   saveMemory(
     userId: string,

@@ -1,14 +1,15 @@
-import { callLLM } from "@infra/llm/OpenAIAdapter";
-
 /**
- * High-level chat intent classification domain module.
+ * Intent classification system for conversational AI agent.
  *
- * Extracts dynamic key facts via LLM, classifies user questions into
- * coarse-grained intents, and detects garbage/nonsense input. Behavior is
- * preserved exactly as it was in ChatUseCase.
+ * Analyzes user messages to determine intent and extract personal facts:
+ * - Detects whether user is asking about memory vs policy vs unknown
+ * - Extracts dynamic key-value facts from natural language
+ * - Uses pattern matching and LLM classification for robust understanding
+ *
+ * Critical component for the RAG + Mastra AI agent architecture, enabling
+ * context-aware responses by distinguishing memory queries from policy questions.
  */
-
-// ---------- Types & Constants ----------
+import { callLLM } from "@infra/llm/OpenAIAdapter";
 
 export type HighLevelIntent =
   | "PURE_MEMORY_QUERY"
@@ -23,12 +24,14 @@ export const PERSONAL_QUESTION_REGEX =
   /^do i (own|have|like|prefer|remember|know)|^am i\b/i;
 
 export const MEANINGFUL_TOKENS = new Set<string>([
+  // Question words indicating genuine user intent
   "what",
   "why",
   "how",
   "when",
   "where",
   "who",
+  // Modal verbs for policy/personal inquiries
   "can",
   "should",
   "could",
@@ -40,20 +43,20 @@ export const MEANINGFUL_TOKENS = new Set<string>([
   "did",
   "may",
   "might",
+  // Domain-specific terms for RAG context
   "policy",
   "office",
   "coffee",
   "tea",
   "break",
   "name",
+  // Memory-related identifiers
   "own",
   "have",
   "like",
   "prefer",
   "work",
 ]);
-
-// ---------- LLM Fact Extractor ----------
 
 export async function extractDynamicKeyFact(userMessage: string): Promise<{
   key: string;
@@ -100,18 +103,13 @@ User message: "${userMessage}"
       };
     }
   } catch (err: unknown) {
-    // Preserve original console logging behaviour.
     const candidate = err as { message?: unknown };
     const message =
       typeof candidate.message === "string" ? candidate.message : undefined;
-
-    console.log("FACT PARSE ERROR:", message || err);
   }
 
   return null;
 }
-
-// ---------- Intent Detection ----------
 
 export function detectHighLevelIntent(
   question: string,
@@ -139,8 +137,6 @@ export function detectHighLevelIntent(
 
   return "UNKNOWN";
 }
-
-// ---------- Garbage / nonsense detection ----------
 
 export function isGarbageQuestion(text: string): boolean {
   const cleaned = text.trim();

@@ -1,18 +1,20 @@
 import { z } from "zod";
 
 /**
- * Step 8/9: DTO validation schemas for /api/chat.
- * These are used only in the controller and have no side effects.
+ * Zod validation schemas for chat API endpoints in conversational AI interface.
+ *
+ * Defines request/response DTOs for the RAG + Mastra AI chat system:
+ * - ChatRequestSchema: Validates user questions with optional history
+ * - ChatResponseSchema: Ensures consistent response format with metadata
+ *
+ * Type-safe validation ensuring API contract compliance without side effects.
  */
-
-// Request schema
 export const ChatRequestSchema = z.object({
   userId: z.string().min(1),
   question: z.string().min(1),
   history: z.array(z.unknown()).optional(),
 });
 
-// Response schema (shapes the existing ChatUseCase response without changing it)
 export const ChatResponseSchema = z.object({
   answer: z.string(),
   history: z.array(

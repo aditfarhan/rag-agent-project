@@ -1,8 +1,13 @@
 import { z } from "zod";
 
 /**
- * Step 8/9: DTO validation schemas for /api/internal/search.
- * These are used only in the controller and have no side effects.
+ * Zod validation schemas for semantic search API.
+ *
+ * Defines request/response DTOs for the internal document search interface:
+ * - SearchRequestSchema: Validates search queries
+ * - SearchResponseSchema: Ensures consistent search result format
+ *
+ * Type-safe validation for RAG retrieval testing without side effects.
  */
 export const SearchRequestSchema = z.object({
   query: z.string().min(1),

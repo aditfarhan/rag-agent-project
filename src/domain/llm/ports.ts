@@ -1,18 +1,11 @@
 /**
- * Domain port for LLM interactions.
+ * LLM (Large Language Model) interface definitions.
  *
- * This interface captures the minimal contract the domain/app layers rely on:
- * a single text-generating call that combines:
- * - user question
- * - RAG context
- * - conversation history
- * - memory text
+ * Defines the contract for LLM communication in the RAG + Mastra AI agent system:
+ * - Message format for conversation history
+ * - Port interface for LLM service implementation
  *
- * IMPORTANT:
- * - The concrete implementation in infrastructure/llm/OpenAIAdapter.ts
- *   preserves all existing behavior, prompts, and logging.
- * - This port is intentionally aligned with the existing callLLM signature
- *   so that introducing it does not change any call sites or runtime output.
+ * Enables flexible LLM integration while maintaining domain-level abstraction.
  */
 export interface LLMHistoryMessage {
   role: "user" | "assistant" | "system";

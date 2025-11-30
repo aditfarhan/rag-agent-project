@@ -1,3 +1,14 @@
+/**
+ * Semantic search HTTP controller for document retrieval.
+ *
+ * Express handler for /api/internal/search enabling vector-based document search:
+ * - Validates search queries using Zod schemas
+ * - Delegates to SearchUseCase for semantic similarity search
+ * - Provides low-level document retrieval for debugging and analysis
+ *
+ * Internal endpoint for testing and monitoring RAG retrieval quality,
+ * exposing the raw similarity search capabilities.
+ */
 import { Request, Response, NextFunction } from "express";
 
 import { searchDocumentsByText } from "@app/search/SearchUseCase";
@@ -17,27 +28,17 @@ interface MutableErrorLike {
   issues?: unknown;
 }
 
-/**
- * Search HTTP controller.
- *
- * Wraps the Express handler for /api/internal/search and delegates to
- * SearchUseCase. Route signature and behaviour remain unchanged.
- *
- * Step 8/9: adds DTO validation using Zod; valid payload behaviour is identical.
- */
 export async function searchController(
   req: Request,
   res: Response,
   next: NextFunction
 ): Promise<void> {
   try {
-    // Request DTO validation
     const { query } = SearchRequestSchema.parse(req.body);
     const { limit } = req.body;
 
     const result = await searchDocumentsByText({ query, limit });
 
-    // Response DTO validation on a derived DTO, without mutating the actual response.
     try {
       SearchResponseSchema.parse({
         results: result.results.map((row: ChunkRow) => ({
@@ -62,13 +63,11 @@ export async function searchController(
       return next(parseErr);
     }
 
-    // Preserve original HTTP response shape
     res.json(result);
   } catch (err: unknown) {
     const mutable = err as MutableErrorLike;
 
     if (mutable.issues) {
-      // Validation error from Zod: surface as a unified ValidationError.
       return next(
         new ValidationError("Invalid request", { issues: mutable.issues })
       );

@@ -1,3 +1,15 @@
+/**
+ * Concrete Postgres-backed implementation of the MemoryRepository port.
+ *
+ * Provides persistent user memory storage and retrieval for the conversational AI system:
+ * - Vector-based similarity search for context-aware memory retrieval
+ * - Semantic memory matching with scoring algorithms (similarity + recency + type)
+ * - Conversation-scoped and user-scoped memory management
+ * - UPSERT semantics for facts, append-only for chat history
+ *
+ * Critical infrastructure component supporting the "memory" feature that distinguishes
+ * this RAG system from generic document-only approaches, enabling personalized AI responses.
+ */
 import { config } from "@config/index";
 import { pool } from "@infra/database/db";
 import { embedText } from "@infra/llm/EmbeddingProvider";
@@ -11,19 +23,6 @@ import type {
 } from "@domain/memory/memoryManager";
 import type { MemoryRepository } from "@domain/memory/ports";
 
-/**
- * Concrete Postgres-backed implementation of the MemoryRepository port.
- *
- * IMPORTANT: This adapter preserves the exact behavior of the previous
- * domain-level memoryManager:
- * - FACT memories are upserted per (user_id, memory_key).
- * - CHAT memories are always appended.
- * - Similarity scoring, recency scoring, and logging semantics are identical.
- */
-
-/**
- * Internal shape used for ranking memories. Mirrors MemoryRow in memoryManager.
- */
 interface MemoryRow {
   content: string;
   memory_key: string | null;
@@ -31,15 +30,6 @@ interface MemoryRow {
   updated_at: Date | null;
   distance: number | null;
 }
-
-/**
- * Lazy, cached detection of the optional conversation_id column.
- *
- * - If the column exists, we can safely write/filter by conversation_id.
- * - If it does not, we fall back to the legacy behavior with no grouping.
- *
- * This keeps the repository backward-compatible with existing schemas.
- */
 let conversationIdColumnChecked = false;
 let conversationIdColumnExists = false;
 
@@ -62,8 +52,6 @@ async function ensureConversationIdColumn(): Promise<boolean> {
     const count = result.rowCount ?? 0;
     conversationIdColumnExists = count > 0;
   } catch (error: unknown) {
-    // Non-fatal: if this check fails, we simply behave as if the column
-    // does not exist and preserve legacy behavior.
     const caught = error as { message?: unknown; name?: unknown };
 
     logEvent("MEMORY_CONVERSATION_COLUMN_CHECK_FAILED", {
@@ -80,14 +68,6 @@ async function ensureConversationIdColumn(): Promise<boolean> {
 }
 
 export class PostgresMemoryRepository implements MemoryRepository {
-  /**
-   * Save a memory entry for a user.
-   *
-   * Behavior is identical to the original saveMemory implementation in
-   * memoryManager:
-   * - FACT: unique per memory_key (UPSERT semantics).
-   * - CHAT: always appended.
-   */
   async saveMemory(
     userId: string,
     role: string,
@@ -123,7 +103,6 @@ export class PostgresMemoryRepository implements MemoryRepository {
           [userId, role, content, vectorLiteral, memoryKey, conversationId]
         );
       } else {
-        // Legacy behavior without conversation grouping.
         result = await pool.query(
           `
           INSERT INTO user_memories
@@ -175,7 +154,6 @@ export class PostgresMemoryRepository implements MemoryRepository {
         [userId, role, content, vectorLiteral, conversationId]
       );
     } else {
-      // Legacy behavior without conversation grouping.
       result = await pool.query(
         `
         INSERT INTO user_memories
@@ -208,15 +186,6 @@ export class PostgresMemoryRepository implements MemoryRepository {
     return saved;
   }
 
-  /**
-   * Intelligent memory retrieval with similarity + recency scoring.
-   *
-   * Behavior is preserved from the original retrieveMemory implementation:
-   * - Fetch more candidates from DB
-   * - Score each memory:
-   *   score = similarity*0.6 + recency*0.3 + typeBoost
-   * - Return top `limit` most valuable memories
-   */
   async retrieveMemory(
     userId: string,
     queryEmbedding: number[],
@@ -299,6 +268,7 @@ export class PostgresMemoryRepository implements MemoryRepository {
       distance: row.distance,
     }));
 
+    // Intelligent memory scoring: prioritize semantic similarity, recency, and fact importance
     const scored = rows.map((row) => {
       let similarity = 0;
       if (typeof row.distance === "number") {
@@ -336,10 +306,6 @@ export class PostgresMemoryRepository implements MemoryRepository {
     return memories;
   }
 
-  /**
-   * Retrieve the latest FACT memories per key for a user.
-   * Behavior is identical to getLatestFactsByKey in memoryManager.
-   */
   async getLatestFactsByKey(
     userId: string,
     conversationId?: number | null
@@ -393,10 +359,6 @@ export class PostgresMemoryRepository implements MemoryRepository {
     }));
   }
 
-  /**
-   * Retrieve recent user memories ordered by latest update.
-   * Behavior is identical to getRecentUserMemories in memoryManager.
-   */
   async getRecentUserMemories(
     userId: string,
     limit = 5,
@@ -441,9 +403,5 @@ export class PostgresMemoryRepository implements MemoryRepository {
   }
 }
 
-/**
- * Singleton instance used by the domain memoryManager.
- * This keeps wiring explicit while maintaining current behavior.
- */
 export const memoryRepository: MemoryRepository =
   new PostgresMemoryRepository();

@@ -1,3 +1,15 @@
+/**
+ * Memory management system for conversational AI agent.
+ *
+ * Provides high-level memory operations for the RAG + Mastra AI architecture:
+ * - Saves user facts and chat history with vector embeddings
+ * - Retrieves memories using semantic similarity search
+ * - Manages conversation-scoped and user-scoped memory contexts
+ * - Enables personalized AI responses through persistent memory storage
+ *
+ * Coordinates with PostgresMemoryRepository for vector-based memory operations,
+ * supporting the "memory" component that distinguishes this from generic RAG systems.
+ */
 import { config } from "@config/index";
 import { memoryRepository } from "@infra/database/PostgresMemoryRepository";
 
@@ -20,14 +32,6 @@ export interface UserMemory {
   content: string;
 }
 
-/**
- * Save a memory entry for a user.
- *
- * Behavior is preserved by delegating to the PostgresMemoryRepository, which
- * implements the original logic:
- * - FACT: unique per memory_key (UPSERT semantics).
- * - CHAT: always appended.
- */
 export async function saveMemory(
   userId: string,
   role: string,
@@ -46,16 +50,6 @@ export async function saveMemory(
   );
 }
 
-/**
- * INTELLIGENT MEMORY RETRIEVAL
- *
- * Behavior is preserved by delegating to the PostgresMemoryRepository, which
- * keeps the original scoring and logging:
- * - Fetch more candidates from DB
- * - Score each memory:
- *   score = similarity*0.6 + recency*0.3 + typeBoost
- * - Return top `limit` most valuable memories
- */
 export async function retrieveMemory(
   userId: string,
   queryEmbedding: number[],
@@ -72,10 +66,6 @@ export async function retrieveMemory(
   );
 }
 
-/**
- * Retrieve the latest FACT memories per key for a user.
- * Delegates to the PostgresMemoryRepository, preserving behavior.
- */
 export async function getLatestFactsByKey(
   userId: string,
   conversationId?: number | null
@@ -83,10 +73,6 @@ export async function getLatestFactsByKey(
   return memoryRepository.getLatestFactsByKey(userId, conversationId);
 }
 
-/**
- * Retrieve recent user memories ordered by latest update.
- * Delegates to the PostgresMemoryRepository, preserving behavior.
- */
 export async function getRecentUserMemories(
   userId: string,
   limit = 5,

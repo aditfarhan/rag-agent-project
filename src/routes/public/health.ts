@@ -1,3 +1,11 @@
+/**
+ * Health check API route for system monitoring.
+ *
+ * Express router providing system status and connectivity tests:
+ * - GET /api/health: Tests LLM connectivity and returns system status
+ *
+ * Monitoring endpoint for operational awareness and debugging.
+ */
 import { callLLM } from "@infra/llm/OpenAIAdapter";
 import { Router } from "express";
 

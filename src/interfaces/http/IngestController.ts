@@ -1,3 +1,14 @@
+/**
+ * Document ingestion HTTP controller for RAG system.
+ *
+ * Express handler for /api/documents/ingest that processes document uploads:
+ * - Validates file paths and metadata using Zod schemas
+ * - Delegates to IngestUseCase for document processing and chunking
+ * - Handles validation errors and processing failures
+ *
+ * HTTP boundary for populating the RAG knowledge base, enabling
+ * document-driven conversational AI responses.
+ */
 import path from "path";
 import { Request, Response } from "express";
 
@@ -14,20 +25,11 @@ interface MutableErrorLike {
   issues?: unknown;
 }
 
-/**
- * Ingest HTTP controller.
- *
- * Wraps the Express handler for /api/documents/ingest and delegates to
- * IngestUseCase. Route signature and behaviour remain unchanged.
- *
- * Step 8/9: adds DTO validation using Zod; valid payload behaviour is identical.
- */
 export async function ingestController(
   req: Request,
   res: Response
 ): Promise<void> {
   try {
-    // Request DTO validation
     const parsed = IngestRequestSchema.parse(req.body);
     const normalizedPath = path.resolve(parsed.filepath);
 
@@ -36,7 +38,6 @@ export async function ingestController(
       title: parsed.title,
     });
 
-    // Response DTO validation using a derived DTO that mirrors the response semantics
     try {
       IngestResponseSchema.parse({
         success: true,
@@ -54,7 +55,6 @@ export async function ingestController(
       throw parseErr;
     }
 
-    // Preserve original HTTP response shape
     res.json({
       status: "ok",
       documentId: result.documentId,
@@ -65,11 +65,9 @@ export async function ingestController(
     const mutable = err as MutableErrorLike;
 
     if (mutable.issues) {
-      // Validation error from Zod: surface as a unified ValidationError.
       throw new ValidationError("Invalid request", { issues: mutable.issues });
     }
 
-    // Delegate all other errors to the global error handler.
     throw err;
   }
 }

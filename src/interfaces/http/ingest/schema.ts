@@ -1,8 +1,13 @@
 import { z } from "zod";
 
 /**
- * Step 8/9: DTO validation schemas for /api/documents/ingest.
- * These are used only in the controller and have no side effects.
+ * Zod validation schemas for document ingestion API.
+ *
+ * Defines request/response DTOs for the RAG document upload interface:
+ * - IngestRequestSchema: Validates file paths and document metadata
+ * - IngestResponseSchema: Ensures consistent ingestion result format
+ *
+ * Type-safe validation for document processing pipeline without side effects.
  */
 export const IngestRequestSchema = z.object({
   filepath: z.string().min(1),

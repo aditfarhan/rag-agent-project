@@ -1,3 +1,13 @@
+/**
+ * Chat HTTP controller for conversational AI endpoint.
+ *
+ * Express handler for /api/chat that orchestrates the full RAG pipeline:
+ * - Validates incoming chat requests using Zod schemas
+ * - Delegates to ChatUseCase for intent classification and response generation
+ * - Handles error responses and validation failures
+ *
+ * HTTP boundary for the Mastra AI agent, providing the main user interaction point.
+ */
 import { Request, Response } from "express";
 
 import { handleChat } from "@app/chat/ChatUseCase";
@@ -17,20 +27,11 @@ interface MutableErrorLike {
   issues?: unknown;
 }
 
-/**
- * Chat HTTP controller.
- *
- * Wraps the Express handler for /api/chat and delegates to ChatUseCase.
- * Route signature and behaviour remain unchanged.
- *
- * Step 8/9: adds DTO validation using Zod; valid payload behaviour is identical.
- */
 export async function chatController(
   req: Request,
   res: Response
 ): Promise<void> {
   try {
-    // Request DTO validation
     const parsed = ChatRequestSchema.parse(req.body);
     const {
       userId,
@@ -48,7 +49,6 @@ export async function chatController(
       history,
     });
 
-    // Response DTO validation (no mutation of returned payload)
     try {
       ChatResponseSchema.parse(result);
     } catch (parseErr: unknown) {
@@ -67,7 +67,6 @@ export async function chatController(
     const mutable = err as MutableErrorLike;
 
     if (mutable.issues) {
-      // Validation error from Zod on request.
       throw new ValidationError("Invalid request", { issues: mutable.issues });
     }
 

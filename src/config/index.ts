@@ -1,17 +1,21 @@
+/**
+ * Centralized configuration management for the RAG + AI system.
+ *
+ * Provides type-safe access to environment variables and application settings:
+ * - OpenAI API configuration (model, embedding, timeouts)
+ * - PostgreSQL database connection parameters
+ * - RAG system settings (similarity thresholds, retrieval limits)
+ * - Memory management configuration
+ * - Application-level settings (ports, logging)
+ *
+ * All configuration is loaded at startup with validation for required values.
+ */
 import dotenv from "dotenv";
 
 dotenv.config();
 
-/**
- * Centralized configuration layer.
- *
- * All access to environment variables MUST go through this module.
- * No services, routes, utils, or core logic should read from process.env directly.
- */
-
 const openaiKey = process.env.OPENAI_API_KEY;
 
-// ❗ Fail fast if missing — LLM is a hard dependency for this app.
 if (!openaiKey) {
   throw new Error(
     "OPENAI_API_KEY is missing. Please set it in your .env file."
