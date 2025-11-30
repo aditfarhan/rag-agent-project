@@ -1,5 +1,7 @@
-import { embedText } from "./embeddingService";
-import { semanticSearch, ChunkRow } from "./ragService";
+import { semanticSearch, ChunkRow } from "@domain/rag/ragEngine";
+import { embedText } from "@infra/llm/EmbeddingProvider";
+
+import type { StatusCodeError } from "../../types/StatusCodeError";
 
 export interface SemanticSearchRequest {
   query: string;
@@ -12,13 +14,15 @@ export interface SemanticSearchResponse {
 }
 
 /**
- * High-level semantic search service.
+ * Application-level semantic search use-case.
  *
  * Responsibilities:
  * - Accept raw user query text.
  * - Generate an embedding via the shared EmbeddingService.
- * - Delegate vector search to the RAG retrieval service.
+ * - Delegate vector search to the domain RAG engine.
  * - Return a stable response shape for HTTP and other callers.
+ *
+ * Behavior is preserved exactly from the original services/searchService.ts.
  */
 export async function searchDocumentsByText(
   input: SemanticSearchRequest
@@ -27,8 +31,8 @@ export async function searchDocumentsByText(
   const normalized = query?.trim();
 
   if (!normalized) {
-    const err = new Error("query is required");
-    (err as any).statusCode = 400;
+    const err: StatusCodeError = new Error("query is required");
+    err.statusCode = 400;
     throw err;
   }
 

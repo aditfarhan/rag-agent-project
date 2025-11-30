@@ -1,20 +1,45 @@
+/**
+ * Chat application use-case.
+ *
+ * Orchestrates intent detection, user memory, RAG document context,
+ * and LLM calls to produce a single chat response while preserving
+ * the original routing, prompts, thresholds, and response shape.
+ * This module must not depend on Express and is invoked by HTTP controllers.
+ */
 import crypto from "crypto";
-import { config } from "../config";
-import { logEvent } from "../utils/logger";
-import { embedText } from "./embeddingService";
+
+import { config } from "@config/index";
+import { IDENTITY_KEYS } from "@config/memoryKeys";
+import {
+  extractDynamicKeyFact,
+  detectHighLevelIntent,
+  isGarbageQuestion,
+  POLICY_REGEX,
+  PERSONAL_QUESTION_REGEX,
+} from "@domain/chat/IntentClassifier";
 import {
   getLatestFactsByKey,
   retrieveMemory,
   saveMemory,
-} from "./memoryService";
-import { buildContextFromChunks, getRagContextForQuery } from "./ragService";
-import { callLLM } from "./mastraAgent";
-import { IDENTITY_KEYS } from "../config/memoryKeys";
+} from "@domain/memory/memoryManager";
+import {
+  buildContextFromChunks,
+  getRagContextForQuery,
+} from "@domain/rag/ragEngine";
+import { embedText } from "@infra/llm/EmbeddingProvider";
+import { callLLM } from "@infra/llm/OpenAIAdapter";
+import { logEvent, logger } from "@infra/logging/Logger";
+import type { InternalChatMeta } from "types/ChatMeta";
+
+export interface ChatMessage {
+  role: "user" | "assistant";
+  content: string;
+}
 
 export interface ChatRequest {
   userId: string;
   question: string;
-  history?: any[];
+  history?: ChatMessage[];
 }
 
 export interface ChatResponseMeta {
@@ -31,165 +56,14 @@ export interface ChatResponseMeta {
 
 export interface ChatResponsePayload {
   answer: string;
-  history: any[];
+  history: ChatMessage[];
   contextUsed: unknown[];
   memoryUsed: boolean;
   meta: ChatResponseMeta;
 }
 
 // ---------- Types & Constants ----------
-
-type HighLevelIntent =
-  | "PURE_MEMORY_QUERY"
-  | "PURE_POLICY_QUERY"
-  | "MERGED_MEMORY_POLICY_QUERY"
-  | "UNKNOWN";
-
-const POLICY_REGEX =
-  /policy|company|work|acceptable|allowed|forbidden|break|rule|regulation/i;
-
-const PERSONAL_QUESTION_REGEX =
-  /^do i (own|have|like|prefer|remember|know)|^am i\b/i;
-
-const MEANINGFUL_TOKENS = new Set<string>([
-  "what",
-  "why",
-  "how",
-  "when",
-  "where",
-  "who",
-  "can",
-  "should",
-  "could",
-  "would",
-  "is",
-  "are",
-  "do",
-  "does",
-  "did",
-  "may",
-  "might",
-  "policy",
-  "office",
-  "coffee",
-  "tea",
-  "break",
-  "name",
-  "own",
-  "have",
-  "like",
-  "prefer",
-  "work",
-]);
-
-// ---------- LLM Fact Extractor ----------
-
-async function extractDynamicKeyFact(userMessage: string): Promise<{
-  key: string;
-  value: string;
-  intent: "introducing" | "asking" | "updating" | "neutral";
-} | null> {
-  const prompt = `
-You are a fact extraction and intent classification engine.
-
-Return STRICT JSON in this format ONLY:
-{
-  "key": "string",
-  "value": "string",
-  "intent": "introducing" | "updating" | "asking" | "neutral"
-}
-
-Intent definitions:
-- introducing: user provides a new personal fact
-- updating: user modifies an existing fact
-- asking: user asks about their own stored fact
-- neutral: no personal fact involved
-
-Examples:
-"My name is Aditia" -> { "key": "name", "value": "Aditia", "intent": "introducing" }
-"My name is now Budi" -> { "key": "name", "value": "Budi", "intent": "updating" }
-"Who am I?" -> { "key": "name", "value": "", "intent": "asking" }
-"Hello there" -> null
-
-User message: "${userMessage}"
-`;
-
-  const response = await callLLM(prompt, "", []);
-
-  try {
-    const firstBrace = response.indexOf("{");
-    const jsonText = firstBrace >= 0 ? response.slice(firstBrace) : response;
-    const fact = JSON.parse(jsonText);
-
-    if (fact?.key && typeof fact.intent === "string") {
-      return {
-        key: String(fact.key).toLowerCase(),
-        value: String(fact.value || ""),
-        intent: fact.intent,
-      };
-    }
-  } catch (err: any) {
-    console.log("FACT PARSE ERROR:", err?.message || err);
-  }
-
-  return null;
-}
-
-// ---------- Intent Detection ----------
-
-function detectHighLevelIntent(
-  question: string,
-  keyFact: {
-    key: string;
-    intent: "introducing" | "asking" | "updating" | "neutral";
-  } | null,
-  hasPolicyKeyword: boolean,
-  isDirectPersonalQuestion: boolean
-): HighLevelIntent {
-  if (keyFact?.intent === "asking") {
-    if (hasPolicyKeyword) {
-      return "MERGED_MEMORY_POLICY_QUERY";
-    }
-    return "PURE_MEMORY_QUERY";
-  }
-
-  if (!keyFact && isDirectPersonalQuestion) {
-    return "PURE_MEMORY_QUERY";
-  }
-
-  if (hasPolicyKeyword) {
-    return "PURE_POLICY_QUERY";
-  }
-
-  return "UNKNOWN";
-}
-
-// ---------- Garbage / nonsense detection ----------
-
-function isGarbageQuestion(text: string): boolean {
-  const cleaned = text.trim();
-  if (!cleaned) return true;
-  if (cleaned.length < 4) return true;
-
-  const alphaMatches = cleaned.match(/[a-zA-Z]/g) || [];
-  const hasDigit = /\d/.test(cleaned);
-  const punctMatches = cleaned.match(/[?!]/g) || [];
-  const manyPunct = punctMatches.length >= 2;
-
-  const tokens = cleaned
-    .toLowerCase()
-    .split(/\s+/)
-    .map((t) => t.replace(/[^a-z]/g, ""))
-    .filter(Boolean);
-
-  const meaningful = tokens.some((t) => MEANINGFUL_TOKENS.has(t));
-
-  if (!meaningful && (hasDigit || manyPunct) && alphaMatches.length < 20) {
-    return true;
-  }
-
-  return false;
-}
+// Intent-related types and helpers are defined in domain/chat/IntentClassifier.ts
 
 // ---------- Helpers ----------
 
@@ -218,10 +92,21 @@ function buildMeta(
   };
 }
 
+type IdentityKey = (typeof IDENTITY_KEYS)[number];
+
+function isIdentityKey(key: string): key is IdentityKey {
+  return (IDENTITY_KEYS as readonly string[]).includes(key);
+}
+
+type LatestFact = {
+  memory_key: string;
+  content: string;
+};
+
 async function buildRagAndMemory(
   userId: string,
   question: string,
-  latestFacts: any[],
+  latestFacts: LatestFact[],
   similarTopK: number
 ) {
   const qEmbedding = await embedText(question);
@@ -236,7 +121,7 @@ async function buildRagAndMemory(
   );
 
   const memoryText = [
-    ...latestFacts.map((f: any) => f.content),
+    ...latestFacts.map((f: LatestFact) => f.content),
     ...otherMemoryResults,
   ]
     .filter(Boolean)
@@ -250,13 +135,13 @@ async function buildRagAndMemory(
 async function handlePureMemoryQuery(params: {
   userId: string;
   question: string;
-  history: any[];
+  history: ChatMessage[];
   keyFact: {
     key: string;
     intent: "asking" | "introducing" | "updating" | "neutral";
     value: string;
   } | null;
-  latestFacts: any[];
+  latestFacts: LatestFact[];
   similarTopK: number;
 }): Promise<ChatResponsePayload> {
   const { userId, question, history, keyFact, latestFacts, similarTopK } =
@@ -270,12 +155,14 @@ async function handlePureMemoryQuery(params: {
 
   if (effectiveKey) {
     const relevantFacts = latestFacts.filter(
-      (f: any) => f.memory_key === effectiveKey
+      (f: LatestFact) => f.memory_key === effectiveKey
     );
 
     if (relevantFacts.length) {
-      const list = relevantFacts.map((f: any) => f.content).join(" and ");
-      answer = IDENTITY_KEYS.includes(effectiveKey)
+      const list = relevantFacts
+        .map((f: LatestFact) => f.content)
+        .join(" and ");
+      answer = isIdentityKey(effectiveKey)
         ? `Your ${effectiveKey} is ${list}.`
         : `Your preferences include ${list}.`;
       memoryUsed = true;
@@ -311,13 +198,13 @@ async function handlePureMemoryQuery(params: {
 async function handleMergedMemoryPolicyQuery(params: {
   userId: string;
   question: string;
-  history: any[];
+  history: ChatMessage[];
   keyFact: {
     key: string;
     intent: "asking" | "introducing" | "updating" | "neutral";
     value: string;
   } | null;
-  latestFacts: any[];
+  latestFacts: LatestFact[];
   similarTopK: number;
 }): Promise<ChatResponsePayload> {
   const { userId, question, history, keyFact, latestFacts, similarTopK } =
@@ -327,13 +214,15 @@ async function handleMergedMemoryPolicyQuery(params: {
     keyFact && keyFact.key && keyFact.key !== "unknown" ? keyFact.key : "name";
 
   const matchedFacts = latestFacts.filter(
-    (f: any) => f.memory_key === memoryKey
+    (f: LatestFact) => f.memory_key === memoryKey
   );
 
-  const combinedFacts = matchedFacts.map((f: any) => f.content).join(" and ");
+  const combinedFacts = matchedFacts
+    .map((f: LatestFact) => f.content)
+    .join(" and ");
 
   const memorySentence = matchedFacts.length
-    ? IDENTITY_KEYS.includes(memoryKey)
+    ? isIdentityKey(memoryKey)
       ? `Your ${memoryKey} is ${combinedFacts}.`
       : `Your ${memoryKey} includes ${combinedFacts}.`
     : `I don't have your ${memoryKey} stored yet.`;
@@ -411,8 +300,8 @@ Instructions:
 async function handlePurePolicyQuery(params: {
   userId: string;
   question: string;
-  history: any[];
-  latestFacts: any[];
+  history: ChatMessage[];
+  latestFacts: LatestFact[];
   similarTopK: number;
 }): Promise<ChatResponsePayload> {
   const { userId, question, history, latestFacts, similarTopK } = params;
@@ -486,8 +375,8 @@ ${question}
 async function handleUnknownQuery(params: {
   userId: string;
   question: string;
-  history: any[];
-  latestFacts: any[];
+  history: ChatMessage[];
+  latestFacts: LatestFact[];
   similarTopK: number;
 }): Promise<ChatResponsePayload> {
   const { userId, question, history, latestFacts, similarTopK } = params;
@@ -698,11 +587,11 @@ export async function handleChat(
   ) {
     const latestFacts = await getLatestFactsByKey(userId);
     const prefs = latestFacts.filter(
-      (f: any) => !IDENTITY_KEYS.includes(f.memory_key)
+      (f: LatestFact) => !isIdentityKey(f.memory_key)
     );
 
     if (prefs.length) {
-      const list = prefs.map((f: any) => f.content).join(" and ");
+      const list = prefs.map((f: LatestFact) => f.content).join(" and ");
       const answer = `Your preferences include ${list}.`;
 
       await saveMemory(userId, "assistant", answer, undefined, "chat");
@@ -768,7 +657,7 @@ export async function handleChat(
   if (
     keyFact?.intent === "introducing" &&
     keyFact.value &&
-    IDENTITY_KEYS.includes(keyFact.key)
+    isIdentityKey(keyFact.key)
   ) {
     await saveMemory(userId, "user", keyFact.value, keyFact.key, "fact");
 
@@ -798,7 +687,7 @@ export async function handleChat(
     keyFact &&
     (keyFact.intent === "introducing" || keyFact.intent === "updating") &&
     keyFact.value &&
-    !IDENTITY_KEYS.includes(keyFact.key)
+    !isIdentityKey(keyFact.key)
   ) {
     await saveMemory(userId, "user", keyFact.value, keyFact.key, "fact");
 
@@ -840,6 +729,19 @@ export async function handleChat(
     hasPolicyKeyword,
     isDirectPersonalQuestion
   );
+
+  const internalMeta: InternalChatMeta = {
+    intentVersion: "v1",
+    intentConfidence: 1,
+    llmConfidence: null,
+  };
+
+  logger.log("debug", "INTENT_RESOLVED", {
+    userId,
+    intent,
+    intentVersion: internalMeta.intentVersion,
+    intentConfidence: internalMeta.intentConfidence,
+  });
 
   // ✅ FORCE POLICY MODE if RAG context exists
   const probeEmbedding = await embedText(trimmedQuestion);

@@ -46,8 +46,17 @@
     "resolveJsonModule": true,
     "baseUrl": "./src",
     "paths": {
-      "@services/*": ["services/*"],
-      "@utils/*": ["utils/*"]
+      "@app/*": ["app/*"],
+      "@config/*": ["config/*"],
+      "@core/*": ["core/*"],
+      "@domain/*": ["domain/*"],
+      "@infra/*": ["infrastructure/*"],
+      "@interfaces/*": ["interfaces/*"],
+      "@routes/*": ["routes/*"],
+      "@middleware/*": ["middleware/*"],
+      "@types/*": ["types/*"],
+      "@utils/*": ["utils/*"],
+      "@services/*": ["services/*"]
     },
     "noEmit": true,
     "allowImportingTsExtensions": true

@@ -1,0 +1,8 @@
+This is a placeholder PNG file for the architecture diagram.
+
+To generate a real diagram:
+
+1. Open docs/architecture.md
+2. Render the Mermaid diagram in a Markdown viewer that supports Mermaid (e.g. VS Code with Markdown Preview Mermaid Support, or GitHub pages)
+3. Export the rendered diagram as PNG
+4. Replace this placeholder file with the exported PNG, keeping the same filename: docs/architecture.png

@@ -1,5 +1,5 @@
+import { callLLM } from "@infra/llm/OpenAIAdapter";
 import { Router } from "express";
-import { callLLM } from "../../services/mastraAgent";
 
 const router = Router();
 
@@ -11,11 +11,13 @@ router.get("/", async (_req, res) => {
       llm: "connected",
       response: test,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const err = error as { message?: string };
+
     res.status(500).json({
       status: "error",
       llm: "disconnected",
-      detail: error.message,
+      detail: err.message,
     });
   }
 });

@@ -1,21 +1,25 @@
-import { client } from "./openAIClient";
-import { config } from "../config";
-import { logEvent } from "../utils/logger";
+import { config } from "@config/index";
+import { logEvent } from "@infra/logging/Logger";
+
+import { client, withRetry } from "./OpenAIAdapter";
+import type { StatusCodeError } from "../../types/StatusCodeError";
 
 /**
- * Embedding service
+ * Embedding provider (infrastructure layer).
  *
  * Responsibilities:
  * - Provide a single, centralized API for generating text embeddings.
  * - Use config-driven model selection and timeouts (via the shared OpenAI client).
  * - Support both single-text and batched embeddings for performance.
  * - Emit structured logs for observability.
+ *
+ * Behavior is identical to the original embedding service implementation.
  */
 
 /**
  * Generate an embedding for a single text input.
  *
- * This is the primary entry point used by higher-level services.
+ * This is the primary entry point used by higher-level services/use-cases.
  */
 export async function embedText(text: string): Promise<number[]> {
   const normalized = text?.trim() ?? "";
@@ -27,16 +31,22 @@ export async function embedText(text: string): Promise<number[]> {
   const startedAt = Date.now();
 
   try {
-    const response = await client.embeddings.create({
-      model: config.openai.embeddingModel,
-      input: normalized,
-    });
+    const response = await withRetry(
+      () =>
+        client.embeddings.create({
+          model: config.openai.embeddingModel,
+          input: normalized,
+        }),
+      "embeddings.create.single"
+    );
 
     const first = response.data[0];
 
     if (!first || !first.embedding) {
-      const err = new Error("Embedding API returned invalid data");
-      (err as any).statusCode = 502;
+      const err: StatusCodeError = new Error(
+        "Embedding API returned invalid data"
+      );
+      err.statusCode = 502;
       throw err;
     }
 
@@ -50,19 +60,29 @@ export async function embedText(text: string): Promise<number[]> {
     });
 
     return first.embedding;
-  } catch (error: any) {
+  } catch (error: unknown) {
     const durationMs = Date.now() - startedAt;
+
+    const typed = error as {
+      message?: unknown;
+      name?: unknown;
+      statusCode?: unknown;
+    };
 
     logEvent("EMBEDDING_FAILURE", {
       model: config.openai.embeddingModel,
       durationMs,
-      message: error?.message || String(error),
-      name: error?.name,
+      message:
+        typeof typed.message === "string" ? typed.message : String(error),
+      name: typeof typed.name === "string" ? typed.name : undefined,
     });
 
-    const err =
-      error instanceof Error ? error : new Error("Embedding request failed");
-    (err as any).statusCode = (error as any)?.statusCode || 502;
+    const err: StatusCodeError =
+      error instanceof Error
+        ? (error as StatusCodeError)
+        : new Error("Embedding request failed");
+    err.statusCode =
+      typeof typed.statusCode === "number" ? typed.statusCode : 502;
     throw err;
   }
 }
@@ -83,10 +103,14 @@ export async function embedBatch(texts: string[]): Promise<number[][]> {
   const startedAt = Date.now();
 
   try {
-    const response = await client.embeddings.create({
-      model: config.openai.embeddingModel,
-      input: nonEmpty,
-    });
+    const response = await withRetry(
+      () =>
+        client.embeddings.create({
+          model: config.openai.embeddingModel,
+          input: nonEmpty,
+        }),
+      "embeddings.create.batch"
+    );
 
     const durationMs = Date.now() - startedAt;
 
@@ -98,22 +122,30 @@ export async function embedBatch(texts: string[]): Promise<number[][]> {
     });
 
     return response.data.map((item) => item.embedding as number[]);
-  } catch (error: any) {
+  } catch (error: unknown) {
     const durationMs = Date.now() - startedAt;
+
+    const typed = error as {
+      message?: unknown;
+      name?: unknown;
+      statusCode?: unknown;
+    };
 
     logEvent("EMBEDDING_BATCH_FAILURE", {
       model: config.openai.embeddingModel,
       durationMs,
       batchSize: nonEmpty.length,
-      message: error?.message || String(error),
-      name: error?.name,
+      message:
+        typeof typed.message === "string" ? typed.message : String(error),
+      name: typeof typed.name === "string" ? typed.name : undefined,
     });
 
-    const err =
+    const err: StatusCodeError =
       error instanceof Error
-        ? error
+        ? (error as StatusCodeError)
         : new Error("Batch embedding request failed");
-    (err as any).statusCode = (error as any)?.statusCode || 502;
+    err.statusCode =
+      typeof typed.statusCode === "number" ? typed.statusCode : 502;
     throw err;
   }
 }

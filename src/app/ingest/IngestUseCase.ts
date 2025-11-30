@@ -1,9 +1,21 @@
+/**
+ * Ingest application use-case.
+ *
+ * Normalizes markdown-like documents, chunks them into semantically sized
+ * segments, embeds all chunks via the shared embedding provider, and writes
+ * them into the Postgres + pgvector-backed `documents` and `chunks` tables.
+ * This module contains no HTTP concerns and is invoked by the ingest controller.
+ */
 import fs from "fs";
+
 import MarkdownIt from "markdown-it";
-import { pool } from "../utils/db";
-import { embedBatch } from "./embeddingService";
-import { logEvent } from "../utils/logger";
-import { toPgVectorLiteral } from "../utils/vector";
+
+import { pool } from "@infra/database/db";
+import { embedBatch } from "@infra/llm/EmbeddingProvider";
+import { logEvent } from "@infra/logging/Logger";
+import { toPgVectorLiteral } from "@utils/vector";
+
+import type { StatusCodeError } from "../../types/StatusCodeError";
 
 const md = new MarkdownIt();
 
@@ -57,7 +69,7 @@ function chunkText(text: string, maxLen = 800): string[] {
 
 /**
  * Normalize raw markdown into plain text suitable for embedding.
- * Mirrors the original cleaning logic, but centralized in a service.
+ * Mirrors the original cleaning logic, but centralized in a use-case.
  */
 function normalizeMarkdown(raw: string): string {
   const rendered = md.render(raw);
@@ -85,30 +97,40 @@ function normalizeMarkdown(raw: string): string {
  * - Inserts chunks into the `chunks` table with pgvector embeddings.
  * - Prevents duplicate documents by filepath, reusing the existing document id.
  *
- * This function is designed to be called from the /api/ingest route while
- * preserving the existing HTTP API contract.
+ * This function is designed to be called from the /api/documents/ingest route
+ * while preserving the existing HTTP API contract.
  */
+interface IngestFailureError extends Error {
+  statusCode?: number;
+}
+
+interface IngestCatchErrorShape {
+  message?: unknown;
+  name?: unknown;
+  statusCode?: unknown;
+}
+
 export async function ingestDocument(
   input: IngestRequest
 ): Promise<IngestResult> {
   const { filepath, title = "Uploaded Doc" } = input;
 
   if (!filepath) {
-    const err = new Error("filepath required");
-    (err as any).statusCode = 400;
+    const err: StatusCodeError = new Error("filepath required");
+    err.statusCode = 400;
     throw err;
   }
 
   if (!fs.existsSync(filepath)) {
-    const err = new Error("file not found");
-    (err as any).statusCode = 404;
+    const err: StatusCodeError = new Error("file not found");
+    err.statusCode = 404;
     throw err;
   }
 
   const fileStats = fs.statSync(filepath);
   if (fileStats.size > 5 * 1024 * 1024) {
-    const err = new Error("File too large (max 5MB)");
-    (err as any).statusCode = 400;
+    const err: StatusCodeError = new Error("File too large (max 5MB)");
+    err.statusCode = 400;
     throw err;
   }
 
@@ -188,23 +210,29 @@ export async function ingestDocument(
       totalChunks: chunks.length,
       inserted,
     });
-
     return {
       documentId,
       totalChunks: chunks.length,
       inserted,
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
     await client.query("ROLLBACK");
+
+    const caught = error as IngestCatchErrorShape;
 
     logEvent("INGEST_FAILURE", {
       filepath,
-      message: error?.message || String(error),
-      name: error?.name,
+      message:
+        typeof caught.message === "string" ? caught.message : String(error),
+      name: typeof caught.name === "string" ? caught.name : undefined,
     });
 
-    const err = error instanceof Error ? error : new Error("ingest failed");
-    (err as any).statusCode = (error as any)?.statusCode || 500;
+    const err: IngestFailureError =
+      error instanceof Error
+        ? (error as IngestFailureError)
+        : new Error("ingest failed");
+    err.statusCode =
+      typeof caught.statusCode === "number" ? caught.statusCode : 500;
     throw err;
   } finally {
     client.release();
