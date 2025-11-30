@@ -24,14 +24,12 @@ export const PERSONAL_QUESTION_REGEX =
   /^do i (own|have|like|prefer|remember|know)|^am i\b/i;
 
 export const MEANINGFUL_TOKENS = new Set<string>([
-  // Question words indicating genuine user intent
   "what",
   "why",
   "how",
   "when",
   "where",
   "who",
-  // Modal verbs for policy/personal inquiries
   "can",
   "should",
   "could",
@@ -43,14 +41,12 @@ export const MEANINGFUL_TOKENS = new Set<string>([
   "did",
   "may",
   "might",
-  // Domain-specific terms for RAG context
   "policy",
   "office",
   "coffee",
   "tea",
   "break",
   "name",
-  // Memory-related identifiers
   "own",
   "have",
   "like",

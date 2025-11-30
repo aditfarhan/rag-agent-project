@@ -85,19 +85,10 @@ interface LlmCatchErrorShape {
   statusCode?: unknown;
 }
 
-/**
- * Simple async delay helper used for retry backoff.
- */
 function delay(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-/**
- * Determines if an error warrants retry in the RAG pipeline.
- *
- * Conservative approach prevents infinite retries while allowing recovery
- * from transient network issues and rate limits that are common in LLM operations.
- */
 function isRetryableError(error: unknown): boolean {
   const retryableCodes = new Set(["ECONNRESET", "ETIMEDOUT"]);
   const retryableStatuses = new Set([429, 500, 502, 503]);
@@ -119,13 +110,6 @@ function isRetryableError(error: unknown): boolean {
   return false;
 }
 
-/**
- * Retry configuration for LLM operations with exponential backoff.
- *
- * Strategy prioritizes quick recovery from transient failures while preventing
- * resource exhaustion. Conservative retry limits ensure resilience without
- * masking persistent errors in the RAG pipeline.
- */
 export async function withRetry<T>(
   fn: () => Promise<T>,
   operation: string
@@ -165,18 +149,6 @@ export async function withRetry<T>(
     : new Error("LLM operation failed after retries.");
 }
 
-/**
- * Core LLM call used by higher-level services / use-cases.
- *
- * Responsibilities:
- * - Assemble prompts from MEMORY, DOCUMENT CONTEXT, and conversation history.
- * - Call the Mastra agent backed by an OpenAI-compatible model.
- * - Provide structured logging and error classification.
- *
- * Error handling (preserved from original implementation):
- * - On success, returns the model's text.
- * - On failure, throws an Error with statusCode=502 and logs details.
- */
 export async function callLLM(
   question: string,
   context: string,
@@ -244,12 +216,6 @@ export const llmPort: LLMPort = {
   callLLM,
 };
 
-/**
- * Validate OpenAI configuration and perform a lightweight connectivity test.
- *
- * This mirrors the original utils/validateOpenAI.ts behavior, but is colocated
- * with the LLM adapter. It MUST NOT throw; it only logs diagnostics.
- */
 export async function validateOpenAIKey(): Promise<void> {
   const key = config.openai.key;
 

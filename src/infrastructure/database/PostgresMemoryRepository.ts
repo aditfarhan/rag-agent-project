@@ -268,7 +268,6 @@ export class PostgresMemoryRepository implements MemoryRepository {
       distance: row.distance,
     }));
 
-    // Intelligent memory scoring: prioritize semantic similarity, recency, and fact importance
     const scored = rows.map((row) => {
       let similarity = 0;
       if (typeof row.distance === "number") {

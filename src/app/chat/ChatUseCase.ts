@@ -507,8 +507,6 @@ export async function handleChat(
     };
   }
 
-  // Fast-path processing for simple identity declarations
-  // These patterns enable immediate personalized responses without RAG overhead
   const nameMatch = trimmedQuestion.match(/\bmy name is\s+(.+)/i);
   if (nameMatch && nameMatch[1]) {
     const name = nameMatch[1].trim().replace(/[.!?,]+$/, "");
@@ -539,8 +537,6 @@ export async function handleChat(
     };
   }
 
-  // Fast-path for preference capture - enables immediate personalized responses
-  // Distinguishes preference storage from identity for targeted memory retrieval
   const likeMatch = trimmedQuestion.match(/^i\s+(now\s+)?like\s+(.+)/i);
   if (likeMatch && likeMatch[2]) {
     const pref = likeMatch[2].trim().replace(/[.!?,]+$/, "");
