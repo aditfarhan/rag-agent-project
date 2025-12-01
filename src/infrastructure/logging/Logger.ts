@@ -16,8 +16,15 @@ import path from "path";
 export type LogLevel = "info" | "warn" | "error" | "debug";
 
 export interface LoggerPort {
-  log(level: LogLevel, message: string, meta?: Record<string, unknown>): void;
-  event?(type: string, payload: Record<string, unknown>): void;
+  log(
+    level: LogLevel,
+    message: string,
+    meta?: Record<string, string | number | boolean | null | undefined>
+  ): void;
+  event?(
+    type: string,
+    payload: Record<string, string | number | boolean | null | undefined>
+  ): void;
 }
 
 const logDir = path.join(process.cwd(), "logs");
@@ -66,7 +73,10 @@ export const logger: LoggerPort = {
   },
 };
 
-export function logEvent(type: string, payload: Record<string, unknown>): void {
+export function logEvent(
+  type: string,
+  payload: Record<string, string | number | boolean | null | undefined>
+): void {
   if (typeof logger.event === "function") {
     logger.event(type, payload);
     return;

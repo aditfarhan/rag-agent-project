@@ -8,23 +8,24 @@
  *
  * HTTP boundary for the Mastra AI agent, providing the main user interaction point.
  */
+import { handleChat } from "@app/chat/ChatUseCase";
+import type { ChatMessage } from "@app/chat/ChatUseCase";
+import {
+  ChatRequestSchema,
+  ChatResponseSchema,
+} from "@interfaces/http/chat/schema";
+import { ValidationError } from "@middleware/errorHandler";
 import { Request, Response } from "express";
 
-import { handleChat } from "@app/chat/ChatUseCase";
-import { ValidationError } from "@middleware/errorHandler";
-
-import { ChatRequestSchema, ChatResponseSchema } from "./chat/schema";
-
-import type { ChatMessage } from "@app/chat/ChatUseCase";
 
 interface ZodErrorLike {
-  issues?: unknown;
+  issues?: unknown[] | undefined;
 }
 
 interface MutableErrorLike {
   statusCode?: number;
   message?: string;
-  issues?: unknown;
+  issues?: unknown[] | undefined;
 }
 
 export async function chatController(

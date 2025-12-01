@@ -10,11 +10,10 @@
  * Critical infrastructure component enabling the "retrieval" phase of RAG,
  * converting vector embeddings into relevant document context for LLM responses.
  */
-import { pool } from "@infra/database/db";
-import { toPgVectorLiteral } from "@utils/vector";
-
 import type { RagRepository } from "@domain/rag/ports";
 import type { ChunkRow } from "@domain/rag/ragEngine";
+import { pool } from "@infrastructure/database/db";
+import { toPgVectorLiteral } from "@utils/vector";
 
 export class PgVectorRagRepository implements RagRepository {
   async queryChunksByEmbedding(
@@ -38,7 +37,7 @@ export class PgVectorRagRepository implements RagRepository {
       [vectorLiteral, topK]
     );
 
-    return result.rows as ChunkRow[];
+    return result.rows satisfies ChunkRow[];
   }
 
   async semanticSearch(
@@ -62,7 +61,7 @@ export class PgVectorRagRepository implements RagRepository {
       [vectorLiteral, limit]
     );
 
-    return result.rows as ChunkRow[];
+    return result.rows satisfies ChunkRow[];
   }
 }
 

@@ -8,6 +8,21 @@
  *
  * Foundation for the error handling system in the RAG API.
  */
-export interface StatusCodeError extends Error {
+export interface StatusCodeErrorInterface extends Error {
   statusCode?: number;
 }
+
+export const StatusCodeError = class
+  extends Error
+  implements StatusCodeErrorInterface
+{
+  statusCode?: number;
+
+  constructor(message: string, statusCode?: number) {
+    super(message);
+    this.name = "StatusCodeError";
+    if (statusCode !== undefined) {
+      this.statusCode = statusCode;
+    }
+  }
+};

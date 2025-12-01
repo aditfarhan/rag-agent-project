@@ -48,15 +48,13 @@
     "paths": {
       "@app/*": ["app/*"],
       "@config/*": ["config/*"],
-      "@core/*": ["core/*"],
       "@domain/*": ["domain/*"],
-      "@infra/*": ["infrastructure/*"],
+      "@infrastructure/*": ["infrastructure/*"],
       "@interfaces/*": ["interfaces/*"],
-      "@routes/*": ["routes/*"],
       "@middleware/*": ["middleware/*"],
-      "@types/*": ["types/*"],
-      "@utils/*": ["utils/*"],
-      "@services/*": ["services/*"]
+      "@routes/*": ["routes/*"],
+      "@typesLocal/*": ["types/*"],   
+      "@utils/*": ["utils/*"]
     },
     "noEmit": true,
     "allowImportingTsExtensions": true

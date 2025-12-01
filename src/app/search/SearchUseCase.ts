@@ -10,9 +10,8 @@
  * Core component for the /api/internal/search endpoint.
  */
 import { semanticSearch, ChunkRow } from "@domain/rag/ragEngine";
-import { embedText } from "@infra/llm/EmbeddingProvider";
-
-import type { StatusCodeError } from "../../types/StatusCodeError";
+import { embedText } from "@infrastructure/llm/EmbeddingProvider";
+import { StatusCodeErrorInterface } from "@typesLocal/StatusCodeError";
 
 export interface SemanticSearchRequest {
   query: string;
@@ -31,7 +30,7 @@ export async function searchDocumentsByText(
   const normalized = query?.trim();
 
   if (!normalized) {
-    const err: StatusCodeError = new Error("query is required");
+    const err: StatusCodeErrorInterface = new Error("query is required");
     err.statusCode = 400;
     throw err;
   }

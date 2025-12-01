@@ -8,7 +8,7 @@
  *
  * Essential component enabling the "R" in RAG for intelligent document retrieval.
  */
-import type { ChunkRow } from "./ragEngine";
+import type { ChunkRow } from "@domain/rag/ragEngine";
 
 export interface RagRepository {
   queryChunksByEmbedding(

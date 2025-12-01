@@ -11,7 +11,7 @@
  * supporting the "memory" component that distinguishes this from generic RAG systems.
  */
 import { config } from "@config/index";
-import { memoryRepository } from "@infra/database/PostgresMemoryRepository";
+import { memoryRepository } from "@infrastructure/database/PostgresMemoryRepository";
 
 export type MemoryType = "fact" | "chat";
 export type MemoryRole = "user" | "assistant";
@@ -34,7 +34,7 @@ export interface UserMemory {
 
 export async function saveMemory(
   userId: string,
-  role: string,
+  role: MemoryRole | string,
   content: string,
   memoryKey?: string,
   memoryType: MemoryType = "chat",

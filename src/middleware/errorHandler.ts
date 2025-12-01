@@ -9,9 +9,8 @@
  * Ensures robust error handling across all API endpoints while maintaining
  * observability and proper client-facing error communication.
  */
+import { logger } from "@infrastructure/logging/Logger";
 import { Request, Response, NextFunction } from "express";
-
-import { logger } from "@infra/logging/Logger";
 
 export type AppErrorType =
   | "DomainError"
@@ -134,8 +133,8 @@ export function errorHandler(
     type: appError.type,
     statusCode: status,
     message: appError.message,
-    metadata: appError.metadata,
-    originalError: appError === err ? undefined : err,
+    metadata: appError.metadata ? JSON.stringify(appError.metadata) : undefined,
+    originalError: appError === err ? undefined : String(err),
   });
 
   res.status(status).json({

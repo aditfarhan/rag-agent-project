@@ -12,14 +12,12 @@
  */
 import fs from "fs";
 
-import MarkdownIt from "markdown-it";
-
-import { pool } from "@infra/database/db";
-import { embedBatch } from "@infra/llm/EmbeddingProvider";
-import { logEvent } from "@infra/logging/Logger";
+import { pool } from "@infrastructure/database/db";
+import { embedBatch } from "@infrastructure/llm/EmbeddingProvider";
+import { logEvent } from "@infrastructure/logging/Logger";
+import type { StatusCodeErrorInterface } from "@typesLocal/StatusCodeError";
 import { toPgVectorLiteral } from "@utils/vector";
-
-import type { StatusCodeError } from "../../types/StatusCodeError";
+import MarkdownIt from "markdown-it";
 
 const md = new MarkdownIt();
 
@@ -85,9 +83,9 @@ interface IngestFailureError extends Error {
 }
 
 interface IngestCatchErrorShape {
-  message?: unknown;
-  name?: unknown;
-  statusCode?: unknown;
+  message?: string;
+  name?: string;
+  statusCode?: number;
 }
 
 export async function ingestDocument(
@@ -96,20 +94,20 @@ export async function ingestDocument(
   const { filepath, title = "Uploaded Doc" } = input;
 
   if (!filepath) {
-    const err: StatusCodeError = new Error("filepath required");
+    const err: StatusCodeErrorInterface = new Error("filepath required");
     err.statusCode = 400;
     throw err;
   }
 
   if (!fs.existsSync(filepath)) {
-    const err: StatusCodeError = new Error("file not found");
+    const err: StatusCodeErrorInterface = new Error("file not found");
     err.statusCode = 404;
     throw err;
   }
 
   const fileStats = fs.statSync(filepath);
   if (fileStats.size > 5 * 1024 * 1024) {
-    const err: StatusCodeError = new Error("File too large (max 5MB)");
+    const err: StatusCodeErrorInterface = new Error("File too large (max 5MB)");
     err.statusCode = 400;
     throw err;
   }
@@ -200,9 +198,8 @@ export async function ingestDocument(
 
     logEvent("INGEST_FAILURE", {
       filepath,
-      message:
-        typeof caught.message === "string" ? caught.message : String(error),
-      name: typeof caught.name === "string" ? caught.name : undefined,
+      message: caught.message ?? String(error),
+      name: caught.name,
     });
 
     const err: IngestFailureError =

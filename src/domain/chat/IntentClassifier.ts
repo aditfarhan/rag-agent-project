@@ -9,7 +9,7 @@
  * Critical component for the RAG + Mastra AI agent architecture, enabling
  * context-aware responses by distinguishing memory queries from policy questions.
  */
-import { callLLM } from "@infra/llm/OpenAIAdapter";
+import { callLLM } from "@infrastructure/llm/OpenAIAdapter";
 
 export type HighLevelIntent =
   | "PURE_MEMORY_QUERY"
@@ -98,10 +98,8 @@ User message: "${userMessage}"
         intent: fact.intent,
       };
     }
-  } catch (err: unknown) {
-    const candidate = err as { message?: unknown };
-    const message =
-      typeof candidate.message === "string" ? candidate.message : undefined;
+  } catch {
+    return null;
   }
 
   return null;

@@ -11,17 +11,16 @@
  * this RAG system from generic document-only approaches, enabling personalized AI responses.
  */
 import { config } from "@config/index";
-import { pool } from "@infra/database/db";
-import { embedText } from "@infra/llm/EmbeddingProvider";
-import { logEvent, logger } from "@infra/logging/Logger";
-import { toPgVectorLiteral } from "@utils/vector";
-
 import type {
   MemoryRole,
   MemoryType,
   SavedMemory,
 } from "@domain/memory/memoryManager";
 import type { MemoryRepository } from "@domain/memory/ports";
+import { pool } from "@infrastructure/database/db";
+import { embedText } from "@infrastructure/llm/EmbeddingProvider";
+import { logEvent, logger } from "@infrastructure/logging/Logger";
+import { toPgVectorLiteral } from "@utils/vector";
 
 interface MemoryRow {
   content: string;
@@ -52,12 +51,14 @@ async function ensureConversationIdColumn(): Promise<boolean> {
     const count = result.rowCount ?? 0;
     conversationIdColumnExists = count > 0;
   } catch (error: unknown) {
-    const caught = error as { message?: unknown; name?: unknown };
+    const caught = error as {
+      message?: string | undefined;
+      name?: string | undefined;
+    };
 
     logEvent("MEMORY_CONVERSATION_COLUMN_CHECK_FAILED", {
-      message:
-        typeof caught.message === "string" ? caught.message : String(error),
-      name: typeof caught.name === "string" ? caught.name : undefined,
+      message: caught.message ?? String(error),
+      name: caught.name,
     });
     conversationIdColumnExists = false;
   } finally {
@@ -260,13 +261,16 @@ export class PostgresMemoryRepository implements MemoryRepository {
     const now = Date.now();
     const THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000;
 
-    const rows: MemoryRow[] = result.rows.map((row: MemoryRow) => ({
-      content: row.content,
-      memory_key: row.memory_key,
-      memory_type: row.memory_type,
-      updated_at: row.updated_at,
-      distance: row.distance,
-    }));
+    const rows: MemoryRow[] = result.rows.map((row) => {
+      const typedRow = row as MemoryRow;
+      return {
+        content: typedRow.content,
+        memory_key: typedRow.memory_key,
+        memory_type: typedRow.memory_type,
+        updated_at: typedRow.updated_at,
+        distance: typedRow.distance,
+      };
+    });
 
     const scored = rows.map((row) => {
       let similarity = 0;
@@ -352,10 +356,13 @@ export class PostgresMemoryRepository implements MemoryRepository {
       factsCount: result.rows.length,
     });
 
-    return result.rows.map((row: { memory_key: string; content: string }) => ({
-      memory_key: row.memory_key,
-      content: row.content,
-    }));
+    return result.rows.map((row) => {
+      const typedRow = row as { memory_key: string; content: string };
+      return {
+        memory_key: typedRow.memory_key,
+        content: typedRow.content,
+      };
+    });
   }
 
   async getRecentUserMemories(
@@ -393,12 +400,13 @@ export class PostgresMemoryRepository implements MemoryRepository {
           [userId, limit]
         );
 
-    return result.rows.map(
-      (row: { memory_key: string | null; content: string }) => ({
-        memory_key: row.memory_key,
-        content: row.content,
-      })
-    );
+    return result.rows.map((row) => {
+      const typedRow = row as { memory_key: string | null; content: string };
+      return {
+        memory_key: typedRow.memory_key,
+        content: typedRow.content,
+      };
+    });
   }
 }
 

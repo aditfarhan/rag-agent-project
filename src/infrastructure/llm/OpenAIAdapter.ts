@@ -11,15 +11,14 @@
  * powering intelligent responses that combine user memory with document context.
  */
 import { openai as mastraOpenAI } from "@ai-sdk/openai";
-import { Agent } from "@mastra/core/agent";
-import OpenAI from "openai";
-
 import { config } from "@config/index";
 import {
   LLMPort,
   LLMHistoryMessage as PortLLMHistoryMessage,
 } from "@domain/llm/ports";
-import { logEvent, logger } from "@infra/logging/Logger";
+import { logEvent, logger } from "@infrastructure/logging/Logger";
+import { Agent } from "@mastra/core/agent";
+import OpenAI from "openai";
 
 export const client = new OpenAI({
   apiKey: config.openai.key,
@@ -64,14 +63,14 @@ STRICT RULES:
 export type LLMHistoryMessage = PortLLMHistoryMessage;
 
 interface RetryableErrorShape {
-  code?: unknown;
+  code?: string | undefined;
   cause?: {
-    code?: unknown;
+    code?: string | undefined;
   };
-  statusCode?: unknown;
-  status?: unknown;
+  statusCode?: number | undefined;
+  status?: number | undefined;
   response?: {
-    status?: unknown;
+    status?: number | undefined;
   };
 }
 
@@ -80,9 +79,9 @@ interface LlmFailureError extends Error {
 }
 
 interface LlmCatchErrorShape {
-  message?: unknown;
-  name?: unknown;
-  statusCode?: unknown;
+  message?: string | undefined;
+  name?: string | undefined;
+  statusCode?: number | undefined;
 }
 
 function delay(ms: number): Promise<void> {
@@ -133,12 +132,11 @@ export async function withRetry<T>(
         throw e;
       }
 
-      const candidate = e as { message?: unknown };
+      const candidate = e as { message?: string | undefined };
 
       logger.log("warn", "LLM_RETRY", {
         attempt,
-        error:
-          typeof candidate.message === "string" ? candidate.message : String(e),
+        error: candidate.message ?? String(e),
         operation,
       });
     }
@@ -170,9 +168,7 @@ export async function callLLM(
   try {
     const result = await withRetry(
       () =>
-        mastra.generate(
-          messages as unknown as Parameters<(typeof mastra)["generate"]>[0]
-        ),
+        mastra.generate(messages as Parameters<(typeof mastra)["generate"]>[0]),
       "llm.generate"
     );
     const durationMs = Date.now() - startedAt;
@@ -197,9 +193,8 @@ export async function callLLM(
     logEvent("LLM_FAILURE", {
       model: config.openai.model,
       durationMs,
-      message:
-        typeof caught.message === "string" ? caught.message : String(error),
-      name: typeof caught.name === "string" ? caught.name : undefined,
+      message: caught.message ?? String(error),
+      name: caught.name,
     });
 
     const err: LlmFailureError =
@@ -263,12 +258,14 @@ export async function validateOpenAIKey(): Promise<void> {
       `✅ OpenAI connectivity OK via embeddings model="${config.openai.embeddingModel}" in ${durationMs}ms`
     );
   } catch (error: unknown) {
-    const caught = error as { message?: unknown; name?: unknown };
+    const caught = error as {
+      message?: string | undefined;
+      name?: string | undefined;
+    };
 
     console.error("❌ OpenAI connectivity test failed:", {
-      message:
-        typeof caught.message === "string" ? caught.message : String(error),
-      name: typeof caught.name === "string" ? caught.name : undefined,
+      message: caught.message ?? String(error),
+      name: caught.name,
     });
   }
 }

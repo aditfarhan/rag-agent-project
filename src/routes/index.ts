@@ -9,11 +9,11 @@
  *
  * Entry point for all HTTP interactions with the Mastra AI agent system.
  */
-import searchRouter from "./internal/search";
-import chatRouter from "./public/chat";
-import healthRouter from "./public/health";
-import ingestRouter from "./public/ingest";
 
+import searchRouter from "@routes/internal/search";
+import chatRouter from "@routes/public/chat";
+import healthRouter from "@routes/public/health";
+import ingestRouter from "@routes/public/ingest";
 import type { Express } from "express";
 
 export function registerRoutes(app: Express): void {

@@ -6,7 +6,7 @@
  *
  * Monitoring endpoint for operational awareness and debugging.
  */
-import { callLLM } from "@infra/llm/OpenAIAdapter";
+import { callLLM } from "@infrastructure/llm/OpenAIAdapter";
 import { Router } from "express";
 
 const router = Router();

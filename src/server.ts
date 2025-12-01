@@ -5,11 +5,12 @@
  * and configures error handling. Serves as the main orchestrator for the vector search,
  * memory management, and LLM-powered chat functionality.
  */
+
 import dotenv from "dotenv";
 import express from "express";
 
 import { config } from "@config/index";
-import { validateOpenAIKey } from "@infra/llm/OpenAIAdapter";
+import { validateOpenAIKey } from "@infrastructure/llm/OpenAIAdapter";
 import { errorHandler } from "@middleware/errorHandler";
 import { registerRoutes } from "@routes/index";
 

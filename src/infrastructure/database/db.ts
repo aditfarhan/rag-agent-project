@@ -8,9 +8,9 @@
  *
  * Foundation layer enabling both RAG vector storage and memory persistence.
  */
+import { config } from "@config/index";
 import { Pool } from "pg";
 
-import { config } from "@config/index";
 
 export const pool = new Pool({
   host: config.db.host,

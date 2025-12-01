@@ -11,8 +11,8 @@
  * document context to the Mastra AI agent for informed responses.
  */
 import { config } from "@config/index";
-import { ragRepository } from "@infra/database/PgVectorRagRepository";
-import { logEvent } from "@infra/logging/Logger";
+import { ragRepository } from "@infrastructure/database/PgVectorRagRepository";
+import { logEvent } from "@infrastructure/logging/Logger";
 
 export interface ChunkRow {
   id: number;

@@ -12,7 +12,14 @@ import { z } from "zod";
 export const ChatRequestSchema = z.object({
   userId: z.string().min(1),
   question: z.string().min(1),
-  history: z.array(z.unknown()).optional(),
+  history: z
+    .array(
+      z.object({
+        role: z.string(),
+        content: z.string(),
+      })
+    )
+    .optional(),
 });
 
 export const ChatResponseSchema = z.object({
@@ -23,7 +30,14 @@ export const ChatResponseSchema = z.object({
       content: z.string(),
     })
   ),
-  contextUsed: z.array(z.unknown()),
+  contextUsed: z.array(
+    z.object({
+      id: z.number(),
+      document_id: z.number(),
+      chunk_index: z.number(),
+      content: z.string(),
+    })
+  ),
   memoryUsed: z.boolean(),
   meta: z.object({
     rag: z.object({

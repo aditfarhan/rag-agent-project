@@ -9,23 +9,24 @@
  * Internal endpoint for testing and monitoring RAG retrieval quality,
  * exposing the raw similarity search capabilities.
  */
+import { searchDocumentsByText } from "@app/search/SearchUseCase";
+import type { ChunkRow } from "@domain/rag/ragEngine";
+import {
+  SearchRequestSchema,
+  SearchResponseSchema,
+} from "@interfaces/http/search/schema";
+import { ValidationError } from "@middleware/errorHandler";
 import { Request, Response, NextFunction } from "express";
 
-import { searchDocumentsByText } from "@app/search/SearchUseCase";
-import { ValidationError } from "@middleware/errorHandler";
-
-import { SearchRequestSchema, SearchResponseSchema } from "./search/schema";
-
-import type { ChunkRow } from "@domain/rag/ragEngine";
 
 interface ZodErrorLike {
-  issues?: unknown;
+  issues?: unknown[] | undefined;
 }
 
 interface MutableErrorLike {
   statusCode?: number;
   message?: string;
-  issues?: unknown;
+  issues?: unknown[] | undefined;
 }
 
 export async function searchController(

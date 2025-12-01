@@ -14,7 +14,7 @@ import type {
   SavedMemory,
   UserFact,
   UserMemory,
-} from "./memoryManager";
+} from "@domain/memory/memoryManager";
 
 export interface MemoryRepository {
   saveMemory(

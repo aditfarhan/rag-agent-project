@@ -11,10 +11,10 @@
  * and memory similarity search through consistent vector representation.
  */
 import { config } from "@config/index";
-import { logEvent } from "@infra/logging/Logger";
+import { client, withRetry } from "@infrastructure/llm/OpenAIAdapter";
+import { logEvent } from "@infrastructure/logging/Logger";
+import { StatusCodeErrorInterface } from "@typesLocal/StatusCodeError";
 
-import { client, withRetry } from "./OpenAIAdapter";
-import type { StatusCodeError } from "../../types/StatusCodeError";
 
 export async function embedText(text: string): Promise<number[]> {
   const normalized = text?.trim() ?? "";
@@ -38,7 +38,7 @@ export async function embedText(text: string): Promise<number[]> {
     const first = response.data[0];
 
     if (!first || !first.embedding) {
-      const err: StatusCodeError = new Error(
+      const err: StatusCodeErrorInterface = new Error(
         "Embedding API returned invalid data"
       );
       err.statusCode = 502;
@@ -59,22 +59,21 @@ export async function embedText(text: string): Promise<number[]> {
     const durationMs = Date.now() - startedAt;
 
     const typed = error as {
-      message?: unknown;
-      name?: unknown;
-      statusCode?: unknown;
+      message?: string;
+      name?: string;
+      statusCode?: number;
     };
 
     logEvent("EMBEDDING_FAILURE", {
       model: config.openai.embeddingModel,
       durationMs,
-      message:
-        typeof typed.message === "string" ? typed.message : String(error),
-      name: typeof typed.name === "string" ? typed.name : undefined,
+      message: typed.message ?? String(error),
+      name: typed.name,
     });
 
-    const err: StatusCodeError =
+    const err: StatusCodeErrorInterface =
       error instanceof Error
-        ? (error as StatusCodeError)
+        ? (error as StatusCodeErrorInterface)
         : new Error("Embedding request failed");
     err.statusCode =
       typeof typed.statusCode === "number" ? typed.statusCode : 502;
@@ -116,9 +115,9 @@ export async function embedBatch(texts: string[]): Promise<number[][]> {
     const durationMs = Date.now() - startedAt;
 
     const typed = error as {
-      message?: unknown;
-      name?: unknown;
-      statusCode?: unknown;
+      message?: string | undefined;
+      name?: string | undefined;
+      statusCode?: number | undefined;
     };
 
     logEvent("EMBEDDING_BATCH_FAILURE", {
@@ -130,9 +129,9 @@ export async function embedBatch(texts: string[]): Promise<number[][]> {
       name: typeof typed.name === "string" ? typed.name : undefined,
     });
 
-    const err: StatusCodeError =
+    const err: StatusCodeErrorInterface =
       error instanceof Error
-        ? (error as StatusCodeError)
+        ? (error as StatusCodeErrorInterface)
         : new Error("Batch embedding request failed");
     err.statusCode =
       typeof typed.statusCode === "number" ? typed.statusCode : 502;

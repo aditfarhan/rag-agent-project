@@ -10,19 +10,22 @@
  * document-driven conversational AI responses.
  */
 import path from "path";
-import { Request, Response } from "express";
 
 import { ingestDocument } from "@app/ingest/IngestUseCase";
+import {
+  IngestRequestSchema,
+  IngestResponseSchema,
+} from "@interfaces/http/ingest/schema";
 import { ValidationError } from "@middleware/errorHandler";
+import { Request, Response } from "express";
 
-import { IngestRequestSchema, IngestResponseSchema } from "./ingest/schema";
 
 interface ZodErrorLike {
-  issues?: unknown;
+  issues?: unknown[] | undefined;
 }
 
 interface MutableErrorLike {
-  issues?: unknown;
+  issues?: unknown[] | undefined;
 }
 
 export async function ingestController(

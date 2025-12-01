@@ -29,11 +29,16 @@ import {
   buildContextFromChunks,
   getRagContextForQuery,
 } from "@domain/rag/ragEngine";
-import { embedText } from "@infra/llm/EmbeddingProvider";
-import { callLLM } from "@infra/llm/OpenAIAdapter";
-import { logEvent, logger } from "@infra/logging/Logger";
+import type { ChunkRow } from "@domain/rag/ragEngine";
+import { embedText } from "@infrastructure/llm/EmbeddingProvider";
+import { callLLM } from "@infrastructure/llm/OpenAIAdapter";
+import { logEvent, logger } from "@infrastructure/logging/Logger";
 
-import type { InternalChatMeta } from "types/ChatMeta";
+interface InternalChatMeta {
+  intentVersion?: string;
+  intentConfidence?: number;
+  llmConfidence?: number | null;
+}
 
 export interface ChatMessage {
   role: "user" | "assistant";
@@ -61,7 +66,7 @@ export interface ChatResponseMeta {
 export interface ChatResponsePayload {
   answer: string;
   history: ChatMessage[];
-  contextUsed: unknown[];
+  contextUsed: ChunkRow[];
   memoryUsed: boolean;
   meta: ChatResponseMeta;
 }
@@ -389,7 +394,7 @@ async function handleUnknownQuery(params: {
   const hasMemory = Boolean(memoryText);
 
   let answer: string;
-  let contextUsed: unknown[] = [];
+  let contextUsed: ChunkRow[] = [];
 
   if (!hasRag && !hasMemory) {
     answer =
