@@ -15,7 +15,6 @@ import { client, withRetry } from "@infrastructure/llm/OpenAIAdapter";
 import { logEvent } from "@infrastructure/logging/Logger";
 import { StatusCodeErrorInterface } from "@typesLocal/StatusCodeError";
 
-
 export async function embedText(text: string): Promise<number[]> {
   const normalized = text?.trim() ?? "";
 
@@ -58,11 +57,14 @@ export async function embedText(text: string): Promise<number[]> {
   } catch (error: unknown) {
     const durationMs = Date.now() - startedAt;
 
-    const typed = error as {
-      message?: string;
-      name?: string;
-      statusCode?: number;
-    };
+    const typed =
+      error instanceof Error
+        ? {
+            message: error.message,
+            name: error.name,
+            statusCode: (error as StatusCodeErrorInterface).statusCode,
+          }
+        : { message: String(error), name: undefined, statusCode: undefined };
 
     logEvent("EMBEDDING_FAILURE", {
       model: config.openai.embeddingModel,
@@ -72,7 +74,7 @@ export async function embedText(text: string): Promise<number[]> {
     });
 
     const err: StatusCodeErrorInterface =
-      error instanceof Error
+      error instanceof Error && "statusCode" in error
         ? (error as StatusCodeErrorInterface)
         : new Error("Embedding request failed");
     err.statusCode =
@@ -110,15 +112,23 @@ export async function embedBatch(texts: string[]): Promise<number[][]> {
       vectorLength: response.data[0]?.embedding?.length ?? 0,
     });
 
-    return response.data.map((item) => item.embedding as number[]);
+    return response.data.map((item) => {
+      if (!item.embedding || !Array.isArray(item.embedding)) {
+        throw new Error("Invalid embedding data");
+      }
+      return item.embedding;
+    });
   } catch (error: unknown) {
     const durationMs = Date.now() - startedAt;
 
-    const typed = error as {
-      message?: string | undefined;
-      name?: string | undefined;
-      statusCode?: number | undefined;
-    };
+    const typed =
+      error instanceof Error
+        ? {
+            message: error.message,
+            name: error.name,
+            statusCode: (error as StatusCodeErrorInterface).statusCode,
+          }
+        : { message: String(error), name: undefined, statusCode: undefined };
 
     logEvent("EMBEDDING_BATCH_FAILURE", {
       model: config.openai.embeddingModel,
@@ -130,7 +140,7 @@ export async function embedBatch(texts: string[]): Promise<number[][]> {
     });
 
     const err: StatusCodeErrorInterface =
-      error instanceof Error
+      error instanceof Error && "statusCode" in error
         ? (error as StatusCodeErrorInterface)
         : new Error("Batch embedding request failed");
     err.statusCode =

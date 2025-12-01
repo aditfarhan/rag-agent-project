@@ -17,15 +17,14 @@ import {
 import { ValidationError } from "@middleware/errorHandler";
 import { Request, Response } from "express";
 
-
 interface ZodErrorLike {
-  issues?: unknown[] | undefined;
+  issues?: readonly unknown[] | undefined;
 }
 
 interface MutableErrorLike {
   statusCode?: number;
   message?: string;
-  issues?: unknown[] | undefined;
+  issues?: readonly unknown[] | undefined;
 }
 
 export async function chatController(
@@ -41,19 +40,30 @@ export async function chatController(
     } = parsed as {
       userId: string;
       question: string;
-      history?: ChatMessage[];
+      history?: { role: string; content: string }[];
     };
+
+    const typedHistory: ChatMessage[] =
+      history?.map((h) => ({
+        role: h.role as "user" | "assistant",
+        content: h.content,
+      })) ?? [];
 
     const result = await handleChat({
       userId,
       question,
-      history,
+      history: typedHistory,
     });
 
     try {
       ChatResponseSchema.parse(result);
     } catch (parseErr: unknown) {
-      const zodErr = parseErr as ZodErrorLike;
+      const zodErr =
+        parseErr && typeof parseErr === "object"
+          ? {
+              issues: (parseErr as ZodErrorLike).issues,
+            }
+          : {};
 
       if (zodErr.issues) {
         throw new ValidationError("Invalid response", {
@@ -65,7 +75,14 @@ export async function chatController(
 
     res.json(result);
   } catch (err: unknown) {
-    const mutable = err as MutableErrorLike;
+    const mutable =
+      err && typeof err === "object"
+        ? {
+            statusCode: (err as MutableErrorLike).statusCode,
+            message: (err as MutableErrorLike).message,
+            issues: (err as MutableErrorLike).issues,
+          }
+        : {};
 
     if (mutable.issues) {
       throw new ValidationError("Invalid request", { issues: mutable.issues });

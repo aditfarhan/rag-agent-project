@@ -19,13 +19,12 @@ import {
 import { ValidationError } from "@middleware/errorHandler";
 import { Request, Response } from "express";
 
-
 interface ZodErrorLike {
-  issues?: unknown[] | undefined;
+  issues?: readonly unknown[] | undefined;
 }
 
 interface MutableErrorLike {
-  issues?: unknown[] | undefined;
+  issues?: readonly unknown[] | undefined;
 }
 
 export async function ingestController(
@@ -48,7 +47,10 @@ export async function ingestController(
         chunks: result.inserted,
       });
     } catch (parseErr: unknown) {
-      const zodErr = parseErr as ZodErrorLike;
+      const zodErr =
+        parseErr && typeof parseErr === "object"
+          ? { issues: (parseErr as ZodErrorLike).issues }
+          : {};
 
       if (zodErr.issues) {
         throw new ValidationError("Invalid response", {
@@ -65,7 +67,10 @@ export async function ingestController(
       inserted: result.inserted,
     });
   } catch (err: unknown) {
-    const mutable = err as MutableErrorLike;
+    const mutable =
+      err && typeof err === "object"
+        ? { issues: (err as MutableErrorLike).issues }
+        : {};
 
     if (mutable.issues) {
       throw new ValidationError("Invalid request", { issues: mutable.issues });

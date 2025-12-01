@@ -13,6 +13,7 @@
 import { config } from "@config/index";
 import type {
   MemoryRole,
+  MemoryRoleFilter,
   MemoryType,
   SavedMemory,
 } from "@domain/memory/memoryManager";
@@ -51,10 +52,10 @@ async function ensureConversationIdColumn(): Promise<boolean> {
     const count = result.rowCount ?? 0;
     conversationIdColumnExists = count > 0;
   } catch (error: unknown) {
-    const caught = error as {
-      message?: string | undefined;
-      name?: string | undefined;
-    };
+    const caught =
+      error instanceof Error
+        ? { message: error.message, name: error.name }
+        : { message: String(error), name: undefined };
 
     logEvent("MEMORY_CONVERSATION_COLUMN_CHECK_FAILED", {
       message: caught.message ?? String(error),
@@ -71,7 +72,7 @@ async function ensureConversationIdColumn(): Promise<boolean> {
 export class PostgresMemoryRepository implements MemoryRepository {
   async saveMemory(
     userId: string,
-    role: string,
+    role: MemoryRole,
     content: string,
     memoryKey?: string,
     memoryType: MemoryType = "chat",
@@ -120,7 +121,16 @@ export class PostgresMemoryRepository implements MemoryRepository {
         );
       }
 
-      const saved = result.rows[0] as SavedMemory;
+      const rawSaved = result.rows[0];
+      if (!rawSaved) {
+        throw new Error("Invalid save result");
+      }
+
+      const saved: SavedMemory = {
+        id: typeof rawSaved.id === "number" ? rawSaved.id : 0,
+        content: String(rawSaved.content || ""),
+        memory_key: rawSaved.memory_key ?? null,
+      };
 
       logEvent("MEMORY_SAVE_FACT", {
         userId,
@@ -166,7 +176,12 @@ export class PostgresMemoryRepository implements MemoryRepository {
       );
     }
 
-    const saved = result.rows[0] as SavedMemory;
+    const rawSaved = result.rows[0];
+    const saved: SavedMemory = {
+      id: rawSaved.id,
+      content: rawSaved.content,
+      memory_key: rawSaved.memory_key,
+    };
 
     logEvent("MEMORY_SAVE_CHAT", {
       userId,
@@ -191,7 +206,7 @@ export class PostgresMemoryRepository implements MemoryRepository {
     userId: string,
     queryEmbedding: number[],
     limit: number = config.memory.similarTopK,
-    role: MemoryRole | "any" = "user",
+    role: MemoryRoleFilter = "user",
     conversationId?: number | null
   ): Promise<string[]> {
     const vectorLiteral = toPgVectorLiteral(queryEmbedding);
@@ -262,13 +277,12 @@ export class PostgresMemoryRepository implements MemoryRepository {
     const THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000;
 
     const rows: MemoryRow[] = result.rows.map((row) => {
-      const typedRow = row as MemoryRow;
       return {
-        content: typedRow.content,
-        memory_key: typedRow.memory_key,
-        memory_type: typedRow.memory_type,
-        updated_at: typedRow.updated_at,
-        distance: typedRow.distance,
+        content: row.content,
+        memory_key: row.memory_key,
+        memory_type: row.memory_type,
+        updated_at: row.updated_at,
+        distance: row.distance,
       };
     });
 
@@ -357,10 +371,9 @@ export class PostgresMemoryRepository implements MemoryRepository {
     });
 
     return result.rows.map((row) => {
-      const typedRow = row as { memory_key: string; content: string };
       return {
-        memory_key: typedRow.memory_key,
-        content: typedRow.content,
+        memory_key: row.memory_key,
+        content: row.content,
       };
     });
   }
@@ -401,10 +414,9 @@ export class PostgresMemoryRepository implements MemoryRepository {
         );
 
     return result.rows.map((row) => {
-      const typedRow = row as { memory_key: string | null; content: string };
       return {
-        memory_key: typedRow.memory_key,
-        content: typedRow.content,
+        memory_key: row.memory_key,
+        content: row.content,
       };
     });
   }

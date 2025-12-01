@@ -84,11 +84,14 @@ export function isAppError(error: unknown): error is AppError {
     return false;
   }
 
-  const candidate = error as {
-    type?: unknown;
-    statusCode?: unknown;
-    message?: unknown;
-  };
+  const candidate =
+    error && typeof error === "object"
+      ? {
+          type: (error as { type?: string }).type,
+          statusCode: (error as { statusCode?: number }).statusCode,
+          message: (error as { message?: string }).message,
+        }
+      : {};
 
   return (
     typeof candidate.message === "string" && typeof candidate.type === "string"
@@ -113,13 +116,17 @@ export function errorHandler(
     appError = err;
   } else {
     const message =
-      typeof (err as { message?: unknown })?.message === "string"
-        ? (err as { message: string }).message
+      err &&
+      typeof err === "object" &&
+      typeof (err as { message?: string }).message === "string"
+        ? String((err as { message?: string }).message)
         : "Internal Server Error";
 
     const statusCode =
-      typeof (err as { statusCode?: unknown })?.statusCode === "number"
-        ? (err as { statusCode: number }).statusCode
+      err &&
+      typeof err === "object" &&
+      typeof (err as { statusCode?: number }).statusCode === "number"
+        ? Number((err as { statusCode?: number }).statusCode)
         : 500;
 
     appError = new InfrastructureError(message, statusCode, {

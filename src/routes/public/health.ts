@@ -20,7 +20,10 @@ router.get("/", async (_req, res) => {
       response: test,
     });
   } catch (error: unknown) {
-    const err = error as { message?: string };
+    const err =
+      error instanceof Error
+        ? { message: error.message }
+        : { message: String(error) };
 
     res.status(500).json({
       status: "error",

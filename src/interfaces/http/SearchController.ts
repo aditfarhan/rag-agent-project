@@ -18,15 +18,14 @@ import {
 import { ValidationError } from "@middleware/errorHandler";
 import { Request, Response, NextFunction } from "express";
 
-
 interface ZodErrorLike {
-  issues?: unknown[] | undefined;
+  issues?: readonly unknown[] | undefined;
 }
 
 interface MutableErrorLike {
   statusCode?: number;
   message?: string;
-  issues?: unknown[] | undefined;
+  issues?: readonly unknown[] | undefined;
 }
 
 export async function searchController(
@@ -54,7 +53,10 @@ export async function searchController(
         })),
       });
     } catch (parseErr: unknown) {
-      const zodErr = parseErr as ZodErrorLike;
+      const zodErr =
+        parseErr && typeof parseErr === "object"
+          ? { issues: (parseErr as ZodErrorLike).issues }
+          : {};
 
       if (zodErr.issues) {
         return next(
@@ -66,7 +68,14 @@ export async function searchController(
 
     res.json(result);
   } catch (err: unknown) {
-    const mutable = err as MutableErrorLike;
+    const mutable =
+      err && typeof err === "object"
+        ? {
+            statusCode: (err as MutableErrorLike).statusCode,
+            message: (err as MutableErrorLike).message,
+            issues: (err as MutableErrorLike).issues,
+          }
+        : {};
 
     if (mutable.issues) {
       return next(

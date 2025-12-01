@@ -12,7 +12,7 @@ The system follows a strict Clean Architecture structure and includes robust err
 
 ---
 
-# 📦 Project Structure
+## 📦 Project Structure (important files)
 
 ```
 src
@@ -47,27 +47,70 @@ src
 
 ---
 
-# 🛠 Installation
+## 🛠 Installation
+
+1. Clone the repository:
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/aditfarhan/rag-agent-project
 cd rag-agent-project
+```
+
+2. Install dependencies:
+
+```bash
 npm install
 ```
 
-Ensure **Node.js ≥ 20**, **PostgreSQL ≥ 15**, and `pgvector` extension.
+Ensure **Node.js ≥ 20**, **PostgreSQL ≥ 15**, and the `pgvector` extension installed in PostgreSQL.
 
 ---
 
-# 🗄 Database Setup (FULL SCHEMA + INDEXES + TRIGGERS)
+## ⚙ Environment variables (.env)
 
-Connect to PostgreSQL:
+Create a `.env` file at the project root. Example below includes all configuration keys used by the code and README examples.
+
+```env
+# Server
+PORT=3000
+NODE_ENV=development
+LOG_LEVEL=info
+
+# PostgreSQL
+DB_HOST=localhost
+DB_PORT=5432
+DB_USER=postgres
+DB_PASSWORD=postgres
+DB_NAME=rag_agent
+DB_POOL_MAX=10
+DB_IDLE_TIMEOUT_MS=30000
+DB_CONN_TIMEOUT_MS=10000
+
+# OpenAI / compatible provider (or mock)
+OPENAI_API_KEY=your_api_key_here
+OPENAI_MODEL=gpt-4o-mini
+OPENAI_EMBEDDING_MODEL=text-embedding-3-small
+OPENAI_TIMEOUT_MS=30000
+
+# RAG + Memory
+RAG_TOP_K=5
+RAG_DISTANCE_THRESHOLD=1.2
+MEMORY_SIMILAR_TOP_K=5
+```
+
+> **Important:** Do **not** commit `.env` to source control. Use secure secret management in production.
+
+---
+
+## 🗄 Database Setup (FULL SCHEMA + INDEXES + TRIGGERS)
+
+Connect to PostgreSQL as a superuser (example uses `psql`):
 
 ```bash
 psql -U postgres
 ```
 
-Create database:
+Create database and enable `pgvector`:
 
 ```sql
 CREATE DATABASE rag_agent;
@@ -75,9 +118,7 @@ CREATE DATABASE rag_agent;
 CREATE EXTENSION IF NOT EXISTS vector;
 ```
 
----
-
-## 📘 Table: documents
+### Documents table
 
 ```sql
 CREATE TABLE documents (
@@ -91,9 +132,7 @@ CREATE TABLE documents (
 );
 ```
 
----
-
-## 📘 Table: chunks
+### Chunks table
 
 ```sql
 CREATE TABLE chunks (
@@ -106,13 +145,12 @@ CREATE TABLE chunks (
   CONSTRAINT chunks_document_chunk_unique UNIQUE (document_id, chunk_index)
 );
 
+-- ivfflat index for vector search; lists tuned to 100 as example
 CREATE INDEX idx_chunks_embedding
   ON chunks USING ivfflat (embedding) WITH (lists = 100);
 ```
 
----
-
-## 📘 Table: user_memories
+### User memories table
 
 ```sql
 CREATE TABLE user_memories (
@@ -132,13 +170,12 @@ CREATE TABLE user_memories (
 CREATE INDEX idx_user_memories_embedding
   ON user_memories USING ivfflat (embedding vector_cosine_ops) WITH (lists = 100);
 
-CREATE INDEX idx_user_memories_user_id
-  ON user_memories (user_id);
+CREATE INDEX idx_user_memories_user_id ON user_memories (user_id);
 ```
 
----
+### Trigger function: update_timestamp()
 
-# 🔁 Trigger Function (Standard)
+This trigger updates `updated_at` on each UPDATE for `user_memories` (and can be reused).
 
 ```sql
 CREATE OR REPLACE FUNCTION update_timestamp()
@@ -150,7 +187,7 @@ END;
 $$ LANGUAGE plpgsql;
 ```
 
-Attach trigger:
+Attach trigger to `user_memories`:
 
 ```sql
 CREATE TRIGGER update_user_memories_timestamp
@@ -158,15 +195,35 @@ BEFORE UPDATE ON user_memories
 FOR EACH ROW EXECUTE FUNCTION update_timestamp();
 ```
 
+> Optional: Add any other triggers or retention policies (e.g., retention background job) as appropriate for your deployment.
+
 ---
 
-# 🚀 Running the Service
+## ✅ Verification: Example DB Seed + Index Checks
 
-### Development
+After creating tables and indexes, confirm indexes exist and `pgvector` is enabled:
+
+```sql
+\dx
+-- list indexes and table structure
+\d+ chunks
+\d+ documents
+\d+ user_memories
+```
+
+If `ivfflat` index requires `lists` tuning, you may reindex with a different `lists` value based on dataset size.
+
+---
+
+## 🚀 Running the Service
+
+### Development (live reload)
 
 ```bash
 npm run dev
 ```
+
+Server runs at `http://localhost:${PORT || 3000}` by default.
 
 ### Production
 
@@ -177,118 +234,185 @@ npm start
 
 ---
 
-# 🌐 API Endpoints
+## 🌐 API Endpoints & E2E curl tests (including edge cases)
 
-## 1. Health Check
+All requests assume server at `http://localhost:3000`. Adjust `PORT` if needed.
+
+### 0. Health (simple)
 
 ```bash
 curl -X GET http://localhost:3000/api/health
 ```
 
+Expected: 200 OK JSON (keeps previous behaviour; may include light LLM connectivity check if configured).
+
 ---
 
-## 2. Ingest Markdown File
+### 1. Ingest Markdown Document (ingest `docs/policy.md` you provided)
+
+This will read local file path; ensure `filepath` is accessible by the running process (beware absolute vs relative path):
 
 ```bash
-curl -X POST http://localhost:3000/api/documents/ingest   -H "Content-Type: application/json"   -d '{"filepath":"./docs/policy.md","title":"HR Policy"}'
+curl -X POST http://localhost:3000/api/documents/ingest \
+  -H "Content-Type: application/json" \
+  -d '{"filepath":"./docs/policy.md","title":"HR Policy"}'
 ```
 
+**Edge cases to test:**
+
+- Missing file path → expect validation 400 from Zod
+- File too large → expect ingestion to fail gracefully
+- Duplicate `filepath` → ingest should detect existing doc and return inserted=0 or skip
+
 ---
 
-# 3. Chat — Personalized Memory Example
+### 2. Create / Store user personal preference (Farhan)
 
-### Store user personal preference ("Farhan likes coffee and football")
+First store identity (fact) and preference messages that the system recognizes as facts (ChatUseCase handles simple "My name is..." flows):
+
+Store identity:
 
 ```bash
-curl -X POST http://localhost:3000/api/chat   -H "Content-Type: application/json"   -d '{
+curl -X POST http://localhost:3000/api/chat \
+  -H "Content-Type: application/json" \
+  -d '{
     "userId": "farhan",
     "question": "My name is Farhan",
-    "history":[]
+    "history": []
   }'
 ```
 
+Store preferences (coffee + football):
+
 ```bash
-curl -X POST http://localhost:3000/api/chat   -H "Content-Type: application/json"   -d '{
+curl -X POST http://localhost:3000/api/chat \
+  -H "Content-Type: application/json" \
+  -d '{
     "userId": "farhan",
-    "question": "I love strong black coffee and playing football.",
-    "history":[]
+    "question": "I love strong black coffee and playing football",
+    "history": []
   }'
 ```
 
-### Ask for personalized response
+Edge cases:
+
+- Long userId strings
+- Empty question → expect validation error
+- Repeated identical fact (should be upsert on memory_key, not duplicate)
+
+---
+
+### 3. Retrieve personalized memory
+
+Ask system what it remembers about Farhan:
 
 ```bash
-curl -X POST http://localhost:3000/api/chat   -H "Content-Type: application/json"   -d '{
+curl -X POST http://localhost:3000/api/chat \
+  -H "Content-Type: application/json" \
+  -d '{
     "userId":"farhan",
     "question":"What do you remember about me?",
-    "history":[]
+    "history": []
   }'
 ```
 
+Expect: answer referencing stored facts ("Farhan" and preference for coffee and football).
+
 ---
 
-# 4. Chat — Work Policy Question (Pulls from RAG)
+### 4. Ask a policy question (RAG retrieving from ingested docs)
 
 ```bash
-curl -X POST http://localhost:3000/api/chat   -H "Content-Type: application/json"   -d '{
+curl -X POST http://localhost:3000/api/chat \
+  -H "Content-Type: application/json" \
+  -d '{
     "userId":"farhan",
     "question":"What does the employee policy say about working hours?",
-    "history":[]
+    "history": []
   }'
 ```
 
+Expect: answer that cites policy content (e.g., "Standard working hours are Monday–Friday, 09:00–17:00...").
+
+Edge case:
+
+- RAG returns no chunk → system falls back to safe unknown answer path.
+
 ---
 
-# 5. Combined Personalized + Policy Question
+### 5. Combined personalized + policy question
 
 ```bash
-curl -X POST http://localhost:3000/api/chat   -H "Content-Type: application/json"   -d '{
-    "userId":"farhan",
-    "question":"Considering that I love football, how should I manage my schedule according to the company working hours?",
-    "history":[]
+curl -X POST http://localhost:3000/api/chat \
+  -H "Content-Type: application/json" \
+  -d '{
+    "userId": "farhan",
+    "question": "Considering I like football, how should I manage my schedule according to the company'\''s working hours?",
+    "history": []
   }'
 ```
 
+Expect: answer that merges personal preference and policy constraints (e.g., suggests scheduling training and matches outside core hours, discuss with manager for overtime approval, mention company working hours).
+
 ---
 
-# 6. Internal Semantic Search (debug endpoint)
+### 6. Internal semantic search (debugging)
 
 ```bash
-curl -X POST http://localhost:3000/api/internal/search   -H "Content-Type: application/json"   -d '{"query": "annual leave policy", "limit": 5}'
+curl -X POST http://localhost:3000/api/internal/search \
+  -H "Content-Type: application/json" \
+  -d '{"query":"annual leave policy","limit":5}'
 ```
 
----
+Expect: list of chunks with `id`, `document_id`, `chunk_index`, `content`, `distance`, `similarity`.
 
-# 🧠 Memory Behavior Summary
+Edge cases:
 
-- Fact memories (identity, preferences) are upserted using `memory_key`.
-- Chat memories are appended.
-- Embeddings stored in `user_memories.embedding` enable similarity retrieval.
-- RAG context is automatically combined with memory context in chat responses.
+- Empty query → validation error
+- Very large `limit` → server should clamp or handle accordingly
 
 ---
 
-# 📚 Documentation: Project Goals
+## 🧠 Memory & RAG Behaviour (summary)
 
-This project satisfies the required objectives:
-
-### ✔ Clean TypeScript Code
-
-Strong typing, no `any`, Clean Architecture boundaries, ESLint + Prettier enforced.
-
-### ✔ Robust Error Handling
-
-- Centralized middleware
-- LLM error retries
-- DB connectivity protection
-- Config validation
-
-### ✔ Complete Documentation
-
-Installation, database setup, endpoint usage, and examples are included.
+- Personal facts are stored as `memory_type = 'fact'` keyed by `memory_key` (upserted).
+- Chat history turns append with `memory_type = 'chat'`.
+- Both facts and chats have embeddings stored in `user_memories.embedding` for retrieval.
+- RAG uses `chunks.embedding` with an ivfflat index for fast vector search.
 
 ---
 
-# 🎉 Done
+## ✅ Project Goals & Quality Checklist
 
-This README contains the full authoritative documentation for running the RAG Agent service with the latest schema and logic.
+Make sure the following are satisfied before E2E testing:
+
+- **Clean Code**
+  - Follow TypeScript best practices and code organization (Clean Architecture).
+  - Avoid `any` where precise types possible.
+
+- **Error Handling**
+  - Ensure .env keys present (OPENAI_API_KEY).
+  - Verify DB connectivity and pool sizing.
+  - Test for invalid API keys and DB failures to confirm graceful errors.
+
+- **Documentation**
+  - This README provides installation, DB setup, env, endpoint examples and E2E curls.
+
+---
+
+## Troubleshooting tips
+
+- If `npx tsc --noEmit` fails, run `npm install` to ensure dev dependencies (typescript) are present.
+- If vector index creation fails, ensure `pgvector` is installed in the PostgreSQL instance and that the `vector` extension is enabled in the DB.
+- When embedding calls fail due to API limits, check `OPENAI_TIMEOUT_MS` and your API quota.
+
+---
+
+## Contact / Next Steps
+
+- Run the DB schema and ingest `docs/policy.md` (the policy document included in repo) before running combined personalized RAG queries.
+- For production, secure environment variables (use secret manager) and set proper retention for `user_memories` or archiving policies.
+
+---
+
+_This README is generated to match the current codebase and schema. It preserves all runtime shapes and behaviour; only documentation is added/updated._

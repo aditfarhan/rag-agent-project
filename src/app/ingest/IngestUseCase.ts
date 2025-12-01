@@ -82,12 +82,6 @@ interface IngestFailureError extends Error {
   statusCode?: number;
 }
 
-interface IngestCatchErrorShape {
-  message?: string;
-  name?: string;
-  statusCode?: number;
-}
-
 export async function ingestDocument(
   input: IngestRequest
 ): Promise<IngestResult> {
@@ -194,7 +188,14 @@ export async function ingestDocument(
   } catch (error: unknown) {
     await client.query("ROLLBACK");
 
-    const caught = error as IngestCatchErrorShape;
+    const caught =
+      error instanceof Error
+        ? {
+            message: error.message,
+            name: error.name,
+            statusCode: (error as StatusCodeErrorInterface).statusCode,
+          }
+        : { message: String(error), name: undefined, statusCode: undefined };
 
     logEvent("INGEST_FAILURE", {
       filepath,
@@ -203,7 +204,7 @@ export async function ingestDocument(
     });
 
     const err: IngestFailureError =
-      error instanceof Error
+      error instanceof Error && "statusCode" in error
         ? (error as IngestFailureError)
         : new Error("ingest failed");
     err.statusCode =

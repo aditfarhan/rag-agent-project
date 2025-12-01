@@ -15,6 +15,7 @@ import { memoryRepository } from "@infrastructure/database/PostgresMemoryReposit
 
 export type MemoryType = "fact" | "chat";
 export type MemoryRole = "user" | "assistant";
+export type MemoryRoleFilter = MemoryRole | "any";
 
 export interface SavedMemory {
   id: number;
@@ -34,7 +35,7 @@ export interface UserMemory {
 
 export async function saveMemory(
   userId: string,
-  role: MemoryRole | string,
+  role: MemoryRole,
   content: string,
   memoryKey?: string,
   memoryType: MemoryType = "chat",
@@ -54,7 +55,7 @@ export async function retrieveMemory(
   userId: string,
   queryEmbedding: number[],
   limit: number = config.memory.similarTopK,
-  role: MemoryRole | "any" = "user",
+  role: MemoryRoleFilter = "user",
   conversationId?: number | null
 ): Promise<string[]> {
   return memoryRepository.retrieveMemory(

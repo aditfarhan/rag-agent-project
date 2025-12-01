@@ -62,26 +62,8 @@ STRICT RULES:
 
 export type LLMHistoryMessage = PortLLMHistoryMessage;
 
-interface RetryableErrorShape {
-  code?: string | undefined;
-  cause?: {
-    code?: string | undefined;
-  };
-  statusCode?: number | undefined;
-  status?: number | undefined;
-  response?: {
-    status?: number | undefined;
-  };
-}
-
 interface LlmFailureError extends Error {
   statusCode?: number;
-}
-
-interface LlmCatchErrorShape {
-  message?: string | undefined;
-  name?: string | undefined;
-  statusCode?: number | undefined;
 }
 
 function delay(ms: number): Promise<void> {
@@ -92,7 +74,22 @@ function isRetryableError(error: unknown): boolean {
   const retryableCodes = new Set(["ECONNRESET", "ETIMEDOUT"]);
   const retryableStatuses = new Set([429, 500, 502, 503]);
 
-  const candidate = error as RetryableErrorShape;
+  const candidate =
+    error instanceof Error
+      ? {
+          code: (error as { code?: unknown }).code as string | undefined,
+          cause: (error as { cause?: unknown }).cause as
+            | { code?: string }
+            | undefined,
+          statusCode: (error as { statusCode?: unknown }).statusCode as
+            | number
+            | undefined,
+          status: (error as { status?: unknown }).status as number | undefined,
+          response: (error as { response?: unknown }).response as
+            | { status?: number }
+            | undefined,
+        }
+      : {};
 
   const code = candidate?.code ?? candidate?.cause?.code;
   if (code && retryableCodes.has(String(code))) {
@@ -132,7 +129,8 @@ export async function withRetry<T>(
         throw e;
       }
 
-      const candidate = e as { message?: string | undefined };
+      const candidate =
+        e instanceof Error ? { message: e.message } : { message: String(e) };
 
       logger.log("warn", "LLM_RETRY", {
         attempt,
@@ -188,7 +186,14 @@ export async function callLLM(
   } catch (error: unknown) {
     const durationMs = Date.now() - startedAt;
 
-    const caught = error as LlmCatchErrorShape;
+    const caught =
+      error instanceof Error
+        ? {
+            message: error.message,
+            name: error.name,
+            statusCode: (error as LlmFailureError).statusCode,
+          }
+        : { message: String(error), name: undefined, statusCode: undefined };
 
     logEvent("LLM_FAILURE", {
       model: config.openai.model,
@@ -198,7 +203,7 @@ export async function callLLM(
     });
 
     const err: LlmFailureError =
-      error instanceof Error
+      error instanceof Error && "statusCode" in error
         ? (error as LlmFailureError)
         : new Error("LLM request failed. Check API key or model.");
     err.statusCode =
@@ -258,10 +263,10 @@ export async function validateOpenAIKey(): Promise<void> {
       `✅ OpenAI connectivity OK via embeddings model="${config.openai.embeddingModel}" in ${durationMs}ms`
     );
   } catch (error: unknown) {
-    const caught = error as {
-      message?: string | undefined;
-      name?: string | undefined;
-    };
+    const caught =
+      error instanceof Error
+        ? { message: error.message, name: error.name }
+        : { message: String(error), name: undefined };
 
     console.error("❌ OpenAI connectivity test failed:", {
       message: caught.message ?? String(error),

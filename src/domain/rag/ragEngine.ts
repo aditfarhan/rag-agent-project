@@ -59,8 +59,7 @@ export async function getRagContextForQuery(
 
   const filteredChunks = rawChunks.filter(
     (chunk) =>
-      typeof chunk.distance === "number" &&
-      (chunk.distance as number) <= distanceThreshold
+      typeof chunk.distance === "number" && chunk.distance <= distanceThreshold
   );
 
   const finalChunks = filteredChunks.length > 0 ? filteredChunks : rawChunks;

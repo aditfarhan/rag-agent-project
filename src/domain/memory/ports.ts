@@ -10,6 +10,7 @@
  */
 import type {
   MemoryRole,
+  MemoryRoleFilter,
   MemoryType,
   SavedMemory,
   UserFact,
@@ -19,7 +20,7 @@ import type {
 export interface MemoryRepository {
   saveMemory(
     userId: string,
-    role: string,
+    role: MemoryRole,
     content: string,
     memoryKey?: string,
     memoryType?: MemoryType,
@@ -30,7 +31,7 @@ export interface MemoryRepository {
     userId: string,
     queryEmbedding: number[],
     limit?: number,
-    role?: MemoryRole | "any",
+    role?: MemoryRoleFilter,
     conversationId?: number | null
   ): Promise<string[]>;
 
